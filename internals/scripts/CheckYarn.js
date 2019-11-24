@@ -1,4 +1,3 @@
-// @flow
 
 if (!/yarn\.js$/.test(process.env.npm_execpath || '')) {
   console.warn(
