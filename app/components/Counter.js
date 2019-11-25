@@ -9,6 +9,7 @@ export default class Counter extends Component {
   render() {
     const {
       increment,
+      readMissionData,
       incrementIfOdd,
       incrementAsync,
       decrement,
@@ -56,6 +57,13 @@ export default class Counter extends Component {
             type="button"
           >
             async
+          </button>
+          <button className={styles.btn}
+                  onClick={() => readMissionData()}
+                  data-tclass="btn"
+                  type="button"
+          >
+            read
           </button>
         </div>
       </div>
