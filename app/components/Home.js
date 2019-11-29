@@ -10,7 +10,9 @@ export default class Home extends Component {
       <div className={styles.container} data-tid="container">
         <h2>OneWire Platform</h2>
         <Link to={routes.COUNTER}>to iButton Manager</Link>
-        <Link to={routes.DATA_MANAGER}>to Data Converter</Link>
+        <br/>
+        <Link to={routes.PAGINA}>to Pagina</Link>
+        <button className={'btn btn-succes'}>ciao</button>
       </div>
     );
   }

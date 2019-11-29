@@ -1,5 +1,6 @@
 {
   "HOME": "/",
   "COUNTER": "/counter",
-  "DATA_MANAGER": "/data-manager"
+  "PAGINA": "/pagina",
+  "PAGINANEW": "/paginanew"
 }
