@@ -118,7 +118,7 @@ export default class PaginaNew extends Component {
             <TabPane tabId="2">
               <Row>
                 <Col sm="12">
-                  <h4>Grafico media mensile</h4>
+                  <h4 className={styles.titolettiPagine} data-tclass='titolettiPagine'>Grafico media mensile</h4>
                   {this.state.activeTab === '2' &&
                   <div
                     style={{
@@ -145,7 +145,7 @@ export default class PaginaNew extends Component {
             <TabPane tabId="3">
               <Row>
                 <Col sm="12">
-                  <h4>Calendario con link ai giorni</h4>
+                  <h4 className={styles.titolettiPagine} data-tclass='titolettiPagine'>Calendario</h4>
                   <Calendar
                     defaultActiveStartDate={getKey(thermocron.parsedLog)}
                     minDate={getKey(thermocron.parsedLog)}
@@ -153,7 +153,6 @@ export default class PaginaNew extends Component {
                     onChange={this.changeDate}
                     value={this.state.date}
                     locale={"it"}
-                    selectRange={true}
 
                   />
                   {formattedDate && typeof thermocron.parsedLog[formattedDate] !== 'undefined' &&

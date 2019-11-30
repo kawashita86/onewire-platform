@@ -43,7 +43,7 @@ export default class Pagina extends Component {
             <div className="col-sm">
               <Form>
                 <FormGroup>
-                  <Label for="tempoUtilizzo">Tempo impiegato presidio</Label>
+                  <Label for="tempoUtilizzo">Tempo impiego presidio</Label>
                   <Input type="text" name="time" id="tempoUtilizzo" placeholder="Tempo utilizzo" />
                 </FormGroup>
               </Form>
@@ -56,10 +56,10 @@ export default class Pagina extends Component {
 
         <div className="row">
           <div className="col-sm">
-            <button className={styles.startStop}
+            <button className={`${styles.startStop} btn-success`}
                     data-tclass="startStop" onClick={() => writeMissionData()}>
               Start</button>
-            <button className={`${styles.startStop} ${styles.stopButton}`}
+            <button className={`${styles.startStop} ${styles.stopButton} btn-danger`}
                     data-tclass="startStop" onClick={() => readMissionData()}>
               Stop </button>
           </div>
