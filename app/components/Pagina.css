@@ -14,6 +14,10 @@
   height: 100px;
 }
 
+.stopButton {
+  background-color: orangered;
+}
+
 .bottoniFondoPagina {
   background-color: #4CAF50;
   width: 100px;

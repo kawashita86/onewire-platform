@@ -1,5 +1,5 @@
 import {INCREMENT_COUNTER} from "./counter";
-import {readIButtonData} from "../utils/iButtonManager";
+import {readIButtonData, readDemoIButtonData, writeIButtonData} from "../utils/iButtonManager";
 
 export const READ_MISSION_DATA = 'READ_MISSION_DATA';
 export const READ_LOG_DATA = 'READ_LOG_DATA';
@@ -13,7 +13,7 @@ export function readMissionData() {
   return async (dispatch, getState) => {
       //we must use an async read through java children to get info
     try {
-      let result = await readIButtonData();
+      let result = await readDemoIButtonData();
 //      result.log =  await readIButtonData('l');
       dispatch({
         type: READ_MISSION_DATA,
@@ -29,8 +29,19 @@ export function readMissionData() {
 }
 
 export function writeMissionData() {
-  return (dispatch, getState) => {
-
+  return async(dispatch, getState) => {
+    try {
+      let result = await writeIButtonData();
+      dispatch({
+        type: WRITE_MISSION_DATA,
+        payload: result
+      })
+    } catch(e){
+      dispatch({
+        type: DATA_KO,
+        payload: result.error
+      })
+  }
   }
 }
 

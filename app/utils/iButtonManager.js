@@ -1,6 +1,22 @@
 const path = require('path');
 const fs = require('fs')
 const currentPath = path.resolve(__dirname);
+const moment = require('moment');
+
+export async function readDemoIButtonData(options = null){
+  return new Promise( function (resolve, reject) {
+    try {
+      let dataBuffer = fs.readFileSync(path.join(currentPath, '..', 'test', 'test.txt'), 'utf8');
+      resolve(convertManager(dataBuffer, options));
+    } catch(e) {
+      console.log('Error:', e.stack);
+      reject({
+        error: e.message
+      })
+    }
+   });
+}
+
 /**
  * Function to read data from an iButton device using java api
  * options : [a: violation of history ,h: histogram for the mission,l: log of data registered,k: kill mission and get data,s: get data and stop mission]
@@ -44,6 +60,10 @@ export async function readIButtonData(options = null) {
   });
 }
 
+export async function writeIButtonData(options){
+  return true;
+}
+
 /**
  - Device ID : 8E0000004B393621
  - MISSION IS CURRENTLY RUNNING
@@ -66,10 +86,17 @@ function convertRawDeviceData(data){
   let pureData = {};
       let rowEntry = data.split(/\r?\n/);
       rowEntry.map((innerRow) => {
-        let [key, value] = innerRow.split(':');
-        pureData[getLabelFromKey(key)] = value;
+        let components = innerRow.split(':');
+        let key = components.shift();
+        pureData[getLabelFromKey(key)] = components.join(':').trim();
       })
   return pureData;
+}
+
+function convertDate(d){
+  var parts = d.split(" ");
+  var months = {Jan: "01",Feb: "02",Mar: "03",Apr: "04",May: "05",Jun: "06",Jul: "07",Aug: "08",Sep: "09",Oct: "10",Nov: "11",Dec: "12"};
+  return parts[5]+"-"+months[parts[1]]+"-"+parts[2]+" "+parts[3];
 }
 
 /**
@@ -81,12 +108,14 @@ function convertLogDeviceData(data){
   let index = -1;
     let rowEntry = data.split(/\r?\n/);
     rowEntry.map((innerRow) => {
-      let [key, value] = innerRow.split(':');
+      let components = innerRow.split(':');
+      let key = components.shift();
+      let value = components.join(':').trim();
       key = key.replace('-','').trim();
       if(key === 'Temperature recorded at') {
         index++;
         pureData[index] = {};
-        pureData[index]['date'] = value;
+        pureData[index]['date'] = convertDate(value);
       }
       else if(key === 'was') {
         if(typeof pureData[index] === 'undefined')

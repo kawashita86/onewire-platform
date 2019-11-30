@@ -6,7 +6,17 @@ import routes from '../constants/routes';
 import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
 
 export default class Pagina extends Component {
+   state = {
+     missionState: false,
+
+   }
   render() {
+    const {
+      readMissionData,
+      writeMissionData,
+      thermocron,
+      mission} = this.props;
+
     return (
       <div className={'container'} data-tid="container">
         <Link to={routes.HOME}>
@@ -47,8 +57,11 @@ export default class Pagina extends Component {
         <div className="row">
           <div className="col-sm">
             <button className={styles.startStop}
-                    data-tclass="startStop">
-              Start<br/>Stop </button>
+                    data-tclass="startStop" onClick={() => writeMissionData()}>
+              Start</button>
+            <button className={`${styles.startStop} ${styles.stopButton}`}
+                    data-tclass="startStop" onClick={() => readMissionData()}>
+              Stop </button>
           </div>
           <div className="col-sm">
             <Form>
