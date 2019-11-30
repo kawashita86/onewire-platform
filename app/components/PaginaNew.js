@@ -61,10 +61,15 @@ export default class PaginaNew extends Component {
     }
 
     let formattedDate = false;
-    if(this.state.date !== null)
+    let chartData = [];
+    if(this.state.date !== null && Object.keys(thermocron.parsedLog).length !== 0) {
       formattedDate = moment(this.state.date[0]).format('Y-MM-DD');
-
-    console.log(formattedDate);
+      if(typeof thermocron.parsedLog[formattedDate] !== 'undefined') {
+        Object.keys(thermocron.parsedLog[formattedDate]).forEach((i) => {
+          chartData.push({date: i, value: thermocron.parsedLog[formattedDate][i]});
+        });
+      }
+    }
 
     return (
       <div className={'container'} data-tid="container">
@@ -127,6 +132,9 @@ export default class PaginaNew extends Component {
                     }}
                   >
                     <Chart
+                      series={{
+                        type: 'bar'
+                      }}
                       data={[
                         {
                           label: 'Series',
@@ -134,8 +142,8 @@ export default class PaginaNew extends Component {
                         }
                       ]}
                       axes={[
-                        {primary: true, type: 'linear', position: 'bottom'},
-                        {type: 'linear', position: 'left'}
+                        { primary: true, type: 'ordinal', position: 'bottom' },
+                        { position: 'left', type: 'linear', stacked: false }
                       ]}/>
                   </div>
                   }
@@ -155,21 +163,15 @@ export default class PaginaNew extends Component {
                     locale={"it"}
 
                   />
-                  {formattedDate && typeof thermocron.parsedLog[formattedDate] !== 'undefined' &&
+                  {formattedDate && chartData &&
                   <ReactTable
-                    data={thermocron.parsedLog[formattedDate].map((d,i) => {return {date : i, value : d}})}
-                    filterable
+                    data={chartData}
                     columns={[
                       {
                         columns: [
                           {
                             Header: "Data",
                             accessor: "date",
-                            filterMethod: (filter, row) => {
-                              if (filter.value == 'all')
-                                return true;
-                              return row[filter.id].startsWith(filter.value)
-                            },
                           },
                           {
                             Header: "Temperatura",
@@ -185,7 +187,7 @@ export default class PaginaNew extends Component {
                       }
                     ]}
                     defaultPageSize={10}
-                    className="-striped -highlight"
+                    className="table table-striped"
                   />
                   }
                 </Col>
