@@ -26,58 +26,36 @@ export default class Pagina extends Component {
     }
 
     return (
+      <>
+      <h4>Nome programma</h4>
+
       <div className={'container'} data-tid="container">
-        <Link to={routes.HOME}>
-          <i className="fa fa-arrow-left fa-3x" />
-        </Link>
-        <div className="container">
+
+        <div className="container" style={{width:'400px'}}>
 
           <div className="row">
-            <div className="col-sm">
               <Form>
                 <FormGroup>
-                  <Label for="datiPresidio">Dati presidio</Label>
-                  <Input type="text" name="name" id="datiPresidio" placeholder="Nome e cognome" />
+                  <Label for="datiPresidio">Dati paziente</Label>
+                  <Input type="text" name="name" id="datiPaziente" placeholder="Nome e cognome" />
                 </FormGroup>
               </Form>
             </div>
-            <div className="col-sm">
-            </div>
-            <div className="col-sm">
-            </div>
-          </div>
-
-          <div className="row">
-            <div className="col-sm">
-              <Form>
-                <FormGroup>
-                  <Label for="tempoUtilizzo">Tempo impiego presidio</Label>
-                  <Input type="text" name="time" id="tempoUtilizzo" placeholder="Tempo utilizzo" />
-                </FormGroup>
-              </Form>
-            </div>
-            <div className="col-sm">
-            </div>
-            <div className="col-sm">
-            </div>
-          </div>
 
         <div className="row">
-          <div className="col-sm">
+          <div className="col-sm text-center">
             <button className={`${styles.startStop} btn-success`}
                     data-tclass="startStop" onClick={() => writeMissionData()}>
               Start</button>
+          </div>
+          <div className="col-sm text-center">
             <button className={`${styles.startStop} ${styles.stopButton} btn-danger`}
                                                 data-tclass="startStop" onClick={() => readMissionData()}>
             Stop </button>
-            <button className={`${styles.startStop} ${styles.stopButton} btn-danger`}
-                    data-tclass="startStop" onClick={() => print()}>
-              Print </button>
-            <button className={`${styles.startStop} ${styles.stopButton} btn-danger`}
-                    data-tclass="startStop" onClick={() => savePDF()}>
-              Print </button>
           </div>
-          <div className="col-sm">
+        </div>
+
+          <div className="row">
             <Form>
               <FormGroup>
                 <Label for="dataInizio">Data inizio</Label>
@@ -85,7 +63,8 @@ export default class Pagina extends Component {
               </FormGroup>
             </Form>
           </div>
-          <div className="col-sm">
+
+          <div className="row">
             <Form>
               <FormGroup>
                 <Label for="dataFine">Data fine</Label>
@@ -93,10 +72,18 @@ export default class Pagina extends Component {
               </FormGroup>
             </Form>
           </div>
-        </div>
 
           <div className="row">
-            <div className="col-12">
+            <Form>
+              <FormGroup>
+                <Label for="tempoUtilizzo">Tempo impiego presidio</Label>
+                <Input type="text" name="time" id="tempoUtilizzo" placeholder="Tempo utilizzo" />
+              </FormGroup>
+            </Form>
+          </div>
+
+          <div className="row">
+            <div className="col-sm text-center">
               <Link to={routes.PAGINANEW} className={`${styles.bottoniFondoPagina} btn btn-success`} data-tclass="mediaGiornaliera">
                 Media<br/>giornaliera </Link>
               <Link to={routes.PAGINANEW} className={`${styles.bottoniFondoPagina} btn btn-success`}
@@ -105,12 +92,14 @@ export default class Pagina extends Component {
               <Link to={routes.PAGINANEW} className={`${styles.bottoniFondoPagina} btn btn-success`}
                       data-tclass="calendario">
                 Calendario </Link>
+              <Link to={routes.PAGINANEW} className={`${styles.bottoniFondoPagina} btn btn-success`} onClick={() => savePDF()}
+                    data-tclass="print">
+                Salva<br/>PDF</Link>
             </div>
           </div>
       </div>
-
-
       </div>
+        </>
     );
   }
 }

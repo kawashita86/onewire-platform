@@ -1,7 +1,7 @@
 .startStop {
   border-radius: 50%;
   background-color: #4CAF50;
-  border: none;
+  border: 1px solid #f0f0f0;
   color: white;
   padding: 20px;
   text-align: center;
@@ -10,8 +10,9 @@
   font-size: 16px;
   margin: 4px 2px;
   cursor: pointer;
-  width: 100px;
-  height: 100px;
+  width: 150px;
+  height: 150px;
+  margin-bottom: 16px;
 }
 
 .stopButton {
@@ -20,9 +21,10 @@
 
 .bottoniFondoPagina {
   background-color: #4CAF50;
-  width: 100px;
-  height: 75px;
-  margin-left: 20px;
+  width: 125px;
+  height: 90px;
+  margin: 20px;
+  padding: 20px;
 }
 
 .bottoniFondoPagina a:hover {

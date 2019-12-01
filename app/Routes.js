@@ -10,10 +10,9 @@ import PaginaNewPage from './containers/PaginaNewPage';
 export default () => (
   <App>
     <Switch>
-      <Route path={routes.PAGINA} component={PaginaPage} />
       <Route path={routes.PAGINANEW} component={PaginaNewPage} />
       <Route path={routes.COUNTER} component={CounterPage} />
-      <Route path={routes.HOME} component={HomePage} />
+      <Route path={routes.PAGINA} component={PaginaPage} />
     </Switch>
   </App>
 );

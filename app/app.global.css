@@ -42,7 +42,9 @@ a:hover {
   cursor: pointer;
 }
 
-
+Form {
+  width: 100%;
+}
 
 .react-calendar {
   width: 600px;
@@ -111,7 +113,6 @@ a:hover {
   padding: calc(0.75em / 0.75) calc(0.5em / 0.75);
 }
 .react-calendar__month-view__days__day--weekend {
-  color: black;
 }
 .react-calendar__month-view__days__day--neighboringMonth {
   color: #757575;
@@ -128,7 +129,7 @@ a:hover {
   background: none;
 }
 .react-calendar__tile:disabled {
-  background-color: #f0f0f0;
+  background-color: lightcyan;
 }
 .react-calendar__tile:enabled:hover,
 .react-calendar__tile:enabled:focus {
@@ -151,4 +152,14 @@ a:hover {
 }
 .react-calendar--selectRange .react-calendar__tile--hover {
   background-color: #e6e6e6;
+}
+
+.table.table-striped {
+  width: 600px;
+  max-width: 100%;
+  margin-top: 20px;
+  background-color: lightcyan;
+  border: 1px solid #f0f0f0;
+  border-radius: 5px;
+  margin-left: 22.5%;
 }
