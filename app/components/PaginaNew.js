@@ -34,7 +34,7 @@ export default class PaginaNew extends Component {
   componentWillMount() {
     if(this.props.thermocron){
       const dailyAverage = calculateDailyAverage(this.props.thermocron.parsedLog, this.props.thermocron.minTmp, this.props.thermocron.maxTmp);
-      const logData = filterByDateRange(this.props.thermocron.log, this.state.date[0], this.state.date[1]);
+      const logData = filterByDateRange(this.props.thermocron.log);
       this.setState({
         percentageUsage: Math.round(calculateAverage(dailyAverage)*100),
         logData: logData,
@@ -63,7 +63,7 @@ export default class PaginaNew extends Component {
     let formattedDate = false;
     let chartData = [];
     if(this.state.date !== null && Object.keys(thermocron.parsedLog).length !== 0) {
-      formattedDate = moment(this.state.date[0]).format('Y-MM-DD');
+      formattedDate = moment(this.state.date).format('Y-MM-DD');
       if(typeof thermocron.parsedLog[formattedDate] !== 'undefined') {
         Object.keys(thermocron.parsedLog[formattedDate]).forEach((i) => {
           chartData.push({date: i, value: thermocron.parsedLog[formattedDate][i]});

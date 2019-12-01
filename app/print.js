@@ -5,16 +5,6 @@ const fs = require('fs');
 let print_win;
 let save_pdf_path;
 
-async function initPrintWin(){
-  let print_win = new BrowserWindow({'auto-hide-menu-bar':true});
-  await print_win.loadURL('file://' + __dirname + '/print.html');
-
-  print_win.on('closed', () => {
-    print_win = null;
-  });
-    //print_win.show();
-}
-
 function getPDFPrintSettings() {
   var option = {
     landscape: false,
@@ -40,44 +30,38 @@ function getPDFPrintSettings() {
   return option;
 }
 
-export async function print() {
-  if (!print_win) {
-    await initPrintWin();
-  }
-  print_win.webContents.on('did-finish-load', () => {
-    print_win.webContents.print({}, (success, errorType) => {
-      if (!success) console.log(errorType)
-    })
-  });
+function print() {
+  if (print_win)
+    print_win.webContents.print();
 }
 
-export async function savePDF() {
+function savePDF() {
   if (!print_win) {
-    await initPrintWin();
+    dialog.showErrorBox('Error', "The printing window isn't created");
+    return;
   }
-  print_win.webContents.on('did-finish-load', () => {
-    dialog.showSaveDialog(print_win, {}, function (file_path) {
-      if (file_path) {
-        print_win.webContents.printToPDF(getPDFPrintSettings(), function (err, data) {
+  dialog.showSaveDialog(print_win, {}, function(file_path) {
+    if (file_path) {
+      print_win.webContents.printToPDF(getPDFPrintSettings(), function(err, data) {
+        if (err) {
+          dialog.showErrorBox('Error', err);
+          return;
+        }
+        fs.writeFile(file_path, data, function(err) {
           if (err) {
             dialog.showErrorBox('Error', err);
             return;
           }
-          fs.writeFile(file_path, data, function (err) {
-            if (err) {
-              dialog.showErrorBox('Error', err);
-              return;
-            }
-            save_pdf_path = file_path;
-          });
+          save_pdf_path = file_path;
+          document.getElementById('output-log').innerHTML =
+            "<p> Write PDF file: " + save_pdf_path + " successfully!</p>";
         });
-      }
-    });
+      });
+    }
   });
-
 }
 
-export function viewPDF() {
+function viewPDF() {
   if (!save_pdf_path) {
     dialog.showErrorBox('Error', "You should save the pdf before viewing it");
     return;

@@ -4,18 +4,26 @@ import styles from './Pagina.css';
 import { Link } from "react-router-dom";
 import routes from '../constants/routes';
 import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
+import {savePDF, print} from "../utils/printPDF";
+import {convertDate} from "../utils/iButtonManager";
 
 export default class Pagina extends Component {
    state = {
      missionState: false,
 
    }
+
   render() {
     const {
       readMissionData,
       writeMissionData,
-      thermocron,
+      thermoctron,
       mission} = this.props;
+
+    let startDate = '';
+    if(typeof thermoctron !== 'undefined' && thermoctron.lastMissionStarted.length !== 0){
+      startDate = convertDate(thermoctron.lastMissionStarted)
+    }
 
     return (
       <div className={'container'} data-tid="container">
@@ -60,14 +68,20 @@ export default class Pagina extends Component {
                     data-tclass="startStop" onClick={() => writeMissionData()}>
               Start</button>
             <button className={`${styles.startStop} ${styles.stopButton} btn-danger`}
-                    data-tclass="startStop" onClick={() => readMissionData()}>
-              Stop </button>
+                                                data-tclass="startStop" onClick={() => readMissionData()}>
+            Stop </button>
+            <button className={`${styles.startStop} ${styles.stopButton} btn-danger`}
+                    data-tclass="startStop" onClick={() => print()}>
+              Print </button>
+            <button className={`${styles.startStop} ${styles.stopButton} btn-danger`}
+                    data-tclass="startStop" onClick={() => savePDF()}>
+              Print </button>
           </div>
           <div className="col-sm">
             <Form>
               <FormGroup>
                 <Label for="dataInizio">Data inizio</Label>
-                <Input type="text" name="dataInizio" id="dataInizio" placeholder="Data inizio" />
+                <Input type="text" name="dataInizio" id="dataInizio" placeholder="Data inizio" value={startDate}/>
               </FormGroup>
             </Form>
           </div>
@@ -83,15 +97,14 @@ export default class Pagina extends Component {
 
           <div className="row">
             <div className="col-12">
-              <Button color={'success'} className={styles.bottoniFondoPagina}
-                      data-tclass="mediaGiornaliera"><Link to={routes.PAGINANEW}>
-                Media<br/>giornaliera </Link></Button>
-              <Button color={'success'} className={styles.bottoniFondoPagina}
+              <Link to={routes.PAGINANEW} className={`${styles.bottoniFondoPagina} btn btn-success`} data-tclass="mediaGiornaliera">
+                Media<br/>giornaliera </Link>
+              <Link to={routes.PAGINANEW} className={`${styles.bottoniFondoPagina} btn btn-success`}
                       data-tclass="mediaMensile">
-                Media<br/>mensile </Button>
-              <Button color={'success'} className={styles.bottoniFondoPagina}
+                Media<br/>mensile </Link>
+              <Link to={routes.PAGINANEW} className={`${styles.bottoniFondoPagina} btn btn-success`}
                       data-tclass="calendario">
-                Calendario </Button>
+                Calendario </Link>
             </div>
           </div>
       </div>

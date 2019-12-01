@@ -50,7 +50,7 @@ export async function readIButtonData(options = null) {
 
     child.on('exit', code => {
       console.log(`Exit code is: ${code}`);
-      fs.writeFile(path.join(currentPath,"test.txt"), dataBuffer, function(err) {
+      fs.writeFile(path.join(currentPath,"logData.txt"), dataBuffer, function(err) {
 
       });
       if (code === 0)
@@ -60,8 +60,42 @@ export async function readIButtonData(options = null) {
   });
 }
 
-export async function writeIButtonData(options){
-  return true;
+export async function writeIButtonData(options) {
+  return new Promise(async function (resolve, reject) {
+
+    const child = require('child_process').spawn('cmd.exe', ['/c', 'run_initMission.bat < inputData.txt'],
+      {
+        cwd: path.join(currentPath, '..', 'external')
+      });
+
+    let dataBuffer = '';
+    for await(const data of child.stdout) {
+      //console.log(data.toString());
+      dataBuffer += data.toString();
+    }
+
+    for await(const data of child.stderr) {
+      //console.log(data.toString());
+      dataBuffer += data.toString();
+    }
+
+    child.on('error', function (err) {
+      // *** Process creation failed
+      reject({
+        error: err
+      });
+    });
+
+    child.on('exit', code => {
+      console.log(`Exit code is: ${code}`);
+      fs.writeFile(path.join(currentPath, "logWrite.txt"), dataBuffer, function (err) {
+
+      });
+      if (code === 0)
+        resolve(dataBuffer);
+      reject(dataBuffer);
+    });
+  });
 }
 
 /**
@@ -93,7 +127,7 @@ function convertRawDeviceData(data){
   return pureData;
 }
 
-function convertDate(d){
+export function convertDate(d){
   var parts = d.split(" ");
   var months = {Jan: "01",Feb: "02",Mar: "03",Apr: "04",May: "05",Jun: "06",Jul: "07",Aug: "08",Sep: "09",Oct: "10",Nov: "11",Dec: "12"};
   return parts[5]+"-"+months[parts[1]]+"-"+parts[2]+" "+parts[3];
