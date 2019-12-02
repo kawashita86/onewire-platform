@@ -3,11 +3,15 @@ import React, { Component, useState } from 'react';
 import styles from './PaginaNew.css';
 import { Link } from "react-router-dom";
 import routes from '../constants/routes';
-import { TabContent, TabPane, Nav, NavItem, NavLink, Card, CardTitle, CardText, Row, Col, Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
+import { TabContent, TabPane, Nav, NavItem, NavLink,  Row, Col } from 'reactstrap';
 import classnames from 'classnames';
 import Calendar from "react-calendar";
 import {Chart} from "react-charts";
-import {calculateAverage, calculateDailyAverage, filterByDateRange, filterByTmpRange} from "../utils/analyzeData";
+import {
+  calculateAverage,
+  calculateDailyAverage,
+  filterParsedByDateRange
+} from "../utils/analyzeData";
 import ReactTable from "react-table";
 import moment from "moment";
 
@@ -34,11 +38,15 @@ export default class PaginaNew extends Component {
   componentWillMount() {
     if(this.props.thermocron){
       const dailyAverage = calculateDailyAverage(this.props.thermocron.parsedLog, this.props.thermocron.minTmp, this.props.thermocron.maxTmp);
-      const logData = filterByDateRange(this.props.thermocron.log);
+      const logData = filterParsedByDateRange(this.props.thermocron.parsedLog, this.props.thermocron.minTmp, this.props.thermocron.maxTmp);
+      const months = {"01": "Gen", "02" : "Feb",  "03" : "Mar",Apr: "04",May: "05",Jun: "06",Jul: "07",Aug: "08",Sep: "09",Oct: "10",11: "Nov",Dec: "12"};
+      const chartData = Object.keys(logData).map((index) => [months[index], logData[index]*24]);
+
+      //const logData = filterByDateRange(this.props.thermocron.log);
       this.setState({
         percentageUsage: Math.round(calculateAverage(dailyAverage)*100),
         logData: logData,
-        charData: logData.map((d, index) => [index, parseInt(d.value, 10)])
+        charData: [['def',0], ...chartData]
       });
     }
 
@@ -61,12 +69,12 @@ export default class PaginaNew extends Component {
     }
 
     let formattedDate = false;
-    let chartData = [];
+    let tableData = [];
     if(this.state.date !== null && Object.keys(thermocron.parsedLog).length !== 0) {
       formattedDate = moment(this.state.date).format('Y-MM-DD');
       if(typeof thermocron.parsedLog[formattedDate] !== 'undefined') {
         Object.keys(thermocron.parsedLog[formattedDate]).forEach((i) => {
-          chartData.push({date: i, value: thermocron.parsedLog[formattedDate][i]});
+          tableData.push({date: i, value: thermocron.parsedLog[formattedDate][i]});
         });
       }
     }
@@ -163,9 +171,9 @@ export default class PaginaNew extends Component {
                     locale={"it"}
 
                   />
-                  {formattedDate && chartData &&
+                  {formattedDate && tableData &&
                   <ReactTable
-                    data={chartData}
+                    data={tableData}
                     columns={[
                       {
                         columns: [
@@ -182,8 +190,8 @@ export default class PaginaNew extends Component {
                     ]}
                     defaultSorted={[
                       {
-                        id: "age",
-                        desc: true
+                        id: "date",
+                        desc: false
                       }
                     ]}
                     defaultPageSize={10}

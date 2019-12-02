@@ -1,7 +1,6 @@
 const path = require('path');
 const fs = require('fs')
 const currentPath = path.resolve(__dirname);
-const moment = require('moment');
 
 export async function readDemoIButtonData(options = null){
   return new Promise( function (resolve, reject) {
@@ -23,12 +22,21 @@ export async function readDemoIButtonData(options = null){
  */
 export async function readIButtonData(options = null) {
   //java -classpath OneWireAPI.jar;%classpath% dumpMission %1 %2
-  const res = fs.existsSync(path.join(currentPath, '..', 'external', 'run_dumpMission.bat'));
-  console.log('path Exists', res);
+  var resourcePath = '';
+  var checkExtResource = fs.existsSync(path.join(process.resourcesPath, 'external'));
+  var checkIntResource = fs.existsSync(path.join(__dirname , '..', 'external'));
+  if(checkExtResource){
+    resourcePath = path.join(process.resourcesPath, 'external');
+  }
+  if(checkIntResource){
+    resourcePath = path.join(__dirname , '..', 'external');
+  }
+
+
   return new Promise(async function (resolve, reject) {
-    const child = require('child_process').spawn('cmd.exe', ['/c', 'run_dumpMission.bat', options],
+    const child = require('child_process').spawn(process.env.ComSpec, ['/c', 'run_dumpMission.bat', options],
       {
-        cwd: path.join(currentPath, '..', 'external')
+        cwd: resourcePath
       });
     let dataBuffer = '';
     for await(const data of child.stdout) {
@@ -50,9 +58,9 @@ export async function readIButtonData(options = null) {
 
     child.on('exit', code => {
       console.log(`Exit code is: ${code}`);
-      fs.writeFile(path.join(currentPath,"logData.txt"), dataBuffer, function(err) {
+     // fs.writeFile(path.join(currentPath,"logData.txt"), dataBuffer, function(err) {
 
-      });
+     // });
       if (code === 0)
         resolve(convertManager(dataBuffer, options));
       reject(dataBuffer);
@@ -61,11 +69,20 @@ export async function readIButtonData(options = null) {
 }
 
 export async function writeIButtonData(options) {
+  var resourcePath = '';
+  var checkExtResource = fs.existsSync(path.join(process.resourcesPath, 'external'));
+  var checkIntResource = fs.existsSync(path.join(__dirname , '..', 'external'));
+  if(checkExtResource){
+    resourcePath = path.join(process.resourcesPath, 'external');
+  }
+  if(checkIntResource){
+    resourcePath = path.join(__dirname , '..', 'external');
+  }
   return new Promise(async function (resolve, reject) {
 
-    const child = require('child_process').spawn('cmd.exe', ['/c', 'run_initMission.bat < inputData.txt'],
+    const child = require('child_process').spawn(process.env.ComSpec, ['/c', 'run_initMission.bat < inputData.txt'],
       {
-        cwd: path.join(currentPath, '..', 'external')
+        cwd: resourcePath
       });
 
     let dataBuffer = '';
@@ -88,9 +105,11 @@ export async function writeIButtonData(options) {
 
     child.on('exit', code => {
       console.log(`Exit code is: ${code}`);
-      fs.writeFile(path.join(currentPath, "logWrite.txt"), dataBuffer, function (err) {
+      alert(`Exit code is: ${code}`);
+      alert(dataBuffer);
+    //  fs.writeFile(path.join(currentPath, "logWrite.txt"), dataBuffer, function (err) {
 
-      });
+    //  });
       if (code === 0)
         resolve(dataBuffer);
       reject(dataBuffer);
@@ -127,9 +146,11 @@ function convertRawDeviceData(data){
   return pureData;
 }
 
-export function convertDate(d){
+export function convertDate(d, onlyMonth = false){
   var parts = d.split(" ");
   var months = {Jan: "01",Feb: "02",Mar: "03",Apr: "04",May: "05",Jun: "06",Jul: "07",Aug: "08",Sep: "09",Oct: "10",Nov: "11",Dec: "12"};
+  if(onlyMonth)
+    return parts[5]+"-"+months[parts[1]]+"-"+parts[2];
   return parts[5]+"-"+months[parts[1]]+"-"+parts[2]+" "+parts[3];
 }
 

@@ -30,3 +30,16 @@
 .bottoniFondoPagina a:hover {
   color: white;
 }
+
+.titoloApp {
+  font-family: 'Roboto', sans-serif;
+  font-variant: small-caps;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.titolettiPagine {
+  font-variant: small-caps;
+  text-align: center;
+  margin-bottom: 20px;
+}

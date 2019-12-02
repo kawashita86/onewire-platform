@@ -55,15 +55,22 @@
   },
   "main": "./app/main.prod.js",
   "build": {
-    "productName": "ElectronReact",
-    "appId": "org.develar.ElectronReact",
+    "productName": "TIMon",
+    "appId": "org.develar.TIMon",
     "files": [
       "dist/",
       "node_modules/",
       "app.html",
+      "print.html",
       "main.prod.js",
       "main.prod.js.map",
       "package.json"
+    ],
+    "extraResources": [
+      "external/**"
+    ],
+    "extraFiles": [
+      "external/**"
     ],
     "dmg": {
       "contents": [
@@ -99,32 +106,20 @@
     },
     "publish": {
       "provider": "github",
-      "owner": "electron-react-boilerplate",
-      "repo": "electron-react-boilerplate",
+      "owner": "kawashita86",
+      "repo": "onewire-platform",
       "private": false
     }
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/electron-react-boilerplate/electron-react-boilerplate.git"
+    "url": "git+https://github.com/kawashita86/onewire-platform.git"
   },
   "author": {
-    "name": "Electron React Boilerplte Maintainers",
-    "email": "electronreactboilerplate@gmail.com",
-    "url": "https://electron-react-boilerplate.js.org"
+    "name": "Francesco Viglino & Silvia Elena Rossi",
+    "email": "kawashita86@gmail.com",
+    "url": "https://github.com/kawashita86"
   },
-  "contributors": [
-    {
-      "name": "Vikram Rangaraj",
-      "email": "vikr01@icloud.com",
-      "url": "https://github.com/vikr01"
-    },
-    {
-      "name": "Amila Welihinda",
-      "email": "amilajack@gmail.com",
-      "url": "https://github.com/amilajack"
-    }
-  ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/electron-react-boilerplate/electron-react-boilerplate/issues"
@@ -139,7 +134,7 @@
     "hot",
     "reload"
   ],
-  "homepage": "https://github.com/electron-react-boilerplate/electron-react-boilerplate#readme",
+  "homepage": "https://github.com/kawashita86/onewire-platform#readme",
   "jest": {
     "testURL": "http://localhost/",
     "moduleNameMapper": {

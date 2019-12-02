@@ -77,6 +77,18 @@ export async function savePDF() {
 
 }
 
+export const printRawHtml = html => {
+  const win = new BrowserWindow({ show: false });
+  win.loadURL(`data:text/html;charset=UTF-8,${
+    encodeURIComponent(`<html><body>${html}</body></html>`)
+  }`);
+  win.webContents.on('did-finish-load', () => {
+    win.webContents.executeJavaScript(
+      'window.print(); setTimeout(() => window.close());',
+    );
+  });
+};
+
 export function viewPDF() {
   if (!save_pdf_path) {
     dialog.showErrorBox('Error', "You should save the pdf before viewing it");
