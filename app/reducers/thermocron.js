@@ -1,4 +1,4 @@
-import { READ_MISSION_DATA, CLEAR_MISSION_DATA } from '../actions/thermocron';
+import {READ_MISSION_DATA, CLEAR_MISSION_DATA, WRITE_MISSION_DATA} from '../actions/thermocron';
 
 const defaultState = {
   minTmp: 21,
@@ -17,7 +17,7 @@ const defaultState = {
   rolloverEnabled: 'NO',
   readDelay: 0,
   log: [],
-  parsedLog: []
+  parsedLog: [],
 }
 
 export default function thermocron(state = defaultState, action) {
@@ -30,6 +30,8 @@ export default function thermocron(state = defaultState, action) {
         ...payload,
         parsedLog: parseLog(action.payload)
       };
+    case WRITE_MISSION_DATA:
+      return defaultState;
     case CLEAR_MISSION_DATA:
       return defaultState;
     default:

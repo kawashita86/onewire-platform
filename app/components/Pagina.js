@@ -4,22 +4,46 @@ import styles from './Pagina.css';
 import { Link } from "react-router-dom";
 import routes from '../constants/routes';
 import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
-import {savePDF, print, printRawHtml} from "../utils/printPDF";
+import {printRawHtml} from "../utils/printPDF";
 import {convertDate} from "../utils/iButtonManager";
 import {calculateAverage, calculateDailyAverage} from "../utils/analyzeData";
 
 export default class Pagina extends Component {
    state = {
      missionState: false,
+     loadingWriteData: false,
+     loadingReadData: false
+   }
+
+
+
+   startMission(){
+     this.setState({
+       loadingWriteData: true
+     }, this.props.writeMissionData);
 
    }
 
+   stopMission(){
+     this.setState({
+       loadingReadData: true
+     }, this.props.readMissionData);
+   }
+
+   shouldComponentUpdate(nextProps, nextState, nextContext) {
+     if((typeof (this.props.thermocron.realTimeClockValue) === 'undefined' &&
+       typeof nextProps.thermocron.realTimeClockValue !== 'undefined') ||
+       (typeof (this.props.thermocron.realTimeClockValue) !== 'undefined' &&
+         typeof nextProps.thermocron.realTimeClockValue === 'undefined') ||
+       (this.props.thermocron.realTimeClockValue !== nextProps.thermocron.realTimeClockValue)){
+       nextState.loadingWriteData = false;
+       nextState.loadingReadData = false;
+     }
+     return true;
+   }
+
   render() {
-    const {
-      readMissionData,
-      writeMissionData,
-      thermocron,
-      mission} = this.props;
+    const {thermocron, setNomePaziente, nomePaziente} = this.props;
 
     let dailyAverage = '';
     if(typeof thermocron.parsedLog !== 'undefined' && thermocron.parsedLog) {
@@ -52,7 +76,7 @@ export default class Pagina extends Component {
               <Form>
                 <FormGroup>
                   <Label for="datiPresidio">Dati paziente</Label>
-                  <Input type="text" name="name" id="datiPaziente" placeholder="Nome e cognome" />
+                  <Input type="text" name="name" id="datiPaziente" placeholder="Nome e cognome" onChange={e => setNomePaziente(e.target.value)} value={nomePaziente} />
                 </FormGroup>
               </Form>
             </div>
@@ -60,13 +84,13 @@ export default class Pagina extends Component {
         <div className="row">
           <div className="col-sm text-center">
             <button className={`${styles.startStop} btn-success`}
-                    data-tclass="startStop" onClick={() => writeMissionData()}>
-              Start</button>
+                    data-tclass="startStop" onClick={() => this.startMission()}>
+              {this.state.loadingWriteData ? 'Loading': 'Start'}</button>
           </div>
           <div className="col-sm text-center">
             <button className={`${styles.startStop} ${styles.stopButton} btn-danger`}
-                                                data-tclass="startStop" onClick={() => readMissionData()}>
-            Stop </button>
+                                                data-tclass="startStop" onClick={() => this.stopMission()}>
+              {this.state.loadingReadData ? 'Loading': 'Stop'} </button>
           </div>
         </div>
 
@@ -91,8 +115,8 @@ export default class Pagina extends Component {
           <div className="row">
             <Form>
               <FormGroup>
-                <Label for="tempoUtilizzo">Tempo impiego presidio</Label>
-                <Input type="text" name="time" id="tempoUtilizzo" placeholder="Tempo utilizzo" defaultValue={(dailyAverage === 'isNaN' ? '': dailyAverage.toString())} />
+                <Label for="tempoUtilizzo">Tempo impiego presidio </Label>
+                <Input type="text" name="time" id="tempoUtilizzo" placeholder="Tempo utilizzo" />
               </FormGroup>
             </Form>
           </div>
@@ -108,10 +132,10 @@ export default class Pagina extends Component {
                       data-tclass="calendario">
                 Calendario </Link>
               <Button to={routes.PAGINANEW} className={`${styles.bottoniFondoPagina} btn btn-success`} onClick={() => printRawHtml(
-                '<table><tr style="margin-bottom:10px"><th>T.I.Mon</th></tr><tr style="margin-bottom:10px"><td>Nome: Prova paziente</td></tr><tr style="margin-bottom:10px"><td>Data inizio: '+startDate+' Data fine: '+endDate+'</td></tr><tr><td style="margin-bottom:10px">Tempo utilizzo '+dailyAverage+' ore</td></tr></table>'
+                '<table><tr style="margin-bottom:10px"><th>T.I.Mon</th></tr><tr style="margin-bottom:10px"><td>Nome: '+nomePaziente+'</td></tr><tr style="margin-bottom:10px"><td>Data inizio: '+startDate+' Data fine: '+endDate+'</td></tr><tr><td style="margin-bottom:10px">Tempo utilizzo '+dailyAverage+' ore</td></tr></table>'
               )}
                     data-tclass="print">
-                Salva<br/>PDF</Button>
+                Stampa<br/>PDF</Button>
             </div>
           </div>
       </div>

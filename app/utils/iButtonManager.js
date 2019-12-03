@@ -61,8 +61,10 @@ export async function readIButtonData(options = null) {
      // fs.writeFile(path.join(currentPath,"logData.txt"), dataBuffer, function(err) {
 
      // });
-      if (code === 0)
+      if (code === 0) {
+        alert('Lettura dati completata')
         resolve(convertManager(dataBuffer, options));
+      }
       reject(dataBuffer);
     });
   });
@@ -105,13 +107,13 @@ export async function writeIButtonData(options) {
 
     child.on('exit', code => {
       console.log(`Exit code is: ${code}`);
-      alert(`Exit code is: ${code}`);
-      alert(dataBuffer);
     //  fs.writeFile(path.join(currentPath, "logWrite.txt"), dataBuffer, function (err) {
 
     //  });
-      if (code === 0)
+      if (code === 0) {
+        alert('Registrazione temperature iniziata')
         resolve(dataBuffer);
+      }
       reject(dataBuffer);
     });
   });

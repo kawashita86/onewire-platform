@@ -39,7 +39,6 @@ export function writeMissionData() {
   return async(dispatch, getState) => {
     try {
       let result = await writeIButtonData();
-      console.log(result);
       dispatch({
         type: WRITE_MISSION_DATA,
         payload: result

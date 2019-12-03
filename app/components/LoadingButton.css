@@ -1,0 +1,18 @@
+/* BUTTON STYLES */
+
+.button-style {
+  /*
+    1rem is the size of the spinner-width-sm in bootstrap 4
+    https://github.com/twbs/bootstrap/blob/master/scss/_variables.scss#L1078
+  */
+  left: calc(50% - calc(1rem / 2));
+}
+
+.span-style {
+  /*
+    we have to offset the inner child or else
+    the spinner width will offset the center
+    of the child text
+  */
+  margin-right: 1rem;
+}
