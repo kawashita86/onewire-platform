@@ -62,7 +62,6 @@ export async function readIButtonData(options = null) {
 
      // });
       if (code === 0) {
-        alert('Lettura dati completata')
         resolve(convertManager(dataBuffer, options));
       }
       reject(dataBuffer);
@@ -111,7 +110,6 @@ export async function writeIButtonData(options) {
 
     //  });
       if (code === 0) {
-        alert('Registrazione temperature iniziata')
         resolve(dataBuffer);
       }
       reject(dataBuffer);

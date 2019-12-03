@@ -1,6 +1,6 @@
 {
   "name": "electron-react-boilerplate",
-  "productName": "OneWirePlatform",
+  "productName": "TIMon",
   "version": "0.17.1",
   "description": "An application to manage iButton read/write data for analysis",
   "scripts": {
