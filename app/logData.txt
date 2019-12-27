@@ -1,0 +1,100 @@
+Starting dumpMission...
+C:\Program Files\AdoptOpenJDK\jdk-8.0.232.09-hotspot\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\Program Files\nodejs\node_modules\npm\node_modules\npm-lifecycle\node-gyp-bin;C:\Users\franc\WebstormProjects\OneWirePlatform\node_modules\.bin;C:\Users\franc\AppData\Local\Temp\yarn--1575482421714-0.2080906517904717;C:\Users\franc\WebstormProjects\OneWirePlatform\node_modules\.bin;C:\Users\franc\AppData\Local\Yarn\Data\link\node_modules\.bin;C:\Program Files\libexec\lib\node_modules\npm\bin\node-gyp-bin;C:\Program Files\lib\node_modules\npm\bin\node-gyp-bin;C:\Program Files\nodejs\node_modules\npm\bin\node-gyp-bin;C:\Users\franc\AppData\Local\Temp\yarn--1575482419669-0.15521508433222264;C:\Users\franc\WebstormProjects\OneWirePlatform\node_modules\.bin;C:\Users\franc\AppData\Local\Yarn\Data\link\node_modules\.bin;C:\Users\franc\AppData\Local\Yarn\bin;C:\Program Files\libexec\lib\node_modules\npm\bin\node-gyp-bin;C:\Program Files\lib\node_modules\npm\bin\node-gyp-bin;C:\Program Files\nodejs\node_modules\npm\bin\node-gyp-bin;C:\Users\franc\WebstormProjects\OneWirePlatform\node_modules\.bin;C:\Python27\;C:\Python27\Scripts;C:\Program Files\AdoptOpenJDK\jdk-8.0.232.09-hotspot\bin;C:\Program Files (x86)\Intel\iCLS Client\;C:\Program Files\Intel\iCLS Client\;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\Intel\WiFi\bin\;C:\Program Files\Common Files\Intel\WirelessCommon\;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\nodejs\;C:\ProgramData\chocolatey\bin;C:\Program Files\Git\cmd;C:\Users\franc\AppData\Local\Microsoft\WindowsApps;C:\Program Files\Intel\WiFi\bin\;C:\Program Files\Common Files\Intel\WirelessCommon\;C:\Users\franc\AppData\Roaming\npm;C:\Program Files\JetBrains\WebStorm 2019.2.4\bin;;.
+Maxim Integrated Products DS1921 Thermocron Mission Summary Demo
+-----------------------------------------------------------
+- Device ID : 8E0000004B393621
+- MISSION IS CURRENTLY RUNNING
+- Cannot read current temperature with mission in progress
+-----------------------------------------------------------
+- Number of mission samples: 37
+- Total number of samples  : 54402
+- Real Time Clock          : ENABLED
+- Real Time Clock Value    : Wed Dec 04 19:01:48 CET 2019
+- Clock Alarm              : ENABLED
+- Clock Alarm Status       : ALARMING
+- Next alarm occurs at     : Wed Dec 04 19:00:00 CET 2019
+- Last mission started     : Tue Dec 03 06:03:00 CET 2019
+- Sample rate              : Every 60 minutes
+- High temperature alarm   : 40.0
+- Low temperature alarm    : 20.0
+- Rollover enabled         : YES
+- Time to read Thermocron  : 531 milliseconds
+-----------------------------------------------------------
+-
+-                   TEMPERATURE LOG
+- Temperature recorded at  : Tue Dec 03 06:03:00 CET 2019
+-                     was  : 23.0 C
+- Temperature recorded at  : Tue Dec 03 07:03:00 CET 2019
+-                     was  : 22.5 C
+- Temperature recorded at  : Tue Dec 03 08:03:00 CET 2019
+-                     was  : 21.5 C
+- Temperature recorded at  : Tue Dec 03 09:03:00 CET 2019
+-                     was  : 19.5 C
+- Temperature recorded at  : Tue Dec 03 10:03:00 CET 2019
+-                     was  : 21.0 C
+- Temperature recorded at  : Tue Dec 03 11:03:00 CET 2019
+-                     was  : 21.0 C
+- Temperature recorded at  : Tue Dec 03 12:03:00 CET 2019
+-                     was  : 22.5 C
+- Temperature recorded at  : Tue Dec 03 13:03:00 CET 2019
+-                     was  : 21.5 C
+- Temperature recorded at  : Tue Dec 03 14:03:00 CET 2019
+-                     was  : 21.0 C
+- Temperature recorded at  : Tue Dec 03 15:03:00 CET 2019
+-                     was  : 21.0 C
+- Temperature recorded at  : Tue Dec 03 16:03:00 CET 2019
+-                     was  : 21.0 C
+- Temperature recorded at  : Tue Dec 03 17:03:00 CET 2019
+-                     was  : 21.0 C
+- Temperature recorded at  : Tue Dec 03 18:03:00 CET 2019
+-                     was  : 21.0 C
+- Temperature recorded at  : Tue Dec 03 19:03:00 CET 2019
+-                     was  : 21.0 C
+- Temperature recorded at  : Tue Dec 03 20:03:00 CET 2019
+-                     was  : 21.0 C
+- Temperature recorded at  : Tue Dec 03 21:03:00 CET 2019
+-                     was  : 21.0 C
+- Temperature recorded at  : Tue Dec 03 22:03:00 CET 2019
+-                     was  : 21.0 C
+- Temperature recorded at  : Tue Dec 03 23:03:00 CET 2019
+-                     was  : 21.0 C
+- Temperature recorded at  : Wed Dec 04 00:03:00 CET 2019
+-                     was  : 20.5 C
+- Temperature recorded at  : Wed Dec 04 01:03:00 CET 2019
+-                     was  : 20.5 C
+- Temperature recorded at  : Wed Dec 04 02:03:00 CET 2019
+-                     was  : 20.5 C
+- Temperature recorded at  : Wed Dec 04 03:03:00 CET 2019
+-                     was  : 20.5 C
+- Temperature recorded at  : Wed Dec 04 04:03:00 CET 2019
+-                     was  : 20.5 C
+- Temperature recorded at  : Wed Dec 04 05:03:00 CET 2019
+-                     was  : 20.5 C
+- Temperature recorded at  : Wed Dec 04 06:03:00 CET 2019
+-                     was  : 20.0 C
+- Temperature recorded at  : Wed Dec 04 07:03:00 CET 2019
+-                     was  : 20.0 C
+- Temperature recorded at  : Wed Dec 04 08:03:00 CET 2019
+-                     was  : 19.5 C
+- Temperature recorded at  : Wed Dec 04 09:03:00 CET 2019
+-                     was  : 19.5 C
+- Temperature recorded at  : Wed Dec 04 10:03:00 CET 2019
+-                     was  : 20.5 C
+- Temperature recorded at  : Wed Dec 04 11:03:00 CET 2019
+-                     was  : 20.5 C
+- Temperature recorded at  : Wed Dec 04 12:03:00 CET 2019
+-                     was  : 21.0 C
+- Temperature recorded at  : Wed Dec 04 13:03:00 CET 2019
+-                     was  : 23.5 C
+- Temperature recorded at  : Wed Dec 04 14:03:00 CET 2019
+-                     was  : 21.5 C
+- Temperature recorded at  : Wed Dec 04 15:03:00 CET 2019
+-                     was  : 20.5 C
+- Temperature recorded at  : Wed Dec 04 16:03:00 CET 2019
+-                     was  : 20.5 C
+- Temperature recorded at  : Wed Dec 04 17:03:00 CET 2019
+-                     was  : 20.5 C
+- Temperature recorded at  : Wed Dec 04 18:03:00 CET 2019
+-                     was  : 20.5 C
+-----------------------------------------------------------
+Finished.

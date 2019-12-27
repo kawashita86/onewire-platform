@@ -5,7 +5,7 @@ const currentPath = path.resolve(__dirname);
 export async function readDemoIButtonData(options = null){
   return new Promise( function (resolve, reject) {
     try {
-      let dataBuffer = fs.readFileSync(path.join(currentPath, '..', 'test', 'test.txt'), 'utf8');
+      let dataBuffer = fs.readFileSync(path.join(currentPath, 'logData.txt'), 'utf8');
       resolve(convertManager(dataBuffer, options));
     } catch(e) {
       console.log('Error:', e.stack);
@@ -15,6 +15,22 @@ export async function readDemoIButtonData(options = null){
     }
    });
 }
+
+export async function writeDemoIButtonData(options = null){
+  return new Promise( function (resolve, reject) {
+    try {
+      let dataBuffer = fs.readFileSync(path.join(currentPath, 'logWrite.txt'), 'utf8');
+      console.log(dataBuffer);
+      resolve(readLogDeviceId(dataBuffer));
+    } catch(e) {
+      console.log('Error:', e.stack);
+      reject({
+        error: e.message
+      })
+    }
+  });
+}
+
 
 /**
  * Function to read data from an iButton device using java api
@@ -58,9 +74,9 @@ export async function readIButtonData(options = null) {
 
     child.on('exit', code => {
       console.log(`Exit code is: ${code}`);
-     // fs.writeFile(path.join(currentPath,"logData.txt"), dataBuffer, function(err) {
+      fs.writeFile(path.join(currentPath,"logData.txt"), dataBuffer, function(err) {
 
-     // });
+      });
       if (code === 0) {
         resolve(convertManager(dataBuffer, options));
       }
@@ -106,9 +122,9 @@ export async function writeIButtonData(options) {
 
     child.on('exit', code => {
       console.log(`Exit code is: ${code}`);
-    //  fs.writeFile(path.join(currentPath, "logWrite.txt"), dataBuffer, function (err) {
+      fs.writeFile(path.join(currentPath, "logWrite.txt"), dataBuffer, function (err) {
 
-    //  });
+      });
       if (code === 0) {
         resolve(dataBuffer);
       }
@@ -152,6 +168,19 @@ export function convertDate(d, onlyMonth = false){
   if(onlyMonth)
     return parts[5]+"-"+months[parts[1]]+"-"+parts[2];
   return parts[5]+"-"+months[parts[1]]+"-"+parts[2]+" "+parts[3];
+}
+
+function readLogDeviceId(data){
+  let pureData = {};
+  let rowEntry = data.split(/\r?\n/);
+  rowEntry.map((innerRow) => {
+    if(innerRow.indexOf('Initializing mission on iButton') !== -1) {
+      let components = innerRow.replace('Initializing mission on iButton', '');
+      pureData['deviceId'] = components.trim();
+    }
+
+  });
+  return pureData;
 }
 
 /**

@@ -7,7 +7,7 @@ const defaultState = {
   missionRunningState: false,
   missionSample: 0,
   totalSample: 0,
-  realTImeClock: 'DISABLED',
+  realTimeClock: 'DISABLED',
   realTimeClockValue: null,
   clockAlarm: 'DISABLED',
   lastMissionStarted: null,

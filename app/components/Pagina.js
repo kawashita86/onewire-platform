@@ -6,7 +6,6 @@ import routes from '../constants/routes';
 import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
 import {printRawHtml} from "../utils/printPDF";
 import {convertDate} from "../utils/iButtonManager";
-import {calculateAverage, calculateDailyAverage} from "../utils/analyzeData";
 
 export default class Pagina extends Component {
    state = {
@@ -43,17 +42,8 @@ export default class Pagina extends Component {
    }
 
   render() {
-    const {thermocron, setNomePaziente, nomePaziente} = this.props;
-
-    let dailyAverage = '';
-    if(typeof thermocron.parsedLog !== 'undefined' && thermocron.parsedLog) {
-      dailyAverage = calculateAverage(calculateDailyAverage(thermocron.parsedLog, thermocron.minTmp, thermocron.maxTmp))*24;
-    }
-
-    console.log(dailyAverage)
-
-    let startDate = '';
-    let endDate = '';
+    const {thermocron, setNomePaziente, mission, setTempoUtilizzo} = this.props;
+    let startDate = '', endDate = '';
 
     if(typeof thermocron.lastMissionStarted !== 'undefined' && thermocron.lastMissionStarted){
       startDate = convertDate(thermocron.lastMissionStarted, true)
@@ -76,7 +66,7 @@ export default class Pagina extends Component {
               <Form>
                 <FormGroup>
                   <Label for="datiPresidio">Dati paziente</Label>
-                  <Input type="text" name="name" id="datiPaziente" placeholder="Nome e cognome" onChange={e => setNomePaziente(e.target.value)} value={nomePaziente} />
+                  <Input type="text" name="name" id="datiPaziente" placeholder="Nome e cognome" onChange={e => setNomePaziente(e.target.value)} value={mission.nomePaziente} />
                 </FormGroup>
               </Form>
             </div>
@@ -116,7 +106,7 @@ export default class Pagina extends Component {
             <Form>
               <FormGroup>
                 <Label for="tempoUtilizzo">Tempo impiego presidio </Label>
-                <Input type="text" name="time" id="tempoUtilizzo" placeholder="Tempo utilizzo" />
+                <Input type="text" name="time" id="tempoUtilizzo" placeholder="Tempo utilizzo" onChange={e => setTempoUtilizzo(e.target.value)} value={mission.tempoUtilizzo} />
               </FormGroup>
             </Form>
           </div>
@@ -132,7 +122,7 @@ export default class Pagina extends Component {
                       data-tclass="calendario">
                 Calendario </Link>
               <Button to={routes.PAGINANEW} className={`${styles.bottoniFondoPagina} btn btn-success`} onClick={() => printRawHtml(
-                '<table><tr style="margin-bottom:10px"><th>T.I.Mon</th></tr><tr style="margin-bottom:10px"><td>Nome: '+nomePaziente+'</td></tr><tr style="margin-bottom:10px"><td>Data inizio: '+startDate+' Data fine: '+endDate+'</td></tr><tr><td style="margin-bottom:10px">Tempo utilizzo '+dailyAverage+' ore</td></tr></table>'
+                '<table><tr style="margin-bottom:10px"><th>T.I.Mon</th></tr><tr style="margin-bottom:10px"><td>Nome: '+mission.nomePaziente+'</td></tr><tr style="margin-bottom:10px"><td>Data inizio: '+startDate+' Data fine: '+endDate+'</td></tr><tr><td style="margin-bottom:10px">Tempo utilizzo 0 ore</td></tr></table>'
               )}
                     data-tclass="print">
                 Stampa<br/>PDF</Button>

@@ -1,11 +1,11 @@
-import {SET_DATA, CLEAR_DATA, SET_NOME_PAZIENTE} from '../actions/mission';
+import {SET_DATA, CLEAR_DATA, SET_NOME_PAZIENTE, SET_TEMPO_UTILIZZO} from '../actions/mission';
 
 const defaultState = {
   name: null,
   missionState: null,
   startDate: null,
   endDate: null,
-  timeEmployed: null,
+  tempoUtilizzo: '',
   nomePaziente: ''
 }
 
@@ -18,6 +18,7 @@ export default function mission(state = defaultState, action) {
       };
     case CLEAR_DATA:
       return defaultState;
+    case SET_TEMPO_UTILIZZO:
     case SET_NOME_PAZIENTE:
       return {
         ...state,

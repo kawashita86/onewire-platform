@@ -171,7 +171,7 @@ export default class PaginaNew extends Component {
                     locale={"it"}
 
                   />
-                  {formattedDate && tableData &&
+                  {formattedDate && tableData.length !== 0 &&
                   <ReactTable
                     data={tableData}
                     columns={[
@@ -195,6 +195,13 @@ export default class PaginaNew extends Component {
                       }
                     ]}
                     defaultPageSize={10}
+                    getTrProps={(state, rowInfo, column) => {
+                      return {
+                        style: {
+                            background: rowInfo.row.value < 20 || rowInfo.row.value > 40 ? 'red': 'transparent'
+                          }
+                        }
+                    }}
                     className="table table-striped"
                   />
                   }
