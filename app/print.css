@@ -1,0 +1,58 @@
+body {
+  background-repeat: no-repeat;
+  height: 900px;
+  background-image: url("../resources/template_pdf.jpg");
+  width: 695px;
+}
+
+.nomePaziente {
+  position: absolute;
+  top: 250px;
+  left: 250px;
+  text-align: center;
+}
+
+.dataFrom {
+  position: absolute;
+  top: 307px;
+  left: 200px;
+}
+
+.dataTo {
+  position: absolute;
+  top: 307px;
+  left: 470px;
+}
+
+
+.tempoUtilizzo {
+  position: absolute;
+  top: 350px;
+  left: 390px;
+}
+
+.imgUtilizzo {
+  position: absolute;
+  top: 500px;
+  left: 143px;
+  border-radius: 50%;
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+  padding: 20px;
+  text-align: center;
+  line-height:150px;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 50px;
+  margin: 4px 2px;
+  width: 200px;
+  height: 200px;
+}
+
+
+.imgChart {
+  position: absolute;
+  top: 500px;
+  left: 430px;
+}

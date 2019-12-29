@@ -22,16 +22,20 @@ const defaultState = {
 
 export default function thermocron(state = defaultState, action) {
   console.log(action);
+  const payload = action.payload;
   switch (action.type) {
     case READ_MISSION_DATA:
-      const payload = action.payload;
       return {
         ...state,
         ...payload,
         parsedLog: parseLog(action.payload)
       };
     case WRITE_MISSION_DATA:
-      return defaultState;
+      return  {
+        ...defaultState,
+        ...payload,
+        parsedLog:  []
+      };
     case CLEAR_MISSION_DATA:
       return defaultState;
     default:

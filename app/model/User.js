@@ -2,6 +2,7 @@
 
 export const User = (data) =>{
   return {
+    id: data.id ? data.id : null,
     deviceId: data.deviceId,
     nomePaziente: data.nomePaziente,
     startDate:  typeof data.startDate !== 'undefined' ?data.startDate : null,

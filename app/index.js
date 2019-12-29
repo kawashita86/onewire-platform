@@ -5,6 +5,7 @@ import Root from './containers/Root';
 import { configureStore, history } from './store/configureStore';
 import '!style-loader!css-loader!bootstrap/dist/css/bootstrap.css';
 import '!style-loader!css-loader!react-table/react-table.css';
+import '!style-loader!css-loader!smalltalk/css/smalltalk.css';
 import './app.global.css';
 
 const store = configureStore();

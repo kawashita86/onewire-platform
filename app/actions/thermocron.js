@@ -48,6 +48,7 @@ export function writeMissionData() {
   return async(dispatch, getState) => {
     try {
       const mission = getState().mission;
+      console.log(mission);
       let result = await writeDemoIButtonData();  //writeIButtonData
       if(typeof result.deviceId === 'undefined' || result.deviceId.length === 0){
         dispatch({

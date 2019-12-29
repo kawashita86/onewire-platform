@@ -12,12 +12,14 @@ export function filterByTmpRange(data, minTmp, maxTmp){
   return renderedSamples;
 }
 
-export function calculateDailyAverage(data, minTmp, maxTmp){
+export function calculateDailyAverage(data, minTmp, maxTmp, relativeHours){
   let dailyAverage = [];
   Object.keys(data).forEach(i =>
   {
     let validMetric = Object.values(data[i]).filter(value => value > minTmp && value < maxTmp);
-    dailyAverage[i] = validMetric.length/Object.keys(data[i]).length;
+    relativeHours = typeof relativeHours !== 'undefined' ? relativeHours : Object.keys(data[i]).length;
+    let avg = validMetric.length/relativeHours > 1 ? 1 : validMetric.length/relativeHours;
+    dailyAverage[i] = avg;
   });
 
   return dailyAverage;

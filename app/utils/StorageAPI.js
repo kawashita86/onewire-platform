@@ -17,13 +17,20 @@ export const initUsersTable = async() => {
 }
 
 export const addUser = async(data) => {
-   let res = await initUsersTable();
-//  if(!db.valid(USERS_TABLE))
-
+   await initUsersTable();
   const userEntity = User(data);
   console.log(userEntity);
+  try {
+    let userData = await getUser(data.deviceId);
+    console.log('FOUND', userData);
+    await db.deleteRow(USERS_TABLE, {id: userData.id}, async(succ, msg) => {
+      console.log(succ);
+    });
+  } catch(e){
+    console.log('no user to delete');
+  }
 
-  db.insertTableContent(USERS_TABLE, userEntity, async(succ, msg) => {
+  await db.insertTableContent(USERS_TABLE, userEntity, async(succ, msg) => {
     if(!succ)
       throw Error(msg)
 
@@ -32,12 +39,7 @@ export const addUser = async(data) => {
 }
 
 export const getUser = async(id) => {
-    //if (!db.valid(USERS_TABLE))
-    //  await initUsersTable();
-
-    //console.log(id);
     let userData = {};
-    //await getAll();
     await db.getRows(USERS_TABLE, {deviceId: id}, async (succ, data) => {
       if (!succ)
         throw Error('Not Found!')

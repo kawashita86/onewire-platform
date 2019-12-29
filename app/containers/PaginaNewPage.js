@@ -8,7 +8,8 @@ import {connect} from "react-redux";
 function mapStateToProps(state) {
   return {
     counter: state.counter,
-    thermocron: state.thermocron
+    thermocron: state.thermocron,
+    mission: state.mission
   };
 }
 function mapDispatchToProps(dispatch) {

@@ -180,6 +180,7 @@ function readLogDeviceId(data){
     }
 
   });
+  pureData['lastMissionStarted'] = new Date().toISOString();
   return pureData;
 }
 

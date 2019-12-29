@@ -6,6 +6,8 @@ import routes from '../constants/routes';
 import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
 import {printRawHtml} from "../utils/printPDF";
 import {convertDate} from "../utils/iButtonManager";
+import {calculateAverage, calculateDailyAverage, filterParsedByDateRange} from "../utils/analyzeData";
+const smalltalk = require('smalltalk');
 
 export default class Pagina extends Component {
    state = {
@@ -17,9 +19,25 @@ export default class Pagina extends Component {
 
 
    startMission(){
-     this.setState({
-       loadingWriteData: true
-     }, this.props.writeMissionData);
+     //check for error in field name/tempo impiego to set error message
+     const {mission} = this.props;
+     if(mission.nomePaziente.length === 0 || mission.tempoUtilizzo.length === 0){
+       //const alert = new Alert();
+       smalltalk
+         .alert('Errore', "E' necessario compilare i campi Nome Paziente e Tempo Utilizzo per cominciare una registrazione")
+         .then(() => {
+         });
+       return false;
+     }
+     smalltalk
+       .confirm('Cominciare Missione', 'Sei sicuro di voler cominciare la registrazione? Questo sovrascriverà tutti i dati presenti su iButton')
+       .then(() => {
+         this.setState({
+           loadingWriteData: true
+         }, this.props.writeMissionData);
+       }).catch(() => {
+       return false;
+     });
 
    }
 
@@ -28,6 +46,32 @@ export default class Pagina extends Component {
        loadingReadData: true
      }, this.props.readMissionData);
    }
+
+   preparePrint(){
+     const {mission, thermocron} = this.props;
+     if(typeof thermocron.lastMissionStarted === 'undefined' || !thermocron.lastMissionStarted){
+       smalltalk.alert("Print Certificate", "Impossibile procedere con la stampa è necessario terminare la mission prima");
+       return false;
+     }
+    // const svgChart = "";
+     const dailyAverage = calculateDailyAverage(this.props.thermocron.parsedLog, this.props.thermocron.minTmp, this.props.thermocron.maxTmp, this.props.mission.tempoUtilizzo);
+     const percentageUsage = Math.round(calculateAverage(dailyAverage)*100);
+     const startDate = convertDate(thermocron.lastMissionStarted, true)
+     const endDate = convertDate(thermocron.realTimeClockValue, true)
+     const logData = filterParsedByDateRange(this.props.thermocron.parsedLog, this.props.thermocron.minTmp, this.props.thermocron.maxTmp);
+     const months = {"01": "Gen", "02" : "Feb",  "03" : "Mar",Apr: "04",May: "05",Jun: "06",Jul: "07",Aug: "08",Sep: "09",Oct: "10",11: "Nov",Dec: "12"};
+     const chartData = Object.keys(logData).map((index) => logData[index]*24);
+     const chartLabels = Object.keys(logData).map((index) => months[index]);
+  //   const charData = [['def',0], ...chartData];
+
+     printRawHtml(
+       '<h1 class="nomePaziente">'+mission.nomePaziente+'</h1><h3 class="dataFrom">'+startDate+'</h3><h3 class="dataTo">'+endDate+'</h3><p class="tempoUtilizzo">'+mission.tempoUtilizzo+'</p>' +
+       '<p><span class="imgUtilizzo">'+percentageUsage+'</span></p>',
+       chartData,
+       chartLabels
+     )
+   }
+
 
    shouldComponentUpdate(nextProps, nextState, nextContext) {
      if((typeof (this.props.thermocron.realTimeClockValue) === 'undefined' &&
@@ -115,9 +159,7 @@ export default class Pagina extends Component {
             <div className="col-sm text-center">
               <Button className={`${styles.bottoniFondoPagina} btn btn-success`}><Link to={routes.PAGINANEW} data-tclass="mediaGiornaliera">
                 Report</Link></Button>
-              <Button className={`${styles.bottoniFondoPagina} btn btn-success`} onClick={() => printRawHtml(
-                '<table><tr style="margin-bottom:10px"><th>T.I.Mon</th></tr><tr style="margin-bottom:10px"><td>Nome: '+mission.nomePaziente+'</td></tr><tr style="margin-bottom:10px"><td>Data inizio: '+startDate+' Data fine: '+endDate+'</td></tr><tr><td style="margin-bottom:10px">Tempo utilizzo 0 ore</td></tr></table>'
-              )}
+              <Button className={`${styles.bottoniFondoPagina} btn btn-success`} onClick={() => this.preparePrint()}
                     data-tclass="print">
                 Stampa</Button>
             </div>
