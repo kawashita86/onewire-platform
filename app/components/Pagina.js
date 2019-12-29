@@ -55,7 +55,7 @@ export default class Pagina extends Component {
 
     return (
       <>
-        <h1 className={styles.titoloApp} data-tclass='titoloApp'>T.I.Mon</h1>
+        <h1 className={styles.titoloApp} data-tclass='titoloApp'>T.<img width='45px' height='55px' src={'../resources/Timon.png'}/>.Mon ©</h1>
         <h4 className={styles.titolettiPagine} data-tclass='titolettiPagine'>Thermo Index Monitoring</h4>
 
       <div className={'container'} data-tid="container">
@@ -70,6 +70,15 @@ export default class Pagina extends Component {
                 </FormGroup>
               </Form>
             </div>
+
+          <div className="row">
+            <Form>
+              <FormGroup>
+                <Label for="tempoUtilizzo">Tempo impiego presidio </Label>
+                <Input type="text" name="time" id="tempoUtilizzo" placeholder="Tempo utilizzo" onChange={e => setTempoUtilizzo(e.target.value)} value={mission.tempoUtilizzo} />
+              </FormGroup>
+            </Form>
+          </div>
 
         <div className="row">
           <div className="col-sm text-center">
@@ -103,29 +112,14 @@ export default class Pagina extends Component {
           </div>
 
           <div className="row">
-            <Form>
-              <FormGroup>
-                <Label for="tempoUtilizzo">Tempo impiego presidio </Label>
-                <Input type="text" name="time" id="tempoUtilizzo" placeholder="Tempo utilizzo" onChange={e => setTempoUtilizzo(e.target.value)} value={mission.tempoUtilizzo} />
-              </FormGroup>
-            </Form>
-          </div>
-
-          <div className="row">
             <div className="col-sm text-center">
-              <Link to={routes.PAGINANEW} className={`${styles.bottoniFondoPagina} btn btn-success`} data-tclass="mediaGiornaliera">
-                Media<br/>giornaliera </Link>
-              <Link to={routes.PAGINANEW} className={`${styles.bottoniFondoPagina} btn btn-success`}
-                      data-tclass="mediaMensile">
-                Media<br/>mensile </Link>
-              <Link to={routes.PAGINANEW} className={`${styles.bottoniFondoPagina} btn btn-success`}
-                      data-tclass="calendario">
-                Calendario </Link>
-              <Button to={routes.PAGINANEW} className={`${styles.bottoniFondoPagina} btn btn-success`} onClick={() => printRawHtml(
+              <Button className={`${styles.bottoniFondoPagina} btn btn-success`}><Link to={routes.PAGINANEW} data-tclass="mediaGiornaliera">
+                Report</Link></Button>
+              <Button className={`${styles.bottoniFondoPagina} btn btn-success`} onClick={() => printRawHtml(
                 '<table><tr style="margin-bottom:10px"><th>T.I.Mon</th></tr><tr style="margin-bottom:10px"><td>Nome: '+mission.nomePaziente+'</td></tr><tr style="margin-bottom:10px"><td>Data inizio: '+startDate+' Data fine: '+endDate+'</td></tr><tr><td style="margin-bottom:10px">Tempo utilizzo 0 ore</td></tr></table>'
               )}
                     data-tclass="print">
-                Stampa<br/>PDF</Button>
+                Stampa</Button>
             </div>
           </div>
       </div>

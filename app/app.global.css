@@ -47,14 +47,13 @@ Form {
 }
 
 .react-calendar {
-  width: 600px;
+  width: 750px;
   max-width: 100%;
   background: lightcyan;
   border: 1px solid #f0f0f0;
   border-radius: 5px;
   font-family: Arial, Helvetica, sans-serif;
-  line-height: 1.125em;
-  margin-left: 22.5%;
+  line-height: 0.75em;
 }
 .react-calendar,
 .react-calendar *,
@@ -73,11 +72,11 @@ Form {
   cursor: pointer;
 }
 .react-calendar__navigation {
-  height: 44px;
+  height: 30px;
   margin-bottom: 1em;
 }
 .react-calendar__navigation button {
-  min-width: 44px;
+  min-width: 30px;
   background: none;
 }
 .react-calendar__navigation button:enabled:hover,
@@ -125,7 +124,7 @@ Form {
 .react-calendar__tile {
   max-width: 100%;
   text-align: center;
-  padding: 0.75em 0.5em;
+  padding: 0.50em 0.25em;
   background: none;
 }
 .react-calendar__tile:disabled {
@@ -155,11 +154,10 @@ Form {
 }
 
 .table.table-striped {
-  width: 600px;
+  width: 750px;
   max-width: 100%;
   margin-top: 20px;
   background-color: lightcyan;
   border: 1px solid #f0f0f0;
   border-radius: 5px;
-  margin-left: 22.5%;
 }

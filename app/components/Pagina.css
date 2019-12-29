@@ -10,8 +10,8 @@
   font-size: 16px;
   margin: 4px 2px;
   cursor: pointer;
-  width: 150px;
-  height: 150px;
+  width: 125px;
+  height: 125px;
   margin-bottom: 16px;
 }
 
@@ -21,10 +21,9 @@
 
 .bottoniFondoPagina {
   background-color: #4CAF50;
-  width: 125px;
-  height: 90px;
+  width: 100px;
+  height: 75px;
   margin: 20px;
-  padding: 20px;
 }
 
 .bottoniFondoPagina a:hover {
