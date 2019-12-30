@@ -14,7 +14,7 @@ export function readMissionData() {
   return async (dispatch, getState) => {
       //we must use an async read through java children to get info
     try {
-      let result = await readDemoIButtonData(); //readDemoIButtonData
+      let result = await readIButtonData(); //readDemoIButtonData
 //      result.log =  await readIButtonData('l');
       if(typeof result.deviceId === 'undefined'){
         dispatch({
@@ -49,7 +49,7 @@ export function writeMissionData() {
     try {
       const mission = getState().mission;
       console.log(mission);
-      let result = await writeDemoIButtonData();  //writeIButtonData
+      let result = await writeIButtonData();  //writeIButtonData
       if(typeof result.deviceId === 'undefined' || result.deviceId.length === 0){
         dispatch({
           type: DATA_KO,
