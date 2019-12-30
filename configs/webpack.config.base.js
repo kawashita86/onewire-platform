@@ -47,6 +47,10 @@ export default {
             cacheDirectory: true
           }
         }
+      },
+      {
+        test: /\.(?:png|jpg|svg)$/,
+        loader: 'url-loader'
       }
     ]
   },

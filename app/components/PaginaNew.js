@@ -198,7 +198,7 @@ export default class PaginaNew extends Component {
                     getTrProps={(state, rowInfo, column) => {
                       return {
                         style: {
-                            background: rowInfo.row.value < 20 || rowInfo.row.value > 40 ? 'red': 'transparent'
+                            background: rowInfo.row.value < thermocron.minTmp || rowInfo.row.value > thermocron.maxTmp ? 'red': 'transparent'
                           }
                         }
                     }}

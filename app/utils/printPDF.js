@@ -78,11 +78,8 @@ export async function savePDF() {
 }
 
 export const printRawHtml = (html, chartData, chartLabels) => {
-  const win = new BrowserWindow({ show: false });
+  const win = new BrowserWindow({ show: false, width: 695, height: 900 });
   win.loadURL(`file://${ __dirname}/print.html?getData=${encodeURIComponent(html)}&getChartData=${encodeURIComponent(JSON.stringify(chartData))}&getChartLabels=${encodeURIComponent(JSON.stringify(chartLabels))}`);
- // win.loadURL(`data:text/html;charset=UTF-8,${
- //   encodeURIComponent(`<html><head><style>body{background-repeat:no-repeat;height:900px;background-image:url(../resources/template_pdf.jpg);width:695px}.nomePaziente{position:absolute;top:250px;left:250px;text-align:center}.dataFrom{position:absolute;top:307px;left:200px}.dataTo{position:absolute;top:307px;left:470px}.tempoUtilizzo{position:absolute;top:350px;left:390px}.imgUtilizzo{position:absolute;top:500px;left:143px}.imgChart{position:absolute;top:500px;left:430px}</style></head><body>${html}</body></html>`)
- //ss }`);
   win.webContents.on('did-finish-load', () => {
     win.webContents.executeJavaScript(
       'window.print(); setTimeout(() => window.close());',

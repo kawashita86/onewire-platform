@@ -23,19 +23,20 @@ export const addUser = async(data) => {
   try {
     let userData = await getUser(data.deviceId);
     console.log('FOUND', userData);
-    await db.deleteRow(USERS_TABLE, {id: userData.id}, async(succ, msg) => {
-      console.log(succ);
-    });
+    delete userEntity.id;
+      await db.updateRow(USERS_TABLE, {id: userData.id}, userEntity, async (succ, msg) => {
+        console.log(succ);
+        return await msg;
+      });
   } catch(e){
     console.log('no user to delete');
+    await db.insertTableContent(USERS_TABLE, userEntity, async(succ, msg) => {
+      if(!succ)
+        throw Error(msg)
+
+      return await msg;
+    });
   }
-
-  await db.insertTableContent(USERS_TABLE, userEntity, async(succ, msg) => {
-    if(!succ)
-      throw Error(msg)
-
-    return await msg;
-  });
 }
 
 export const getUser = async(id) => {
@@ -47,6 +48,16 @@ export const getUser = async(id) => {
         userData = User(data[0]);
     });
     return userData;
+}
+
+export const getUsersWhere = async(id) => {
+  await db.getRows(USERS_TABLE, {deviceId: id}, async (succ, data) => {
+    if (!succ)
+      throw Error('Not Found!')
+    if(data.length !== 0)
+      return data;
+  });
+  return [];
 }
 
 export const getAll = async () => {
