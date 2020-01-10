@@ -126,7 +126,7 @@ export async function writeIButtonData(options) {
 
       });
       if (code === 0) {
-        resolve(dataBuffer);
+        resolve(readLogDeviceId(dataBuffer));
       }
       reject(dataBuffer);
     });
@@ -180,7 +180,7 @@ function readLogDeviceId(data){
     }
 
   });
-  pureData['lastMissionStarted'] = new Date().toISOString();
+  //pureData['lastMissionStarted'] = new Date().toISOString();
   return pureData;
 }
 

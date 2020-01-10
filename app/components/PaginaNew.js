@@ -196,6 +196,13 @@ export default class PaginaNew extends Component {
                     ]}
                     defaultPageSize={10}
                     getTrProps={(state, rowInfo, column) => {
+                      if(typeof rowInfo === 'undefined'){
+                        return {
+                          style: {
+                            background: 'transparent'
+                          }
+                        }
+                      }
                       return {
                         style: {
                             background: rowInfo.row.value < thermocron.minTmp || rowInfo.row.value > thermocron.maxTmp ? 'red': 'transparent'
