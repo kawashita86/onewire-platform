@@ -52,9 +52,9 @@ export function filterParsedByDateRange(data, minTmp, maxTmp){
   let logData = [];
   if(typeof data === 'undefined') return logData;
   Object.keys(data).forEach((i) => {
-    console.log(data[i]);
+    //console.log(data[i]);
     let validMetric = Object.values(data[i]).filter(value => value > minTmp && value < maxTmp);
-    console.log(validMetric);
+    //console.log(validMetric);
     if(validMetric.length !== 0)
       logData[i] = validMetric.length/Object.keys(data[i]).length;
   });
@@ -64,7 +64,7 @@ export function filterParsedByDateRange(data, minTmp, maxTmp){
 
   for(let i in logData){
     //console.log(i);
-    let m = moment(i).month();
+    let m = moment(i, "YYYY-MM-DD").get('month');
     m = m.toString();
     if(typeof monthlyMedian[m] === 'undefined') {
       monthlyMedian[m] = 0;

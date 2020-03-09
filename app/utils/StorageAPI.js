@@ -1,68 +1,67 @@
-import {User} from "../model/User";
+import {createConnection} from "typeorm";
+var User = require("../model/User");
 
-const db = require('electron-db');
-import {USERS_TABLE} from '../constants/database';
+const electron = window.require('electron')
+const path = electron.remote.require('path')
+const sqlitePath = path.join(electron.remote.app.getPath('userData'), '\\data\\app.sqlite')
+console.log('sqlite path', sqlitePath);
 
-export const initUsersTable = async() => {
- //try {
-//   let result = await db.valid(USERS_TABLE);
- //  return result;
- //} catch(err){
-     db.createTable(USERS_TABLE, async (succ, msg) => {
-       //if (!succ)
-       //  throw  Error(msg)
-       return true;
-     })
- //  }
+const options = {
+  "type": "sqlite",
+  "synchronize": true,
+  "logging": true,
+  "logger": "simple-console",
+  "database": sqlitePath,
+  "entities": [
+    "app/model/*.js"
+  ]
+};
+
+let connection = null;
+
+const initConnection = async() => {
+  if(!connection)
+    connection = await createConnection(options);
+  return connection;
 }
 
 export const addUser = async(data) => {
-   await initUsersTable();
-  const userEntity = User(data);
-  console.log(userEntity);
   try {
-    let userData = await getUser(data.deviceId);
-    console.log('FOUND', userData);
-    delete userEntity.id;
-      await db.updateRow(USERS_TABLE, {id: userData.id}, userEntity, async (succ, msg) => {
-        console.log(succ);
-        return await msg;
-      });
-  } catch(e){
-    console.log('no user to delete');
-    await db.insertTableContent(USERS_TABLE, userEntity, async(succ, msg) => {
-      if(!succ)
-        throw Error(msg)
+    await initConnection();
+    console.log('addUser');
+   // const userEntity = new User();
 
-      return await msg;
-    });
+    const userEntity = {
+      id : data.deviceId,
+      startDate : data.startDate,
+      endDate : typeof data.endDate !== 'undefined' ? data.endDate : "",
+      nomePaziente : data.nomePaziente,
+      tempoUtilizzo : data.tempoUtilizzo
+    }
+
+    return connection.getRepository(User).save(userEntity);
+  } catch(error){
+    console.log("Error: ", error)
   }
 }
 
 export const getUser = async(id) => {
-    let userData = {};
-    await db.getRows(USERS_TABLE, {deviceId: id}, async (succ, data) => {
-      if (!succ)
-        throw Error('Not Found!')
-      if(data.length !== 0)
-        userData = User(data[0]);
-    });
-    return userData;
+  await initConnection();
+  return await connection
+    .getRepository(User)
+    .findOne({ id: id });
 }
 
 export const getUsersWhere = async(id) => {
-  await db.getRows(USERS_TABLE, {deviceId: id}, async (succ, data) => {
-    if (!succ)
-      throw Error('Not Found!')
-    if(data.length !== 0)
-      return data;
-  });
-  return [];
+  await initConnection();
+  return connection
+    .getRepository(User)
+    .findWhere({ id: id });
 }
 
 export const getAll = async () => {
-  db.getAll(USERS_TABLE, async(succ, data) => {
-    console.log(data);
-     return data;
-  })
+  await initConnection();
+  return connection
+    .getRepository(User)
+    .findAll();
 }

@@ -1,12 +1,27 @@
+const EntitySchema = require('typeorm').EntitySchema
 
+const User = new EntitySchema({
 
-export const User = (data) =>{
-  return {
-    id: data.id ? data.id : null,
-    deviceId: data.deviceId,
-    nomePaziente: data.nomePaziente,
-    startDate:  typeof data.startDate !== 'undefined' ?data.startDate : null,
-    endDate: typeof data.endDate !== 'undefined' ?data.endDate : null,
-    tempoUtilizzo: typeof data.tempoUtilizzo !== undefined ? data.tempoUtilizzo : 0
+  name: 'User',
+  columns: {
+  id: {
+      type: String,
+      primary: true,
+      generated: false
+  },
+  nomePaziente: {
+    type: String
+  },
+  startDate: {
+    type: String
+  },
+    endDate: {
+    type: String
+  },
+    tempoUtilizzo: {
+    type: String
   }
 }
+});
+
+module.exports = User;

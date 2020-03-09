@@ -39,7 +39,7 @@ export default class PaginaNew extends Component {
     if(this.props.thermocron){
       const dailyAverage = calculateDailyAverage(this.props.thermocron.parsedLog, this.props.thermocron.minTmp, this.props.thermocron.maxTmp, this.props.mission.tempoUtilizzo);
       const logData = filterParsedByDateRange(this.props.thermocron.parsedLog, this.props.thermocron.minTmp, this.props.thermocron.maxTmp);
-      const months = {"01": "Gen", "02" : "Feb",  "03" : "Mar",Apr: "04",May: "05",Jun: "06",Jul: "07",Aug: "08",Sep: "09",Oct: "10",11: "Nov",Dec: "12"};
+      const months = {1: "Gen", 2 : "Feb",  3 : "Mar", 4: "Apr", 5: "May",6 : "Jun",7: "Jul",8: "Aug",9: "Set",10: "Ott",11: "Nov",0: "Dec"};
       const chartData = Object.keys(logData).map((index) => [months[index], logData[index]*24]);
 
       //const logData = filterByDateRange(this.props.thermocron.log);
@@ -81,7 +81,7 @@ export default class PaginaNew extends Component {
 
     return (
       <div className={'container'} data-tid="container">
-        <Link to={routes.HOME}>
+        <Link to={routes.HOME} className="go-back-link">
           <i className="fa fa-arrow-left fa-3x"/>
         </Link>
         <div className="container">
@@ -141,6 +141,7 @@ export default class PaginaNew extends Component {
                   >
                     <Chart
                       series={{
+                        showPoints: false,
                         type: 'bar'
                       }}
                       data={[
