@@ -1,24 +1,24 @@
 Starting dumpMission...
-C:\Program Files\AdoptOpenJDK\jdk-8.0.232.09-hotspot\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\Program Files\nodejs\node_modules\npm\node_modules\npm-lifecycle\node-gyp-bin;C:\Users\franc\WebstormProjects\OneWirePlatform\node_modules\.bin;C:\Users\franc\AppData\Local\Temp\yarn--1583787402331-0.5232583992363271;C:\Users\franc\WebstormProjects\OneWirePlatform\node_modules\.bin;C:\Users\franc\AppData\Local\Yarn\Data\link\node_modules\.bin;C:\Program Files\libexec\lib\node_modules\npm\bin\node-gyp-bin;C:\Program Files\lib\node_modules\npm\bin\node-gyp-bin;C:\Program Files\nodejs\node_modules\npm\bin\node-gyp-bin;C:\Users\franc\AppData\Local\Temp\yarn--1583787400837-0.35416709608614116;C:\Users\franc\WebstormProjects\OneWirePlatform\node_modules\.bin;C:\Users\franc\AppData\Local\Yarn\Data\link\node_modules\.bin;C:\Users\franc\AppData\Local\Yarn\bin;C:\Program Files\libexec\lib\node_modules\npm\bin\node-gyp-bin;C:\Program Files\lib\node_modules\npm\bin\node-gyp-bin;C:\Program Files\nodejs\node_modules\npm\bin\node-gyp-bin;C:\Python27\;C:\Python27\Scripts;C:\Program Files\AdoptOpenJDK\jdk-8.0.232.09-hotspot\bin;C:\Program Files (x86)\Intel\iCLS Client\;C:\Program Files\Intel\iCLS Client\;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\Intel\WiFi\bin\;C:\Program Files\Common Files\Intel\WirelessCommon\;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\nodejs\;C:\ProgramData\chocolatey\bin;C:\Program Files\Git\cmd;C:\Users\franc\AppData\Local\Microsoft\WindowsApps;C:\Program Files\Intel\WiFi\bin\;C:\Program Files\Common Files\Intel\WirelessCommon\;C:\Users\franc\AppData\Roaming\npm;C:\Program Files\JetBrains\WebStorm 2019.2.4\bin;;.
+C:\Program Files\AdoptOpenJDK\jdk-8.0.232.09-hotspot\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\Program Files\nodejs\node_modules\npm\node_modules\npm-lifecycle\node-gyp-bin;C:\Users\franc\WebstormProjects\OneWirePlatform\node_modules\.bin;C:\Users\franc\AppData\Local\Temp\yarn--1583935962295-0.43431347279777444;C:\Users\franc\WebstormProjects\OneWirePlatform\node_modules\.bin;C:\Users\franc\AppData\Local\Yarn\Data\link\node_modules\.bin;C:\Program Files\libexec\lib\node_modules\npm\bin\node-gyp-bin;C:\Program Files\lib\node_modules\npm\bin\node-gyp-bin;C:\Program Files\nodejs\node_modules\npm\bin\node-gyp-bin;C:\Users\franc\AppData\Local\Temp\yarn--1583935957776-0.7026739443689194;C:\Users\franc\WebstormProjects\OneWirePlatform\node_modules\.bin;C:\Users\franc\AppData\Local\Yarn\Data\link\node_modules\.bin;C:\Users\franc\AppData\Local\Yarn\bin;C:\Program Files\libexec\lib\node_modules\npm\bin\node-gyp-bin;C:\Program Files\lib\node_modules\npm\bin\node-gyp-bin;C:\Program Files\nodejs\node_modules\npm\bin\node-gyp-bin;C:\Python27\;C:\Python27\Scripts;C:\Program Files\AdoptOpenJDK\jdk-8.0.232.09-hotspot\bin;C:\Program Files (x86)\Intel\iCLS Client\;C:\Program Files\Intel\iCLS Client\;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\Intel\WiFi\bin\;C:\Program Files\Common Files\Intel\WirelessCommon\;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\nodejs\;C:\ProgramData\chocolatey\bin;C:\Program Files\Git\cmd;C:\Users\franc\AppData\Local\Microsoft\WindowsApps;C:\Program Files\Intel\WiFi\bin\;C:\Program Files\Common Files\Intel\WirelessCommon\;C:\Users\franc\AppData\Roaming\npm;C:\Program Files\JetBrains\WebStorm 2019.2.4\bin;;.
 Maxim Integrated Products DS1921 Thermocron Mission Summary Demo
 -----------------------------------------------------------
 - Device ID : 8E0000004B393621
 - MISSION IS CURRENTLY RUNNING
 - Cannot read current temperature with mission in progress
 -----------------------------------------------------------
-- Number of mission samples: 1423
-- Total number of samples  : 56718
+- Number of mission samples: 1464
+- Total number of samples  : 56759
 - Real Time Clock          : ENABLED
-- Real Time Clock Value    : Mon Mar 09 21:59:10 CET 2020
+- Real Time Clock Value    : Wed Mar 11 15:22:25 CET 2020
 - Clock Alarm              : ENABLED
 - Clock Alarm Status       : ALARMING
-- Next alarm occurs at     : Mon Mar 09 21:00:00 CET 2020
+- Next alarm occurs at     : Wed Mar 11 15:00:00 CET 2020
 - Last mission started     : Fri Jan 10 15:23:00 CET 2020
 - Sample rate              : Every 60 minutes
 - High temperature alarm   : 40.0
 - Low temperature alarm    : 20.0
 - Rollover enabled         : YES
-- Time to read Thermocron  : 1898 milliseconds
+- Time to read Thermocron  : 1934 milliseconds
 -----------------------------------------------------------
 -
 -                   TEMPERATURE LOG
@@ -2868,5 +2868,87 @@ Maxim Integrated Products DS1921 Thermocron Mission Summary Demo
 -                     was  : 20.5 C
 - Temperature recorded at  : Mon Mar 09 21:23:00 CET 2020
 -                     was  : 21.0 C
+- Temperature recorded at  : Mon Mar 09 22:23:00 CET 2020
+-                     was  : 22.5 C
+- Temperature recorded at  : Mon Mar 09 23:23:00 CET 2020
+-                     was  : 21.5 C
+- Temperature recorded at  : Tue Mar 10 00:23:00 CET 2020
+-                     was  : 21.0 C
+- Temperature recorded at  : Tue Mar 10 01:23:00 CET 2020
+-                     was  : 21.5 C
+- Temperature recorded at  : Tue Mar 10 02:23:00 CET 2020
+-                     was  : 21.5 C
+- Temperature recorded at  : Tue Mar 10 03:23:00 CET 2020
+-                     was  : 21.5 C
+- Temperature recorded at  : Tue Mar 10 04:23:00 CET 2020
+-                     was  : 21.5 C
+- Temperature recorded at  : Tue Mar 10 05:23:00 CET 2020
+-                     was  : 21.5 C
+- Temperature recorded at  : Tue Mar 10 06:23:00 CET 2020
+-                     was  : 24.5 C
+- Temperature recorded at  : Tue Mar 10 07:23:00 CET 2020
+-                     was  : 21.5 C
+- Temperature recorded at  : Tue Mar 10 08:23:00 CET 2020
+-                     was  : 20.0 C
+- Temperature recorded at  : Tue Mar 10 09:23:00 CET 2020
+-                     was  : 27.5 C
+- Temperature recorded at  : Tue Mar 10 10:23:00 CET 2020
+-                     was  : 20.5 C
+- Temperature recorded at  : Tue Mar 10 11:23:00 CET 2020
+-                     was  : 20.0 C
+- Temperature recorded at  : Tue Mar 10 12:23:00 CET 2020
+-                     was  : 29.5 C
+- Temperature recorded at  : Tue Mar 10 13:23:00 CET 2020
+-                     was  : 23.0 C
+- Temperature recorded at  : Tue Mar 10 14:23:00 CET 2020
+-                     was  : 21.0 C
+- Temperature recorded at  : Tue Mar 10 15:23:00 CET 2020
+-                     was  : 20.5 C
+- Temperature recorded at  : Tue Mar 10 16:23:00 CET 2020
+-                     was  : 20.5 C
+- Temperature recorded at  : Tue Mar 10 17:23:00 CET 2020
+-                     was  : 23.0 C
+- Temperature recorded at  : Tue Mar 10 18:23:00 CET 2020
+-                     was  : 21.5 C
+- Temperature recorded at  : Tue Mar 10 19:23:00 CET 2020
+-                     was  : 21.5 C
+- Temperature recorded at  : Tue Mar 10 20:23:00 CET 2020
+-                     was  : 21.0 C
+- Temperature recorded at  : Tue Mar 10 21:23:00 CET 2020
+-                     was  : 21.0 C
+- Temperature recorded at  : Tue Mar 10 22:23:00 CET 2020
+-                     was  : 21.0 C
+- Temperature recorded at  : Tue Mar 10 23:23:00 CET 2020
+-                     was  : 20.5 C
+- Temperature recorded at  : Wed Mar 11 00:23:00 CET 2020
+-                     was  : 20.5 C
+- Temperature recorded at  : Wed Mar 11 01:23:00 CET 2020
+-                     was  : 20.5 C
+- Temperature recorded at  : Wed Mar 11 02:23:00 CET 2020
+-                     was  : 20.5 C
+- Temperature recorded at  : Wed Mar 11 03:23:00 CET 2020
+-                     was  : 20.5 C
+- Temperature recorded at  : Wed Mar 11 04:23:00 CET 2020
+-                     was  : 20.5 C
+- Temperature recorded at  : Wed Mar 11 05:23:00 CET 2020
+-                     was  : 20.5 C
+- Temperature recorded at  : Wed Mar 11 06:23:00 CET 2020
+-                     was  : 29.5 C
+- Temperature recorded at  : Wed Mar 11 07:23:00 CET 2020
+-                     was  : 22.5 C
+- Temperature recorded at  : Wed Mar 11 08:23:00 CET 2020
+-                     was  : 22.0 C
+- Temperature recorded at  : Wed Mar 11 09:23:00 CET 2020
+-                     was  : 21.5 C
+- Temperature recorded at  : Wed Mar 11 10:23:00 CET 2020
+-                     was  : 21.0 C
+- Temperature recorded at  : Wed Mar 11 11:23:00 CET 2020
+-                     was  : 21.5 C
+- Temperature recorded at  : Wed Mar 11 12:23:00 CET 2020
+-                     was  : 21.0 C
+- Temperature recorded at  : Wed Mar 11 13:23:00 CET 2020
+-                     was  : 20.5 C
+- Temperature recorded at  : Wed Mar 11 14:23:00 CET 2020
+-                     was  : 20.0 C
 -----------------------------------------------------------
 Finished.

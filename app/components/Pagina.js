@@ -8,9 +8,13 @@ import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
 import {printRawHtml} from "../utils/printPDF";
 import {convertDate} from "../utils/iButtonManager";
 import {calculateAverage, calculateDailyAverage, filterParsedByDateRange} from "../utils/analyzeData";
+import {Spinner} from "./UI/Spinner";
+import ReactPrint from "./ReactPrint";
 const smalltalk = require('smalltalk');
 
 export default class Pagina extends Component {
+
+
    state = {
      missionState: false,
      loadingWriteData: false,
@@ -60,11 +64,12 @@ export default class Pagina extends Component {
      const startDate = convertDate(thermocron.lastMissionStarted, true)
      const endDate = convertDate(thermocron.realTimeClockValue, true)
      const logData = filterParsedByDateRange(this.props.thermocron.parsedLog, this.props.thermocron.minTmp, this.props.thermocron.maxTmp);
-     const months = {"01": "Gen", "02" : "Feb",  "03" : "Mar",Apr: "04",May: "05",Jun: "06",Jul: "07",Aug: "08",Sep: "09",Oct: "10",11: "Nov",Dec: "12"};
+     const months = {1: "Gen", 2 : "Feb",  3 : "Mar", 4: "Apr", 5: "May",6 : "Jun",7: "Jul",8: "Aug",9: "Set",10: "Ott",11: "Nov",0: "Dec"};
      const chartData = Object.keys(logData).map((index) => logData[index]*24);
      const chartLabels = Object.keys(logData).map((index) => months[index]);
   //   const charData = [['def',0], ...chartData];
 
+      console.log(chartData);
      printRawHtml(
        '<h1 class="nomePaziente">'+mission.nomePaziente+'</h1><h3 class="dataFrom">'+startDate+'</h3><h3 class="dataTo">'+endDate+'</h3><p class="tempoUtilizzo">'+mission.tempoUtilizzo+'</p>' +
        '<p><span class="imgUtilizzo">'+percentageUsage+'</span></p>',
@@ -129,12 +134,12 @@ export default class Pagina extends Component {
           <div className="col-sm text-center">
             <button className={`${styles.startStop} btn-success`}
                     data-tclass="startStop" onClick={() => this.startMission()}>
-              {this.state.loadingWriteData ? 'Loading': 'Start'}</button>
+              {this.state.loadingWriteData ? <><Spinner/> Loading</>: 'Start'}</button>
           </div>
           <div className="col-sm text-center">
             <button className={`${styles.startStop} ${styles.stopButton} btn-danger`}
                                                 data-tclass="startStop" onClick={() => this.stopMission()}>
-              {this.state.loadingReadData ? 'Loading': 'Stop'} </button>
+              {this.state.loadingReadData ? <><Spinner/> Loading</>: 'Stop'} </button>
           </div>
         </div>
 
@@ -160,9 +165,16 @@ export default class Pagina extends Component {
             <div className="col-sm text-center">
               <Button className={`${styles.bottoniFondoPagina} btn btn-success`}><Link to={routes.PAGINANEW} data-tclass="mediaGiornaliera">
                 Report</Link></Button>
+              <ReactPrint
+                trigger={() => <Button className={`${styles.bottoniFondoPagina} btn btn-success`} data-tclass="print">Stampa</Button> }
+                content={() => this.componentRef}
+              />
               <Button className={`${styles.bottoniFondoPagina} btn btn-success`} onClick={() => this.preparePrint()}
                     data-tclass="print">
                 Stampa</Button>
+                <div style={{display: "none"}}>
+                  {/*<PrintCertificate />*/}
+                </div>
             </div>
           </div>
       </div>
