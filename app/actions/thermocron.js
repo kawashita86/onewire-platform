@@ -15,7 +15,7 @@ export function readMissionData() {
   return async (dispatch, getState) => {
       //we must use an async read through java children to get info
     try {
-      let result = await readIButtonData(); //readDemoIButtonData
+      let result = await readDemoIButtonData(); //readDemoIButtonData
 //      result.log =  await readIButtonData('l');
       if(typeof result.deviceId === 'undefined'){
         dispatch({

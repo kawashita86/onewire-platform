@@ -170,11 +170,11 @@ export default class Pagina extends Component {
 
           <div className="row">
             <div className="col-sm text-center">
-              <Button className={`${styles.bottoniFondoPagina} btn btn-success`}><Link to={routes.PAGINANEW} data-tclass="mediaGiornaliera">
-                Report</Link></Button>
+              <Link to={routes.PAGINANEW}  className={`${styles.bottoniFondoPagina} btn btn-success`} style={{opacity: 1, lineHeight: '57px'}} data-tclass="mediaGiornaliera">
+                Report</Link>
               <Button className={`${styles.bottoniFondoPagina} btn btn-success`} onClick={() => this.preparePrint()}
                     data-tclass="print">
-                Stampa</Button>*
+                Stampa</Button>
             </div>
           </div>
       </div>

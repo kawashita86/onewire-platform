@@ -46,7 +46,7 @@ export default class PaginaNew extends Component {
       this.setState({
         percentageUsage: Math.round(calculateAverage(dailyAverage)*100),
         logData: logData,
-        charData: [['def',0], ...chartData]
+        charData: [...chartData]
       });
     }
 
@@ -56,8 +56,8 @@ export default class PaginaNew extends Component {
     const {thermocron} = this.props;
 
     const getKey = (data) => {
-      for (var objProp in data)
-        if (data.propertyIsEnumerable(objProp)) {
+      for (let objProp in data)
+        if (data.hasOwnProperty(objProp) && data.propertyIsEnumerable(objProp)) {
           return new Date(objProp);
         }
     }

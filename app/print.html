@@ -39,8 +39,9 @@
 
       .dataTo {
         position: absolute;
-        top: 323px;
-        left: 470px
+        top: 320px;
+        left: 470px;
+        font-size: 19px;
       }
 
       .tempoUtilizzo {
@@ -110,16 +111,6 @@
         if (tmp[0] === parameterName) result = decodeURIComponent(tmp[1]);
       });
     return result;
-  }
-
-  function colorize(opaque, ctx) {
-    var v = ctx.dataset.data[ctx.dataIndex];
-    var c = v < -50 ? '#D60000'
-      : v < 0 ? '#F46300'
-        : v < 50 ? '#0358B6'
-          : '#44DE28';
-
-    return opaque ? c : utils.transparentize(c, 1 - Math.abs(v / 150));
   }
 
 
