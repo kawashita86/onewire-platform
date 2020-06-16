@@ -9,16 +9,21 @@ import {printRawHtml} from "../utils/printPDF";
 import {convertDate} from "../utils/iButtonManager";
 import {calculateAverage, calculateDailyAverage, filterParsedByDateRange} from "../utils/analyzeData";
 import {Spinner} from "./UI/Spinner";
-import ReactPrint from "./ReactPrint";
+//import PrintCertificate from "./UI/PrintCertificate";
 const smalltalk = require('smalltalk');
 
 export default class Pagina extends Component {
 
 
-   state = {
-     missionState: false,
-     loadingWriteData: false,
-     loadingReadData: false
+
+   constructor(props) {
+     super(props);
+     this.state = {
+       missionState: false,
+       loadingWriteData: false,
+       loadingReadData: false
+     }
+
    }
 
 
@@ -54,7 +59,7 @@ export default class Pagina extends Component {
 
    preparePrint(){
      const {mission, thermocron} = this.props;
-     if(typeof thermocron.lastMissionStarted === 'undefined' || !thermocron.lastMissionStarted){
+     if(typeof thermocron.lastMissionStarted === 'undefined' || !thermocron.lastMissionStarted || Object.keys(thermocron.parsedLog).length === 0){
        smalltalk.alert("Print Certificate", "Impossibile procedere con la stampa è necessario terminare la mission prima");
        return false;
      }
@@ -67,9 +72,7 @@ export default class Pagina extends Component {
      const months = {1: "Gen", 2 : "Feb",  3 : "Mar", 4: "Apr", 5: "May",6 : "Jun",7: "Jul",8: "Aug",9: "Set",10: "Ott",11: "Nov",0: "Dec"};
      const chartData = Object.keys(logData).map((index) => logData[index]*24);
      const chartLabels = Object.keys(logData).map((index) => months[index]);
-  //   const charData = [['def',0], ...chartData];
 
-      console.log(chartData);
      printRawHtml(
        '<h1 class="nomePaziente">'+mission.nomePaziente+'</h1><h3 class="dataFrom">'+startDate+'</h3><h3 class="dataTo">'+endDate+'</h3><p class="tempoUtilizzo">'+mission.tempoUtilizzo+'</p>' +
        '<p><span class="imgUtilizzo">'+percentageUsage+'</span></p>',
@@ -84,7 +87,11 @@ export default class Pagina extends Component {
        typeof nextProps.thermocron.realTimeClockValue !== 'undefined') ||
        (typeof (this.props.thermocron.realTimeClockValue) !== 'undefined' &&
          typeof nextProps.thermocron.realTimeClockValue === 'undefined') ||
-       (this.props.thermocron.realTimeClockValue !== nextProps.thermocron.realTimeClockValue)){
+       (this.props.thermocron.realTimeClockValue !== nextProps.thermocron.realTimeClockValue) ||
+       (this.props.errors.length  === 0 && nextProps.errors.length !==0) ||
+       (this.props.thermocron.deviceId === null &&
+         nextProps.thermocron.deviceId !== null)
+     ){
        nextState.loadingWriteData = false;
        nextState.loadingReadData = false;
      }
@@ -165,16 +172,9 @@ export default class Pagina extends Component {
             <div className="col-sm text-center">
               <Button className={`${styles.bottoniFondoPagina} btn btn-success`}><Link to={routes.PAGINANEW} data-tclass="mediaGiornaliera">
                 Report</Link></Button>
-              <ReactPrint
-                trigger={() => <Button className={`${styles.bottoniFondoPagina} btn btn-success`} data-tclass="print">Stampa</Button> }
-                content={() => this.componentRef}
-              />
               <Button className={`${styles.bottoniFondoPagina} btn btn-success`} onClick={() => this.preparePrint()}
                     data-tclass="print">
-                Stampa</Button>
-                <div style={{display: "none"}}>
-                  {/*<PrintCertificate />*/}
-                </div>
+                Stampa</Button>*
             </div>
           </div>
       </div>

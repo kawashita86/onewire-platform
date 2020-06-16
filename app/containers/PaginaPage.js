@@ -11,7 +11,8 @@ function mapStateToProps(state) {
   return {
     counter: state.counter,
     thermocron: state.thermocron,
-    mission: state.mission
+    mission: state.mission,
+    errors: state.errors
   };
 }
 function mapDispatchToProps(dispatch) {

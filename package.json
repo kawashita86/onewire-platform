@@ -287,7 +287,7 @@
     "source-map-support": "^0.5.16"
   },
   "devEngines": {
-    "node": ">=7.x",
+    "node": ">=10.x",
     "npm": ">=4.x",
     "yarn": ">=0.21.3"
   },

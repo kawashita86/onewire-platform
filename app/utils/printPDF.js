@@ -81,9 +81,9 @@ export const printRawHtml = (html, chartData, chartLabels) => {
   const win = new BrowserWindow({ show: true, width: 695, height: 900 });
   win.loadURL(`file://${ __dirname}/print.html?getData=${encodeURIComponent(html)}&getChartData=${encodeURIComponent(JSON.stringify(chartData))}&getChartLabels=${encodeURIComponent(JSON.stringify(chartLabels))}`);
   win.webContents.on('did-finish-load', () => {
-   /* win.webContents.executeJavaScript(
-      'setTimeout(() =>window.print(), 1000); setTimeout(() => window.close(), 1500);',
-    );*/
+   // win.webContents.executeJavaScript(
+   //   'setTimeout(() =>window.print(), 1500); setTimeout(() => window.close(), 2500);',
+   // );
   });
 };
 
