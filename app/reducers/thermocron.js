@@ -1,8 +1,10 @@
 import {READ_MISSION_DATA, CLEAR_MISSION_DATA, WRITE_MISSION_DATA} from '../actions/thermocron';
 
 const defaultState = {
-  minTmp: 21,
-  maxTmp: 26,
+  minTmp: 35,
+  maxTmp: 41,
+ // minTmp: 21,
+ // maxTmp: 26,
   deviceId: null,
   missionRunningState: false,
   missionSample: 0,

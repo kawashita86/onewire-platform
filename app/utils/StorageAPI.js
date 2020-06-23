@@ -13,7 +13,7 @@ const options = {
   "logger": "simple-console",
   "database": sqlitePath,
   "entities": [
-    "app/model/*.js"
+    User
   ]
 };
 

@@ -78,7 +78,7 @@ export default class Pagina extends Component {
        '<p><span class="imgUtilizzo">'+percentageUsage+'</span></p>',
        chartData,
        chartLabels
-     )
+     ).then(data => console.log('printed'))
    }
 
 
@@ -90,7 +90,8 @@ export default class Pagina extends Component {
        (this.props.thermocron.realTimeClockValue !== nextProps.thermocron.realTimeClockValue) ||
        (this.props.errors.length  === 0 && nextProps.errors.length !==0) ||
        (this.props.thermocron.deviceId === null &&
-         nextProps.thermocron.deviceId !== null)
+         nextProps.thermocron.deviceId !== null) ||
+       (this.state.loadingReadData === true || this.state.loadingWriteData === true)
      ){
        nextState.loadingWriteData = false;
        nextState.loadingReadData = false;

@@ -61,17 +61,20 @@
       "dist/",
       "node_modules/",
       "app.html",
-      "print.html",
+      "app/print.html",
+      "**/*.html",
       "main.prod.js",
       "main.prod.js.map",
       "package.json"
     ],
     "extraResources": [
       "external/**",
-      "app/assets/**"
+      "app/assets/**",
+      "app/print.html"
     ],
     "extraFiles": [
-      "external/**"
+      "external/**",
+      "app/print.html"
     ],
     "dmg": {
       "contents": [
@@ -153,10 +156,7 @@
     ],
     "transform": {
       "^.+\\.jsx?$": "babel-jest"
-    },
-    "setupFiles": [
-      "./internals/scripts/CheckBuildsExist.js"
-    ]
+    }
   },
   "devDependencies": {
     "@babel/core": "^7.7.2",

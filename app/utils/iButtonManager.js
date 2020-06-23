@@ -1,6 +1,7 @@
 const path = require('path');
 const fs = require('fs')
-const currentPath = path.resolve(__dirname);
+const electron = window.require('electron')
+const currentPath = path.join(electron.remote.app.getPath('userData'), '\\data')
 
 export async function readDemoIButtonData(options = null){
   return new Promise( function (resolve, reject) {
@@ -19,7 +20,8 @@ export async function readDemoIButtonData(options = null){
 export async function writeDemoIButtonData(options = null){
   return new Promise( function (resolve, reject) {
     try {
-      let dataBuffer = fs.readFileSync(path.join(currentPath, 'logWrite.txt'), 'utf8');
+     // let dataBuffer = fs.readFileSync(path.join(currentPath, 'logWrite.txt'), 'utf8');
+      let dataBuffer = "Initializing mission on iButton 8E0000004B393621\n";
       console.log(dataBuffer);
       resolve(readLogDeviceId(dataBuffer));
     } catch(e) {
@@ -74,9 +76,9 @@ export async function readIButtonData(options = null) {
 
     child.on('exit', code => {
       console.log(`Exit code is: ${code}`);
-      fs.writeFile(path.join(currentPath,"logData.txt"), dataBuffer, function(err) {
+      //fs.writeFile(path.join(currentPath,"logData.txt"), dataBuffer, function(err) {
 
-      });
+   //   });
       if (code === 0) {
         resolve(convertManager(dataBuffer, options));
       }
@@ -122,9 +124,9 @@ export async function writeIButtonData(options) {
 
     child.on('exit', code => {
       console.log(`Exit code is: ${code}`);
-      fs.writeFile(path.join(currentPath, "logWrite.txt"), dataBuffer, function (err) {
+    // fs.writeFile(path.join(currentPath, "logWrite.txt"), dataBuffer, function (err) {
 
-      });
+    // });
       if (code === 0) {
         resolve(readLogDeviceId(dataBuffer));
       }

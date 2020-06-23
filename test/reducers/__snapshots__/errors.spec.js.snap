@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`reducers counter should handle initial state 1`] = `1`;
+
+exports[`reducers counter should handle unknown action type 1`] = `1`;
+
+exports[`reducers errors should handle ADD_ERROR 1`] = `1`;
+
+exports[`reducers errors should handle REMOVE_ERROR 1`] = ``;
+
+exports[`reducers errors should handle initial state 1`] = `""`;
+
+exports[`reducers errors should handle unknown action type 1`] = `1`;

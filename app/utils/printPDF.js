@@ -1,5 +1,5 @@
 const {remote} = require('electron');
-const {BrowserWindow, dialog, shell} = remote;
+const {BrowserWindow, dialog, shell, app} = remote;
 const fs = require('fs');
 
 let print_win;
@@ -77,15 +77,25 @@ export async function savePDF() {
 
 }
 
-export const printRawHtml = (html, chartData, chartLabels) => {
-  const win = new BrowserWindow({ show: true, width: 695, height: 900 });
-  win.loadURL(`file://${ __dirname}/print.html?getData=${encodeURIComponent(html)}&getChartData=${encodeURIComponent(JSON.stringify(chartData))}&getChartLabels=${encodeURIComponent(JSON.stringify(chartLabels))}`);
+export const printRawHtml = async(html, chartData, chartLabels) => {
+  const path = app.getAppPath();
+
+  const win = new BrowserWindow({
+    show: true,
+   'auto-hide-menu-bar':true,
+    webPreferences: {
+      nodeIntegration: true,
+      webSecurity: false,
+      allowRunningInsecureContent: true
+    },  width: 695, height: 900 });
+
+  win.loadURL(`file://${path}/print.html?getData=${encodeURIComponent(html)}&getChartData=${encodeURIComponent(JSON.stringify(chartData))}&getChartLabels=${encodeURIComponent(JSON.stringify(chartLabels))}`);
   win.webContents.on('did-finish-load', () => {
     win.webContents.executeJavaScript(
       'setTimeout(() =>window.print(), 1000); setTimeout(() => window.close(), 2000);',
     );
   });
-};
+}
 
 export function viewPDF() {
   if (!save_pdf_path) {

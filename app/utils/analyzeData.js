@@ -65,7 +65,7 @@ export function filterParsedByDateRange(data, minTmp, maxTmp){
   for(let i in logData){
     //console.log(i);
     let m = moment(i, "YYYY-MM-DD").get('month');
-    m = m.toString();
+    m = (m+1).toString();
     if(typeof monthlyMedian[m] === 'undefined') {
       monthlyMedian[m] = 0;
       monthlyCount[m] = 0;
