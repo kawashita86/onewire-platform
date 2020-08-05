@@ -2,6 +2,7 @@ const path = require('path');
 const fs = require('fs')
 const electron = window.require('electron')
 const currentPath = path.join(electron.remote.app.getPath('userData'), '\\data')
+//const currentPathDemo = path.resolve(__dirname);
 
 export async function readDemoIButtonData(options = null){
   return new Promise( function (resolve, reject) {
@@ -76,9 +77,9 @@ export async function readIButtonData(options = null) {
 
     child.on('exit', code => {
       console.log(`Exit code is: ${code}`);
-      //fs.writeFile(path.join(currentPath,"logData.txt"), dataBuffer, function(err) {
+     // fs.writeFile(path.join(currentPathDemo,"logData.txt"), dataBuffer, function(err) {
 
-   //   });
+     // });
       if (code === 0) {
         resolve(convertManager(dataBuffer, options));
       }
