@@ -48,7 +48,7 @@ export default class PaginaNew extends Component {
         percentageUsage: Math.round(calculateAverage(dailyAverage)*100),
         logData: logData,
         logDataDaily: logDataDaily,
-        charData:  [...chartData]
+        charData:  [['',0], ...chartData]
       });
     }
 

@@ -48,6 +48,35 @@ export function filterByDateRange(data, minDate, maxDate){
   return logData;
 }
 
+export function dailyMedianByDateRange(data, minTmp, maxTmp){
+  let logData = [];
+  if(typeof data === 'undefined') return logData;
+  Object.keys(data).forEach((i) => {
+    //console.log(data[i]);
+    let validMetric = Object.values(data[i]).filter(value => value > minTmp && value < maxTmp);
+    //console.log(validMetric);
+    if(validMetric.length !== 0)
+      logData[i] = validMetric.length;
+    else
+      logData[i] = 0;
+  });
+
+  let dailyMedian = {};
+
+  for(let i in logData){
+    //console.log(i);
+    let m = moment(i, "YYYY-MM-DD").get('month');
+    let d = moment(i, "YYYY-MM-DD").get('date');
+    m = (m+1).toString();
+    if(typeof dailyMedian[m] === 'undefined') {
+      dailyMedian[m] = {};
+    }
+    dailyMedian[m][d] = logData[i];
+  }
+
+  return dailyMedian;
+}
+
 export function filterParsedByDateRange(data, minTmp, maxTmp){
   let logData = [];
   if(typeof data === 'undefined') return logData;
