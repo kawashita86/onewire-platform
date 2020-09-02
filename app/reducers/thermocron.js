@@ -1,7 +1,7 @@
 import {READ_MISSION_DATA, CLEAR_MISSION_DATA, WRITE_MISSION_DATA} from '../actions/thermocron';
 
 const defaultState = {
-  minTmp: 35,
+  minTmp: 27,
   maxTmp: 41,
  // minTmp: 21,
  // maxTmp: 26,

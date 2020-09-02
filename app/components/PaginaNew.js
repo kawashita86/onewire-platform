@@ -9,11 +9,12 @@ import Calendar from "react-calendar";
 import {Chart} from "react-charts";
 import {
   calculateAverage,
-  calculateDailyAverage,
+  calculateDailyAverage, dailyMedianByDateRange,
   filterParsedByDateRange
 } from "../utils/analyzeData";
 import ReactTable from "react-table";
 import moment from "moment";
+import DailyChart from "./UI/DailyChart";
 
 export default class PaginaNew extends Component {
 
@@ -22,12 +23,12 @@ export default class PaginaNew extends Component {
     date: new Date(),
     formattedDate: false,
     logData: [],
+    logDataDaily: {},
     percentageUsage: 0,
     chartData: []
   }
 
   changeDate = (date) => {
-    console.log('setChoosenDate', date);
     this.setState({date: date})
   }
 
@@ -39,14 +40,15 @@ export default class PaginaNew extends Component {
     if(this.props.thermocron){
       const dailyAverage = calculateDailyAverage(this.props.thermocron.parsedLog, this.props.thermocron.minTmp, this.props.thermocron.maxTmp, this.props.mission.tempoUtilizzo);
       const logData = filterParsedByDateRange(this.props.thermocron.parsedLog, this.props.thermocron.minTmp, this.props.thermocron.maxTmp);
+      const logDataDaily = dailyMedianByDateRange(this.props.thermocron.parsedLog, this.props.thermocron.minTmp, this.props.thermocron.maxTmp);
       const months = {1: "Gen", 2 : "Feb",  3 : "Mar", 4: "Apr", 5: "May",6 : "Jun",7: "Jul",8: "Aug",9: "Set",10: "Ott",11: "Nov",0: "Dec"};
       const chartData = Object.keys(logData).map((index) => [months[index], logData[index]*24]);
 
-      //const logData = filterByDateRange(this.props.thermocron.log);
       this.setState({
         percentageUsage: Math.round(calculateAverage(dailyAverage)*100),
         logData: logData,
-        charData: [['',0], ...chartData]
+        logDataDaily: logDataDaily,
+        charData:  [...chartData]
       });
     }
 
@@ -133,15 +135,15 @@ export default class PaginaNew extends Component {
                 <Col sm="12">
                   <h4 className={styles.titolettiPagine} data-tclass='titolettiPagine'>Grafico media mensile</h4>
                   {this.state.activeTab === '2' &&
+                    <>
                   <div
                     style={{
                       width: '400px',
-                      height: '300px'
+                      height: '250px'
                     }}
                   >
                     <Chart
                       series={{
-                        showPoints: false,
                         type: 'bar'
                       }}
                       data={[
@@ -151,10 +153,14 @@ export default class PaginaNew extends Component {
                         }
                       ]}
                       axes={[
-                        { primary: true, type: 'ordinal', position: 'bottom' },
-                        { position: 'left', type: 'linear', stacked: false }
-                      ]}/>
+                        { primary: true, type: 'ordinal', position: 'bottom', tickPadding : 0 },
+                        { position: 'left', type: 'linear', stacked: false, hardMax: 24, hardMin: 0 }
+                      ]}
+                      tooltip />
                   </div>
+                      <h4 className={styles.titolettiPagine} data-tclass='titolettiPagine'>Grafico media giornaliera</h4>
+                      <DailyChart series={Object.keys(this.state.logData).length} data={this.state.logDataDaily}/>
+                  </>
                   }
                 </Col>
               </Row>
