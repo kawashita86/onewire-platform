@@ -17,6 +17,7 @@
   "dependencies": {
     "moment": "^2.24.0",
     "sqlite3": "^4.1.1",
-    "typeorm": "0.2.17"
+    "typeorm": "0.2.17",
+    "usb-detection": "^4.10.0"
   }
 }

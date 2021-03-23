@@ -45,6 +45,26 @@ a:hover {
 Form {
   width: 100%;
 }
+.open-button {
+  position: absolute;
+  top: 7px;
+  right: 7px;
+  width: 25px;
+  height: 25px;
+  background: #fff;
+  pointer-events: none;
+}
+
+.open-button button {
+  border: none;
+  background: transparent;
+}
+
+.sd-container {
+  position: relative;
+}
+
+
 
 .react-calendar {
   width: 750px;
@@ -129,6 +149,7 @@ Form {
 }
 .react-calendar__tile:disabled {
   background-color: lightcyan;
+  opacity: 0.4;
 }
 .react-calendar__tile:enabled:hover,
 .react-calendar__tile:enabled:focus {

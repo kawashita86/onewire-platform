@@ -155,7 +155,12 @@ export default class Pagina extends Component {
             <Form>
               <FormGroup>
                 <Label for="dataInizio">Data inizio</Label>
-                <Input type="text" name="dataInizio" id="dataInizio" placeholder="Data inizio" defaultValue={startDate}/>
+                <div className="sd-container">
+                  <Input type="date" name="dataInizio" id="dataInizio" placeholder="Data inizio" defaultValue={startDate}/>
+                  <span className="open-button">
+                    <button type="button">📅</button>
+                  </span>
+                </div>
               </FormGroup>
             </Form>
           </div>
@@ -164,7 +169,12 @@ export default class Pagina extends Component {
             <Form>
               <FormGroup>
                 <Label for="dataFine">Data fine</Label>
-                <Input type="text" name="dataFine" id="dataFine" placeholder="Data fine" defaultValue={endDate} />
+                <div className="sd-container">
+                  <Input type="date" name="dataFine" id="dataFine" placeholder="Data fine" defaultValue={endDate} />
+                  <span className="open-button">
+                    <button type="button">📅</button>
+                  </span>
+                </div>
               </FormGroup>
             </Form>
           </div>

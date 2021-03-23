@@ -15,8 +15,9 @@ export function readMissionData() {
   return async (dispatch, getState) => {
       //we must use an async read through java children to get info
     try {
-      let result = await readIButtonData(); //readDemoIButtonData
-//      result.log =  await readIButtonData('l');
+      const thermocron = getState().thermocron;
+
+      let result = thermocron.demo ? await readDemoIButtonData() : await readIButtonData();
       if(typeof result.deviceId === 'undefined'){
         dispatch({
           type: ADD_ERROR,
@@ -52,7 +53,8 @@ export function writeMissionData() {
   return async(dispatch, getState) => {
     try {
       const mission = getState().mission;
-      let result = await writeIButtonData();  //writeIButtonData
+      const thermocron = getState().thermocron;
+      let result =  thermocron.demo ? await writeDemoIButtonData() : await writeIButtonData();
       if(typeof result.lastMissionStarted === "undefined")
         result.lastMissionStarted = new Date().toString();
 

@@ -2,15 +2,18 @@ const path = require('path');
 const fs = require('fs')
 const electron = window.require('electron')
 const currentPath = path.join(electron.remote.app.getPath('userData'), '\\data')
+const log = require('electron-log')
 //const currentPathDemo = path.resolve(__dirname);
 
 export async function readDemoIButtonData(options = null){
   return new Promise( function (resolve, reject) {
     try {
+      log.info('readDemoIButtonData')
+
       let dataBuffer = fs.readFileSync(path.join(currentPath, 'logData.txt'), 'utf8');
       resolve(convertManager(dataBuffer, options));
     } catch(e) {
-      console.log('Error:', e.stack);
+      log.error(e.stack)
       reject({
         error: e.message
       })
@@ -23,7 +26,7 @@ export async function writeDemoIButtonData(options = null){
     try {
      // let dataBuffer = fs.readFileSync(path.join(currentPath, 'logWrite.txt'), 'utf8');
       let dataBuffer = "Initializing mission on iButton 8E0000004B393621\n";
-      console.log(dataBuffer);
+      log.info(dataBuffer);
       resolve(readLogDeviceId(dataBuffer));
     } catch(e) {
       console.log('Error:', e.stack);
@@ -53,6 +56,7 @@ export async function readIButtonData(options = null) {
 
 
   return new Promise(async function (resolve, reject) {
+    log.info('connecting to java bridge')
     const child = require('child_process').spawn(process.env.ComSpec, ['/c', 'run_dumpMission.bat', options],
       {
         cwd: resourcePath
@@ -70,6 +74,7 @@ export async function readIButtonData(options = null) {
 
     child.on('error', function (err) {
       // *** Process creation failed
+      log.info(err.message)
       reject({
         error: err
       });
@@ -77,7 +82,9 @@ export async function readIButtonData(options = null) {
 
     child.on('exit', code => {
       console.log(`Exit code is: ${code}`);
-     // fs.writeFile(path.join(currentPathDemo,"logData.txt"), dataBuffer, function(err) {
+      log.info(`Exit code is: ${code}`)
+      log.info(dataBuffer)
+      // fs.writeFile(path.join(currentPathDemo,"logData.txt"), dataBuffer, function(err) {
 
      // });
       if (code === 0) {
