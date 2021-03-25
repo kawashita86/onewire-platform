@@ -20,7 +20,7 @@ const defaultState = {
   readDelay: 0,
   log: [],
   parsedLog: [],
-  demo: true
+  demo: false
 }
 
 export default function thermocron(state = defaultState, action) {

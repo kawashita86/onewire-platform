@@ -8,6 +8,7 @@ import {bindActionCreators} from "redux";
 import {clearError} from "../actions/errors";
 import {DEVICE_NAME} from "../constants/app";
 import log from 'electron-log';
+import {adapterConnected, adapterRemoved} from "../actions/app";
 let usbDetect = require('usb-detection');
 
 
@@ -16,30 +17,40 @@ export class Root extends Component {
     //create a recurring function that check for connected device onto the app
     usbDetect.startMonitoring();
     let devicePid;
-    usbDetect.find(function(err, devices) {
+    usbDetect.find((err, devices) =>{
       log.info('find', devices, err);
-      let deviceFound = devices.filter((device) =>{
-        return device.deviceName.indexOf(DEVICE_NAME)  !== -1;
-      })
-      if(!deviceFound){
-      } else {
-        document.title += ' '+deviceFound[0].serialNumber;
-        devicePid = deviceFound[0].productId;
-      }
+      devices.filter((device) =>{
+        if(device.deviceName.indexOf(DEVICE_NAME)  !== -1){
+          this.props.adapterConnected();
+          return true;
+        }
+      });
     });
-    usbDetect.on('add', function(device) {
+    usbDetect.on('add', (device) =>{
       log.info('add', device);
       if(device.deviceName.indexOf(DEVICE_NAME) !== -1){
-        document.title += ' '+device.productId;
-        devicePid = device.productId;
+        this.props.adapterConnected();
+        return true;
       }
     });
-    usbDetect.on('remove', function(device) {
+
+    usbDetect.on('remove', (device) => {
       log.info('remove', device);
-      if(devicePid && device.productId === devicePid){
-        devicePid = null;
-        document.title.replace(' '+device.serialNumber, '');
-      }});
+      if (device.deviceName.indexOf(DEVICE_NAME) !== -1) {
+        this.props.adapterRemoved();
+        return true;
+      }
+    });
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    //change page title accordigly to update status on usb device
+    if(prevProps.app.adapterConnected === true && this.props.app.adapterConnected === false){
+      //device disconnnected
+      document.title = 'TIMon - nessun connettore USB trovato'
+    } else if (prevProps.app.adapterConnected === false && this.props.app.adapterConnected === true){
+      document.title = 'TIMon - connettore USB presente'
+    }
   }
 
   componentWillUnmount() {
@@ -69,11 +80,14 @@ export class Root extends Component {
 export default connect(
   state => ({
     error: state.errors,
+    app: state.app
   }),
   dispatch => {
     return bindActionCreators(
       {
         clearError,
+        adapterConnected,
+        adapterRemoved
       }, dispatch);
   }
 )(Root);

@@ -1,16 +1,16 @@
 import { combineReducers } from 'redux';
 import { connectRouter } from 'connected-react-router';
-import counter from './counter';
 import thermocron from './thermocron';
 import mission from './mission';
 import errors from './errors';
+import app from "./app";
 
 export default function createRootReducer(history) {
   return combineReducers({
     router: connectRouter(history),
-    counter,
     thermocron,
     mission,
-    errors
+    errors,
+    app,
   });
 }
