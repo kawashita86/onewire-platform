@@ -1,7 +1,7 @@
 import {DEVICE_ADDED, DEVICE_REMOVED, ADAPTER_CONNECTED, ADAPTER_REMOVED, DEVICE_SELECTED} from "../actions/app";
 
 const defaultState = {
-  demo: null,
+  demo: true,
   adapterConnected: false ,
   deviceList: null,
   selectedDevice: null,

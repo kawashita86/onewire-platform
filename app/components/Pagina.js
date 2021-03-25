@@ -9,12 +9,10 @@ import {printRawHtml} from "../utils/printPDF";
 import {convertDate} from "../utils/iButtonManager";
 import {calculateAverage, calculateDailyAverage, filterParsedByDateRange} from "../utils/analyzeData";
 import {Spinner} from "./UI/Spinner";
-//import PrintCertificate from "./UI/PrintCertificate";
+import DeviceList from "./DeviceList";
 const smalltalk = require('smalltalk');
 
 export default class Pagina extends Component {
-
-
 
    constructor(props) {
      super(props);
@@ -23,10 +21,7 @@ export default class Pagina extends Component {
        loadingWriteData: false,
        loadingReadData: false
      }
-
    }
-
-
 
    startMission(){
      //check for error in field name/tempo impiego to set error message
@@ -119,6 +114,10 @@ export default class Pagina extends Component {
       <div className={'container'} data-tid="container">
 
         <div className="container" style={{width:'400px'}}>
+
+          <div className="row">
+            <DeviceList selectDevice={this.props.selectDevice} deviceList={this.props.app.deviceList}/>
+          </div>
 
           <div className="row">
               <Form>

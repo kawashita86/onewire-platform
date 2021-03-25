@@ -19,8 +19,7 @@ const defaultState = {
   rolloverEnabled: 'NO',
   readDelay: 0,
   log: [],
-  parsedLog: [],
-  demo: false
+  parsedLog: []
 }
 
 export default function thermocron(state = defaultState, action) {
