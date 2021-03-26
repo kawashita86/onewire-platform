@@ -3,7 +3,57 @@ const fs = require('fs')
 const electron = window.require('electron')
 const currentPath = path.join(electron.remote.app.getPath('userData'), '\\data')
 const log = require('electron-log')
-//const currentPathDemo = path.resolve(__dirname);
+
+function checkExternalPath(){
+  let resourcePath = '';
+  let checkExtResource = fs.existsSync(path.join(process.resourcesPath, 'external'));
+  let checkIntResource = fs.existsSync(path.join(__dirname , '..', 'external'));
+  if(checkExtResource){
+    resourcePath = path.join(process.resourcesPath, 'external');
+  }
+  if(checkIntResource){
+    resourcePath = path.join(__dirname , '..', 'external');
+  }
+
+  return resourcePath;
+}
+
+async function readFromShellInvoke(scriptName, options, success, error){
+  let resourcePath = checkExternalPath();
+
+  return new Promise(async function (resolve, reject) {
+    log.info('connecting to java bridge for '+scriptName);
+    const child = require('child_process').spawn(process.env.ComSpec, ['/c', scriptName, options],
+      {
+        cwd: resourcePath
+      });
+    let dataBuffer = '';
+    for await(const data of child.stdout) {
+      dataBuffer += data.toString();
+    }
+
+    for await(const data of child.stderr) {
+      dataBuffer += data.toString();
+    }
+
+    child.on('error', function (err) {
+      // *** Process creation failed
+      log.info(err.message)
+      reject({
+        error: err
+      });
+    });
+
+    child.on('exit', code => {
+      log.info(`Exit code is: ${code}`)
+      log.info(dataBuffer)
+      if (code === 0) {
+        resolve(success(dataBuffer, options));
+      }
+      reject(dataBuffer);
+    });
+  });
+}
 
 export async function readDemoIButtonData(options = null){
   return new Promise( function (resolve, reject) {
@@ -38,108 +88,51 @@ export async function writeDemoIButtonData(options = null){
 }
 
 
+export async function findIButtonDemo(options = null) {
+  return new Promise( function (resolve, reject) {
+    try {
+      // let dataBuffer = fs.readFileSync(path.join(currentPath, 'logWrite.txt'), 'utf8');
+      let dataBuffer = "Initializing mission on iButton 8E0000004B393621\n";
+      log.info(dataBuffer);
+      resolve(readDeviceList(dataBuffer));
+    } catch(e) {
+      console.log('Error:', e.stack);
+      reject({
+        error: e.message
+      })
+    }
+  });
+
+}
+
 /**
  * Function to read data from an iButton device using java api
  * options : [a: violation of history ,h: histogram for the mission,l: log of data registered,k: kill mission and get data,s: get data and stop mission]
  */
 export async function readIButtonData(options = null) {
   //java -classpath OneWireAPI.jar;%classpath% dumpMission %1 %2
-  var resourcePath = '';
-  var checkExtResource = fs.existsSync(path.join(process.resourcesPath, 'external'));
-  var checkIntResource = fs.existsSync(path.join(__dirname , '..', 'external'));
-  if(checkExtResource){
-    resourcePath = path.join(process.resourcesPath, 'external');
-  }
-  if(checkIntResource){
-    resourcePath = path.join(__dirname , '..', 'external');
-  }
-
-
-  return new Promise(async function (resolve, reject) {
-    log.info('connecting to java bridge')
-    const child = require('child_process').spawn(process.env.ComSpec, ['/c', 'run_dumpMission.bat', options],
-      {
-        cwd: resourcePath
-      });
-    let dataBuffer = '';
-    for await(const data of child.stdout) {
-      //console.log(data.toString());
-      dataBuffer += data.toString();
-    }
-
-    for await(const data of child.stderr) {
-      //console.log(data.toString());
-      dataBuffer += data.toString();
-    }
-
-    child.on('error', function (err) {
-      // *** Process creation failed
-      log.info(err.message)
-      reject({
-        error: err
-      });
-    });
-
-    child.on('exit', code => {
-      console.log(`Exit code is: ${code}`);
-      log.info(`Exit code is: ${code}`)
-      log.info(dataBuffer)
-      // fs.writeFile(path.join(currentPathDemo,"logData.txt"), dataBuffer, function(err) {
-
-     // });
-      if (code === 0) {
-        resolve(convertManager(dataBuffer, options));
-      }
-      reject(dataBuffer);
-    });
+  return await readFromShellInvoke('run_dumpMission.bat', options, (dataBuffer, options) => {
+    convertManager(dataBuffer, options)
   });
 }
 
+/**
+ * Function to start a new mission on a iButton device using java api
+ * @param options
+ * @returns {Promise<unknown>}
+ */
 export async function writeIButtonData(options) {
-  var resourcePath = '';
-  var checkExtResource = fs.existsSync(path.join(process.resourcesPath, 'external'));
-  var checkIntResource = fs.existsSync(path.join(__dirname , '..', 'external'));
-  if(checkExtResource){
-    resourcePath = path.join(process.resourcesPath, 'external');
-  }
-  if(checkIntResource){
-    resourcePath = path.join(__dirname , '..', 'external');
-  }
-  return new Promise(async function (resolve, reject) {
+  //java -classpath OneWireAPI.jar;%classpath% initMission %1 %2
+  return await readFromShellInvoke('run_initMission.bat < inputData.txt', options, (dataBuffer, options) => {
+    readLogDeviceId(dataBuffer, options)
+  });
+}
 
-    const child = require('child_process').spawn(process.env.ComSpec, ['/c', 'run_initMission.bat < inputData.txt'],
-      {
-        cwd: resourcePath
-      });
 
-    let dataBuffer = '';
-    for await(const data of child.stdout) {
-      //console.log(data.toString());
-      dataBuffer += data.toString();
-    }
-
-    for await(const data of child.stderr) {
-      //console.log(data.toString());
-      dataBuffer += data.toString();
-    }
-
-    child.on('error', function (err) {
-      // *** Process creation failed
-      reject({
-        error: err
-      });
-    });
-
-    child.on('exit', code => {
-      console.log(`Exit code is: ${code}`);
-    // fs.writeFile(path.join(currentPath, "logWrite.txt"), dataBuffer, function (err) {
-
-    // });
-      if (code === 0) {
-        resolve(readLogDeviceId(dataBuffer));
-      }
-      reject(dataBuffer);
-    });
+export async function findIButton(options = null) {
+  //java -classpath OneWireAPI.jar;%classpath% initMission %1 %2
+  return await readFromShellInvoke('run_findIButton.bat', options, (dataBuffer, options) => {
+    readDeviceList(dataBuffer, options);
   });
 }
 
@@ -276,4 +269,8 @@ function getLabelFromKey(key){
     default:
      return null;
   }
+}
+
+function readDeviceList(dataBuffer, options) {
+  //read deviceList from java and create list
 }
