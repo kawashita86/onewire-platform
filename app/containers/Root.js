@@ -47,9 +47,9 @@ export class Root extends Component {
     //change page title accordigly to update status on usb device
     if(prevProps.app.adapterConnected === true && this.props.app.adapterConnected === false){
       //device disconnnected
-      document.title = 'TIMon - nessun connettore USB trovato'
+      document.title = 'TIMon - 1-Wire USB connector non trovato'
     } else if (prevProps.app.adapterConnected === false && this.props.app.adapterConnected === true){
-      document.title = 'TIMon - connettore USB presente'
+      document.title = 'TIMon - 1-Wire USB connector collegato'
     }
   }
 

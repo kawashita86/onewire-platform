@@ -1,1 +1,1 @@
-export const DEVICE_NAME = 'Dispositivo di input';
+export const DEVICE_NAME = '1-Wire';

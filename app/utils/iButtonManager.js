@@ -92,9 +92,28 @@ export async function findIButtonDemo(options = null) {
   return new Promise( function (resolve, reject) {
     try {
       // let dataBuffer = fs.readFileSync(path.join(currentPath, 'logWrite.txt'), 'utf8');
-      let dataBuffer = "Initializing mission on iButton 8E0000004B393621\n";
-      log.info(dataBuffer);
-      resolve(readDeviceList(dataBuffer));
+      let adapter = 'DS12110/USB';
+      let devices = [
+        {
+          name: 'Thermocron1',
+          address: '8E0000004B393621',
+          description: 'Button for analysis of temperature'
+        },
+        {
+          name: 'Thermocron2',
+          address: '8E0000004B393622',
+          description: 'Button for analysis of temperature'
+        }
+      ];
+      let dataBuffer = "Adapter/Port\tiButton Type and ID\t\tDescription\n";
+      dataBuffer += "----------------------------------------------------------------\n";
+      for(let ibutton of devices){
+        dataBuffer +=   adapter + "\t"
+          + ibutton.name + "\t"
+          + ibutton.address + "\t"
+          + ibutton.description.substring(0, 25) + "...\n";
+      }
+      resolve(readDeviceList(dataBuffer, options));
     } catch(e) {
       console.log('Error:', e.stack);
       reject({
@@ -272,5 +291,25 @@ function getLabelFromKey(key){
 }
 
 function readDeviceList(dataBuffer, options) {
-  //read deviceList from java and create list
+  /**
+   * "Adapter/Port\tiButton Type and ID\t\tDescription"
+   */
+  /**                        adapter.getAdapterName() + "/" + port_name + "\t"
+   + ibutton.getName() + "\t"
+   + ibutton.getAddressAsString() + "\t"
+   + ibutton.getDescription().substring(0, 25) + "..."); */
+  let rowEntry = dataBuffer.split(/\r?\n/);
+  return rowEntry.reduce((result, innerRow) => {
+    let components = innerRow.split('\t');
+    if(components.length > 1 && components[0] !== "Adapter/Port"){
+      //create the object of the adapter to return
+      return result.concat({
+        adapterDetail: components[0],
+        name: components[1],
+        address: components[2],
+        description: components[3]
+      });
+    }
+    return result;
+  }, []);
 }

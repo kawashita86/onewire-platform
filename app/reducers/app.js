@@ -1,7 +1,7 @@
-import {DEVICE_ADDED, DEVICE_REMOVED, ADAPTER_CONNECTED, ADAPTER_REMOVED, DEVICE_SELECTED} from "../actions/app";
+import {DEVICE_ADDED, DEVICE_REMOVED, ADAPTER_CONNECTED, ADAPTER_REMOVED, DEVICE_SELECTED, DEVICES_ADDED} from "../actions/app";
 
 const defaultState = {
-  demo: true,
+  demo: false,
   adapterConnected: false ,
   deviceList: null,
   selectedDevice: null,
@@ -10,6 +10,11 @@ const defaultState = {
 
 export default function app(state = defaultState, action) {
   switch (action.type) {
+    case DEVICES_ADDED:
+      return {
+        ...state,
+        deviceList: action.payload
+      }
     case DEVICE_ADDED:
       return {
         ...state,

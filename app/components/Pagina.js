@@ -94,6 +94,21 @@ export default class Pagina extends Component {
      return true;
    }
 
+   componentDidMount() {
+     //at the start we check if adapter connected and request for device list
+     if(this.props.app.adapterConnected === true){
+       console.log('retrieveDeviceList');
+       this.props.retrieveDeviceList();
+     }
+   }
+
+   componentDidUpdate(prevProps, prevState, snapshot) {
+     if(this.props.app.adapterConnected === true && prevProps.app.adapterConnected === false){
+       console.log('retrieveDeviceList');
+       this.props.retrieveDeviceList();
+     }
+   }
+
   render() {
     const {thermocron, setNomePaziente, mission, setTempoUtilizzo} = this.props;
     let startDate = '', endDate = '';
@@ -116,7 +131,11 @@ export default class Pagina extends Component {
         <div className="container" style={{width:'400px'}}>
 
           <div className="row">
-            <DeviceList selectDevice={this.props.selectDevice} deviceList={this.props.app.deviceList}/>
+            <DeviceList
+              selectedDevice={this.props.app.selectedDevice}
+              selectDevice={this.props.selectDevice}
+              deviceList={this.props.app.deviceList}
+              retrieveDeviceList={this.props.retrieveDeviceList}/>
           </div>
 
           <div className="row">
