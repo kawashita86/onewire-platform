@@ -105,14 +105,21 @@ export async function findIButtonDemo(options = null) {
           description: 'Button for analysis of temperature'
         }
       ];
-      let dataBuffer = "Adapter/Port\tiButton Type and ID\t\tDescription\n";
-      dataBuffer += "----------------------------------------------------------------\n";
-      for(let ibutton of devices){
-        dataBuffer +=   adapter + "\t"
-          + ibutton.name + "\t"
-          + ibutton.address + "\t"
-          + ibutton.description.substring(0, 25) + "...\n";
-      }
+      let dataBuffer = "FindiButtonsConsole Java console application: Version 2.00\n" +
+        "\n" +
+        "Adapter/Port\tiButton Type and ID\t\tDescription\n" +
+        "----------------------------------------------------------------\n" +
+        "C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\javapath;C:\\Windows\\Sun\\Java\\bin;C:\\Windows\\system32;C:\\Windows;C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\javapath;C:\\Windows\\system32;C:\\Windows;C:\\Windows\\System32\\Wbem;C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\;C:\\Windows\\System32\\OpenSSH\\;C:\\Program Files\\NVIDIA Corporation\\NVIDIA NvDLISR;C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common;C:\\Users\\gabri\\AppData\\Local\\Microsoft\\WindowsApps;;.\n" +
+        "\n" +
+        "\n" +
+        "{DS9490}/USB1\tDS1990A\t6100000039D8E381\t64-bit unique serial numb...\n" +
+        "{DS9490}/USB1\tDS1921G-F5\t8E0000004B393621\tRugged, self-sufficient 1...\n" +
+        "{DS9490}/USB1\tDS1921Z-F5\tE33B200003163521\tRugged, self-sufficient 1...\n" +
+        "{DS9490}/USB2\tDS1990A\t6100000039D8E381\t64-bit unique serial numb...\n" +
+        "{DS9490}/USB2\tDS1921G-F5\t8E0000004B393621\tRugged, self-sufficient 1...\n" +
+        "{DS9490}/USB2\tDS1921Z-F5\tE33B200003163521\tRugged, self-sufficient 1...\n" +
+        "\n" +
+        "\n";
       resolve(readDeviceList(dataBuffer, options));
     } catch(e) {
       console.log('Error:', e.stack);
@@ -131,7 +138,7 @@ export async function findIButtonDemo(options = null) {
 export async function readIButtonData(options = null) {
   //java -classpath OneWireAPI.jar;%classpath% dumpMission %1 %2
   return await readFromShellInvoke('run_dumpMission.bat', options, (dataBuffer, options) => {
-    convertManager(dataBuffer, options)
+    return convertManager(dataBuffer, options)
   });
 }
 
@@ -143,7 +150,7 @@ export async function readIButtonData(options = null) {
 export async function writeIButtonData(options) {
   //java -classpath OneWireAPI.jar;%classpath% initMission %1 %2
   return await readFromShellInvoke('run_initMission.bat < inputData.txt', options, (dataBuffer, options) => {
-    readLogDeviceId(dataBuffer, options)
+    return readLogDeviceId(dataBuffer, options)
   });
 }
 
@@ -151,7 +158,7 @@ export async function writeIButtonData(options) {
 export async function findIButton(options = null) {
   //java -classpath OneWireAPI.jar;%classpath% initMission %1 %2
   return await readFromShellInvoke('run_findIButton.bat', options, (dataBuffer, options) => {
-    readDeviceList(dataBuffer, options);
+    return readDeviceList(dataBuffer, options);
   });
 }
 
@@ -304,7 +311,7 @@ function readDeviceList(dataBuffer, options) {
     if(components.length > 1 && components[0] !== "Adapter/Port"){
       //create the object of the adapter to return
       return result.concat({
-        adapterDetail: components[0],
+        adapterDetail: components[0].replace('/', '_'),
         name: components[1],
         address: components[2],
         description: components[3]

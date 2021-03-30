@@ -16,7 +16,7 @@ export const DeviceList = (props) => {
             <select defaultValue={props.selectedDevice} className="form-control" name="deviceList" onChange={(e) => props.selectDevice(e.target.value)}>
                 {props.deviceList && props.deviceList.map((device)=>{
                   return <option
-                      key={device.address} value={device.address}>{device.name} - {device.description}</option>
+                      key={device.adapterDetail+'-'+device.address} value={device.adapterDetail+'-'+device.address}>{device.name} - {device.description}</option>
                 })}
             </select>
              <InputGroupAddon addonType="append">
