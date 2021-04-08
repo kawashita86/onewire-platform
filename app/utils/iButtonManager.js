@@ -309,6 +309,10 @@ function readDeviceList(dataBuffer, options) {
   return rowEntry.reduce((result, innerRow) => {
     let components = innerRow.split('\t');
     if(components.length > 1 && components[0] !== "Adapter/Port"){
+      //check if address already exists for one port:
+      let alreadyExists = result.filter(x => x.address === components[2]);
+      if(alreadyExists.length !== 0 || components[3].indexOf('64-bit unique serial') !== -1)
+        return result;
       //create the object of the adapter to return
       return result.concat({
         adapterDetail: components[0].replace('/', '_'),

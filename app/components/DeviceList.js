@@ -6,7 +6,7 @@ export const DeviceList = (props) => {
     const retrieveDevices = () => {
       setLoadingState(true);
       props.retrieveDeviceList();
-      setTimeout(() => setLoadingState(false), 750);
+      setTimeout(() => setLoadingState(false), 2000);
     }
     return (
       props.deviceList && props.deviceList.length !== 0 ?
@@ -16,7 +16,7 @@ export const DeviceList = (props) => {
             <select defaultValue={props.selectedDevice} className="form-control" name="deviceList" onChange={(e) => props.selectDevice(e.target.value)}>
                 {props.deviceList && props.deviceList.map((device)=>{
                   return <option
-                      key={device.adapterDetail+'-'+device.address} value={device.adapterDetail+'-'+device.address}>{device.name} - {device.description}</option>
+                      key={device.adapterDetail+'_'+device.address} value={device.adapterDetail+'_'+device.address}>{device.name} - {device.description}</option>
                 })}
             </select>
              <InputGroupAddon addonType="append">

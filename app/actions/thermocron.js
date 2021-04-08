@@ -16,7 +16,7 @@ export function readMissionData() {
       //we must use an async read through java children to get info
     try {
       const app = getState().app;
-      const deviceAddress = app.selectedDevice ? app.selectedDevice.split('-')[0] : null;
+      const deviceAddress = app.selectedDevice ? app.selectedDevice : null;
 
       let result = app.demo ? await readDemoIButtonData() : await readIButtonData(deviceAddress);
       if(typeof result.deviceId === 'undefined'){
