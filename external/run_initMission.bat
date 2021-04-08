@@ -1,3 +1,3 @@
 @echo off
 @echo Starting initMission...
-java -classpath OneWireAPI.jar;%classpath% initMission %1 %2
+java -classpath OneWireAPI.jar;%classpath% initMissionWithAddress %1 %2

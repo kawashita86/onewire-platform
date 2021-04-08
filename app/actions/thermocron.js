@@ -55,7 +55,8 @@ export function writeMissionData() {
     try {
       const mission = getState().mission;
       const app = getState().app;
-      let result =  app.demo ? await writeDemoIButtonData() : await writeIButtonData();
+      const deviceAddress = app.selectedDevice ? app.selectedDevice : null;
+      let result =  app.demo ? await writeDemoIButtonData() : await writeIButtonData(deviceAddress);
       if(typeof result.lastMissionStarted === "undefined")
         result.lastMissionStarted = new Date().toString();
 
