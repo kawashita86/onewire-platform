@@ -1,4 +1,5 @@
 import {READ_MISSION_DATA, CLEAR_MISSION_DATA, WRITE_MISSION_DATA} from '../actions/thermocron';
+import {CONFIGURATION_FETCHED} from "../actions/thermocron";
 
 const defaultState = {
   minTmp: 35,
@@ -40,6 +41,12 @@ export default function thermocron(state = defaultState, action) {
       };
     case CLEAR_MISSION_DATA:
       return defaultState;
+    case CONFIGURATION_FETCHED:
+      return {
+        ...state,
+        minTmp: action.payload.minTmp,
+        maxTmp: action.payload.maxTmp,
+      }
     default:
       return state;
   }

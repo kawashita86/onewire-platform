@@ -1,5 +1,6 @@
 import {createConnection} from "typeorm";
 var User = require("../model/User");
+var Configuration = require("../model/Configuration");
 
 const electron = window.require('electron')
 const path = electron.remote.require('path')
@@ -13,7 +14,8 @@ const options = {
   "logger": "simple-console",
   "database": sqlitePath,
   "entities": [
-    User
+    User,
+    Configuration
   ]
 };
 
@@ -64,4 +66,29 @@ export const getAll = async () => {
   return connection
     .getRepository(User)
     .findAll();
+}
+
+export const getConfiguration = async(id) => {
+  await initConnection();
+  return await connection
+    .getRepository(Configuration)
+    .findWhere({ id: id});
+}
+
+export const addConfiguration = async(data) => {
+  try {
+    await initConnection();
+    console.log('addConfiguration');
+
+    const configurationEntity = {
+      id : 1,
+      minTmp : data.minTmp,
+      maxTmp : data.maxTmp,
+      demo : data.demo || false
+    }
+
+    return connection.getRepository(Configuration).save(configurationEntity);
+  } catch(error){
+    console.log("Error: ", error)
+  }
 }

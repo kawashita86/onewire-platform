@@ -8,11 +8,12 @@ import {bindActionCreators} from "redux";
 import {clearError} from "../actions/errors";
 import {DEVICE_NAME} from "../constants/app";
 import log from 'electron-log';
-import {adapterConnected, adapterRemoved} from "../actions/app";
+import {adapterConnected, adapterRemoved, fetchConfiguration} from "../actions/app";
 let usbDetect = require('usb-detection');
 
 
 export class Root extends Component {
+
   componentDidMount() {
     //create a recurring function that check for connected device onto the app
     usbDetect.startMonitoring();
@@ -41,6 +42,7 @@ export class Root extends Component {
         return true;
       }
     });
+    this.props.fetchConfiguration();
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
@@ -87,7 +89,8 @@ export default connect(
       {
         clearError,
         adapterConnected,
-        adapterRemoved
+        adapterRemoved,
+        fetchConfiguration
       }, dispatch);
   }
 )(Root);

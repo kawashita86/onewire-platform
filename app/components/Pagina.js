@@ -10,6 +10,7 @@ import {convertDate} from "../utils/iButtonManager";
 import {calculateAverage, calculateDailyAverage, filterParsedByDateRange} from "../utils/analyzeData";
 import {Spinner} from "./UI/Spinner";
 import DeviceList from "./DeviceList";
+import Header from "./UI/Header";
 const smalltalk = require('smalltalk');
 
 export default class Pagina extends Component {
@@ -123,9 +124,7 @@ export default class Pagina extends Component {
 
     return (
       <>
-        <h1 className={styles.titoloApp} data-tclass='titoloApp'>T.<img width='45px' height='55px' src={ path.join(process.resourcesPath,'app','assets','Timon.png')}/>.Mon ©</h1>
-        <h4 className={styles.titolettiPagine} data-tclass='titolettiPagine'>Thermo Index Monitoring</h4>
-
+      <Header/>
       <div className={'container'} data-tid="container">
 
         <div className="container" style={{width:'400px'}}>

@@ -25,11 +25,12 @@ export default class PaginaNew extends Component {
     logData: [],
     logDataDaily: {},
     percentageUsage: 0,
-    chartData: []
+    chartData: [],
+    tablePage: 0
   }
 
   changeDate = (date) => {
-    this.setState({date: date})
+    this.setState({date: date, tablePage: 0})
   }
 
   toggle = tab => {
@@ -201,6 +202,8 @@ export default class PaginaNew extends Component {
                         desc: false
                       }
                     ]}
+                    page={this.state.tablePage}
+                    onPageChange={page => this.setState({tablePage:page})}
                     defaultPageSize={10}
                     getTrProps={(state, rowInfo, column) => {
                       if(typeof rowInfo === 'undefined'){

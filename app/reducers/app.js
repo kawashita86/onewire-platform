@@ -1,11 +1,18 @@
-import {DEVICE_ADDED, DEVICE_REMOVED, ADAPTER_CONNECTED, ADAPTER_REMOVED, DEVICE_SELECTED, DEVICES_ADDED} from "../actions/app";
+import {
+  DEVICE_ADDED,
+  DEVICE_REMOVED,
+  ADAPTER_CONNECTED,
+  ADAPTER_REMOVED,
+  DEVICE_SELECTED,
+  DEVICES_ADDED,
+  CONFIGURATION_FETCHED
+} from "../actions/app";
 
 const defaultState = {
   demo: false,
   adapterConnected: false ,
   deviceList: null,
   selectedDevice: null,
-
 }
 
 export default function app(state = defaultState, action) {
@@ -35,6 +42,11 @@ export default function app(state = defaultState, action) {
       return {
         ...state,
         selectedDevice: action.payload
+      }
+    case CONFIGURATION_FETCHED:
+      return {
+        ...state,
+        demo: action.payload.demo
       }
     default:
       return state;

@@ -1,5 +1,5 @@
 import {readIButtonData, readDemoIButtonData, writeIButtonData, writeDemoIButtonData} from "../utils/iButtonManager";
-import {addUser, getAll, getUser} from "../utils/StorageAPI";
+import {addUser, getUser} from "../utils/StorageAPI";
 import {SET_DATA} from "./mission";
 import {ADD_ERROR, REMOVE_ERROR} from "../reducers/errors";
 
@@ -9,6 +9,7 @@ export const CLEAR_MISSION_DATA = 'CLEAR_MISSION_DATA';
 export const WRITE_MISSION_DATA = 'WRITE_MISSION_DATA';
 export const DATA_OK = 'DATA_OK';
 export const DATA_KO = 'DATA_KO';
+export const CONFIGURATION_FETCHED = 'CONFIGURATION_FETCHED';
 
 
 export function readMissionData() {
@@ -56,7 +57,7 @@ export function writeMissionData() {
       const mission = getState().mission;
       const app = getState().app;
       const deviceAddress = app.selectedDevice ? app.selectedDevice : null;
-      let result =  app.demo ? await writeDemoIButtonData() : await writeIButtonData(deviceAddress);
+      let result =  app.demo ? await writeDemoIButtonData() : await writeIButtonData(deviceAddress+' l');
       if(typeof result.lastMissionStarted === "undefined")
         result.lastMissionStarted = new Date().toString();
 
