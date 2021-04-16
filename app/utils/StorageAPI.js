@@ -72,19 +72,19 @@ export const getConfiguration = async(id) => {
   await initConnection();
   return await connection
     .getRepository(Configuration)
-    .findWhere({ id: id});
+    .findOne({ id: id});
 }
 
 export const addConfiguration = async(data) => {
   try {
     await initConnection();
-    console.log('addConfiguration');
+    console.log('addConfiguration', data);
 
     const configurationEntity = {
       id : 1,
       minTmp : data.minTmp,
       maxTmp : data.maxTmp,
-      demo : data.demo || false
+      demo : data.demo || 0
     }
 
     return connection.getRepository(Configuration).save(configurationEntity);

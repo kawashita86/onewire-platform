@@ -35,6 +35,8 @@
   font-variant: small-caps;
   text-align: center;
   margin-top: 20px;
+  width: 95%;
+  float:left;
 }
 
 .titolettiPagine {

@@ -2,5 +2,6 @@
   "HOME": "/",
   "COUNTER": "/counter",
   "PAGINA": "/",
-  "PAGINANEW": "/paginanew"
+  "PAGINANEW": "/paginanew",
+  "CONFIGURATION": "/configuration"
 }

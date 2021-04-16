@@ -1,7 +1,6 @@
 import {findIButton, findIButtonDemo} from "../utils/iButtonManager";
 import {ADD_ERROR, REMOVE_ERROR} from "../reducers/errors";
 import {addConfiguration, getConfiguration} from "../utils/StorageAPI";
-import {WRITE_MISSION_DATA} from "./thermocron";
 
 export const DEVICE_ADDED = 'DEVICE_ADDED';
 export const DEVICE_REMOVED = 'DEVICE_REMOVED';
@@ -35,13 +34,6 @@ export function retrieveDeviceList(){
           type: DEVICES_ADDED,
           payload: result
         });
-        //search User Based on thermocron device id
-        //for(let device of result.deviceList){
-        //  dispatch({
-        //    type: DEVICE_ADDED,
-        //    payload: device
-        //  });
-        //}
       }
     } catch(e){
       dispatch({
@@ -91,17 +83,18 @@ export function selectDevice(deviceName){
 export function saveConfiguration(data) {
   return async (dispatch, getState) => {
     try {
+      console.log(data);
       await addConfiguration({
-        nomePaziente: data.minTmp,
-        startDate: data.maxTmp,
+        minTmp: data.minTmp,
+        maxTmp: data.maxTmp,
         demo: getState().app.demo
       });
       dispatch({
         type: REMOVE_ERROR
       });
       dispatch({
-        type: WRITE_MISSION_DATA,
-        payload: result
+        type: CONFIGURATION_FETCHED,
+        payload: data
       })
     }catch (e) {
       dispatch({
@@ -115,7 +108,7 @@ export function saveConfiguration(data) {
 export function fetchConfiguration() {
   return async (dispatch, getState) => {
     let configuration = await getConfiguration(1);
-    if(configuration !== null){
+    if(typeof configuration !== "undefined" && configuration !== null){
       dispatch({
           type: CONFIGURATION_FETCHED,
           payload: configuration

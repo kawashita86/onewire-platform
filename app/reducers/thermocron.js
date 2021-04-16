@@ -1,11 +1,9 @@
-import {READ_MISSION_DATA, CLEAR_MISSION_DATA, WRITE_MISSION_DATA} from '../actions/thermocron';
+import {READ_MISSION_DATA, CLEAR_MISSION_DATA, WRITE_MISSION_DATA, SET_TEMP_CONFIGURATION} from '../actions/thermocron';
 import {CONFIGURATION_FETCHED} from "../actions/thermocron";
 
 const defaultState = {
   minTmp: 35,
   maxTmp: 41,
- // minTmp: 21,
- // maxTmp: 26,
   deviceId: null,
   missionRunningState: false,
   missionSample: 0,
@@ -20,7 +18,9 @@ const defaultState = {
   rolloverEnabled: 'NO',
   readDelay: 0,
   log: [],
-  parsedLog: []
+  parsedLog: [],
+  tmpMinTmp: 0,
+  tmpMaxTmp: 0
 }
 
 export default function thermocron(state = defaultState, action) {
@@ -46,6 +46,13 @@ export default function thermocron(state = defaultState, action) {
         ...state,
         minTmp: action.payload.minTmp,
         maxTmp: action.payload.maxTmp,
+        tmpMinTmp: action.payload.minTmp,
+        tmpMaxTmp: action.payload.maxTmp,
+      }
+    case SET_TEMP_CONFIGURATION:
+      return {
+        ...state,
+        ...payload
       }
     default:
       return state;

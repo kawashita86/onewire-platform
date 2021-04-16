@@ -1,6 +1,6 @@
 import {readIButtonData, readDemoIButtonData, writeIButtonData, writeDemoIButtonData} from "../utils/iButtonManager";
 import {addUser, getUser} from "../utils/StorageAPI";
-import {SET_DATA} from "./mission";
+import {SET_DATA, SET_NOME_PAZIENTE} from "./mission";
 import {ADD_ERROR, REMOVE_ERROR} from "../reducers/errors";
 
 export const READ_MISSION_DATA = 'READ_MISSION_DATA';
@@ -10,6 +10,7 @@ export const WRITE_MISSION_DATA = 'WRITE_MISSION_DATA';
 export const DATA_OK = 'DATA_OK';
 export const DATA_KO = 'DATA_KO';
 export const CONFIGURATION_FETCHED = 'CONFIGURATION_FETCHED';
+export const SET_TEMP_CONFIGURATION = 'SET_TEMP_CONFIGURATION';
 
 
 export function readMissionData() {
@@ -91,3 +92,12 @@ export function clearMissionData(){
     type: CLEAR_MISSION_DATA
   };
 }
+
+export function setTemperatura(payload){
+  const newName = 'tmp'+payload.name
+  return {
+    type: SET_TEMP_CONFIGURATION,
+    payload: {[newName]: payload.value}
+  };
+}
+
