@@ -7,6 +7,7 @@ import createRootReducer from '../reducers';
 import * as thermocronActions from '../actions/thermocron';
 import * as missionActions from '../actions/mission';
 import * as appActions from '../actions/app';
+import * as asyncAction from '../actions/async';
 
 const history = createHashHistory();
 
@@ -40,7 +41,8 @@ const configureStore = (initialState) => {
     ...routerActions,
     ...missionActions,
     ...thermocronActions,
-    ...appActions
+    ...appActions,
+    ...asyncAction
   };
   // If Redux DevTools Extension is installed use it, otherwise use Redux compose
   /* eslint-disable no-underscore-dangle */

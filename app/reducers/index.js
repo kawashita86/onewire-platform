@@ -4,6 +4,7 @@ import thermocron from './thermocron';
 import mission from './mission';
 import errors from './errors';
 import app from "./app";
+import asyncManager from "./async";
 
 export default function createRootReducer(history) {
   return combineReducers({
@@ -12,5 +13,6 @@ export default function createRootReducer(history) {
     mission,
     errors,
     app,
+    asyncManager
   });
 }

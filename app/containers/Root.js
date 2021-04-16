@@ -9,6 +9,7 @@ import {clearError} from "../actions/errors";
 import {DEVICE_NAME} from "../constants/app";
 import log from 'electron-log';
 import {adapterConnected, adapterRemoved, fetchConfiguration} from "../actions/app";
+import {Alert} from "reactstrap";
 let usbDetect = require('usb-detection');
 
 

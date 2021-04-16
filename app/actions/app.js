@@ -1,6 +1,7 @@
 import {findIButton, findIButtonDemo} from "../utils/iButtonManager";
 import {ADD_ERROR, REMOVE_ERROR} from "../reducers/errors";
 import {addConfiguration, getConfiguration} from "../utils/StorageAPI";
+import {IDLE, LOADED, LOADING, TYPE_CONFIGURATION} from "../reducers/async";
 
 export const DEVICE_ADDED = 'DEVICE_ADDED';
 export const DEVICE_REMOVED = 'DEVICE_REMOVED';
@@ -84,6 +85,10 @@ export function saveConfiguration(data) {
   return async (dispatch, getState) => {
     try {
       console.log(data);
+      dispatch({
+        type: LOADING,
+        payload: TYPE_CONFIGURATION
+      });
       await addConfiguration({
         minTmp: data.minTmp,
         maxTmp: data.maxTmp,
@@ -96,6 +101,15 @@ export function saveConfiguration(data) {
         type: CONFIGURATION_FETCHED,
         payload: data
       })
+      dispatch({
+        type: LOADED,
+        payload: TYPE_CONFIGURATION
+      });
+      setTimeout(()=> {
+        dispatch({
+          type: IDLE
+        });
+      }, 2000);
     }catch (e) {
       dispatch({
         type: ADD_ERROR,

@@ -1,8 +1,10 @@
 import React, {Component} from "react";
 import Header from "./UI/Header";
-import {Button, Col, Form, FormGroup, Input, Label} from "reactstrap";
+import {Alert, Button, Col, Form, FormGroup, Input, Label} from "reactstrap";
 import {Link} from "react-router-dom";
 import routes from "../constants/routes.json";
+import {Provider} from "react-redux";
+import {STATUS_LOADED, TYPE_CONFIGURATION} from "../reducers/async";
 
 
 export default class Configuration extends Component {
@@ -34,6 +36,9 @@ export default class Configuration extends Component {
             <i className="fa fa-arrow-left fa-3x"/>
           </Link>
           <div className="container" style={{width:'400px'}}>
+            {this.props.loaded &&
+              <Alert>Saved!</Alert>
+            }
               <Form>
                 <FormGroup row>
                   <Label for="dataInizio">Temperatura Min</Label>

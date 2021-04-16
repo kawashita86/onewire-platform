@@ -19,8 +19,8 @@ const defaultState = {
   readDelay: 0,
   log: [],
   parsedLog: [],
-  tmpMinTmp: 0,
-  tmpMaxTmp: 0
+  tmpMinTmp: 35,
+  tmpMaxTmp: 41
 }
 
 export default function thermocron(state = defaultState, action) {
@@ -44,10 +44,10 @@ export default function thermocron(state = defaultState, action) {
     case CONFIGURATION_FETCHED:
       return {
         ...state,
-        minTmp: action.payload.minTmp,
-        maxTmp: action.payload.maxTmp,
-        tmpMinTmp: action.payload.minTmp,
-        tmpMaxTmp: action.payload.maxTmp,
+        minTmp: parseInt(action.payload.minTmp, 10),
+        maxTmp: parseInt(action.payload.maxTmp, 10),
+        tmpMinTmp: parseInt(action.payload.minTmp, 10),
+        tmpMaxTmp: parseInt(action.payload.maxTmp, 10),
       }
     case SET_TEMP_CONFIGURATION:
       return {
