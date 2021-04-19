@@ -8,6 +8,9 @@ export const STATUS_LOADING = 'loading';
 export const STATUS_LOADED = 'loaded';
 
 export const TYPE_CONFIGURATION = 'TYPE_CONFIGURATION';
+export const TYPE_READ_MISSION = 'TYPE_READ_MISSION';
+export const TYPE_WRITE_MISSION = 'TYPE_WRITE_MISSION';
+export const TYPE_DEVICE_LIST = 'TYPE_DEVICE_LIST';
 
 const defaultState = {
   type: null,

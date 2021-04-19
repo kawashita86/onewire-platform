@@ -1,7 +1,9 @@
 import {readIButtonData, readDemoIButtonData, writeIButtonData, writeDemoIButtonData} from "../utils/iButtonManager";
 import {addUser, getUser} from "../utils/StorageAPI";
-import {SET_DATA, SET_NOME_PAZIENTE} from "./mission";
+import {SET_DATA} from "./mission";
 import {ADD_ERROR, REMOVE_ERROR} from "../reducers/errors";
+import {asyncIdle, asyncLoaded, asyncLoading} from "./async";
+import {TYPE_READ_MISSION, TYPE_WRITE_MISSION} from "../reducers/async";
 
 export const READ_MISSION_DATA = 'READ_MISSION_DATA';
 export const READ_LOG_DATA = 'READ_LOG_DATA';
@@ -19,7 +21,7 @@ export function readMissionData() {
     try {
       const app = getState().app;
       const deviceAddress = app.selectedDevice ? app.selectedDevice : null;
-
+      dispatch(asyncLoading(TYPE_READ_MISSION));
       let result = app.demo ? await readDemoIButtonData() : await readIButtonData(deviceAddress);
       if(typeof result.deviceId === 'undefined'){
         dispatch({
@@ -38,6 +40,7 @@ export function readMissionData() {
           type: SET_DATA,
           payload: userData
         });
+        dispatch(asyncLoaded(TYPE_READ_MISSION));
         dispatch({
           type: READ_MISSION_DATA,
           payload: result
@@ -49,6 +52,7 @@ export function readMissionData() {
          payload: "Impossibile leggere i dati, verificare la connessione al bottone e riprovare"
        })
     }
+    setTimeout(() => dispatch(asyncIdle()), 2000);
   }
 }
 
@@ -58,6 +62,7 @@ export function writeMissionData() {
       const mission = getState().mission;
       const app = getState().app;
       const deviceAddress = app.selectedDevice ? app.selectedDevice : null;
+      dispatch(asyncLoading(TYPE_WRITE_MISSION));
       let result =  app.demo ? await writeDemoIButtonData() : await writeIButtonData(deviceAddress+' l');
       if(typeof result.lastMissionStarted === "undefined")
         result.lastMissionStarted = new Date().toString();
@@ -73,6 +78,7 @@ export function writeMissionData() {
         dispatch({
           type: REMOVE_ERROR
         });
+        dispatch(asyncLoaded(TYPE_WRITE_MISSION));
         dispatch({
           type: WRITE_MISSION_DATA,
           payload: result
@@ -84,6 +90,8 @@ export function writeMissionData() {
         payload: e | "Impossibile scrivere i dati, verificare la connessione al bottone e riprovare"
       })
   }
+    setTimeout(() => dispatch(asyncIdle()), 2000);
+
   }
 }
 

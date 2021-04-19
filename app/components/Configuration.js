@@ -3,8 +3,7 @@ import Header from "./UI/Header";
 import {Alert, Button, Col, Form, FormGroup, Input, Label} from "reactstrap";
 import {Link} from "react-router-dom";
 import routes from "../constants/routes.json";
-import {Provider} from "react-redux";
-import {STATUS_LOADED, TYPE_CONFIGURATION} from "../reducers/async";
+import {Spinner} from "./UI/Spinner";
 
 
 export default class Configuration extends Component {
@@ -54,7 +53,7 @@ export default class Configuration extends Component {
                            value={this.props.thermocron.tmpMaxTmp}    />
                   </Col>
                 </FormGroup>
-                <Button className="btn btn-success" onClick={this.saveConfiguration}>Salva</Button>
+                <Button className="btn btn-success" onClick={this.saveConfiguration}>{this.props.loading ? <><Spinner/> Loading</>: 'Salva'}</Button>
               </Form>
           </div>
         </div>

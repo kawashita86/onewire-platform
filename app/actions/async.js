@@ -12,9 +12,9 @@ export function asyncLoaded(type){
     payload: type
   }
 }
-export function asyncIdle(type){
+export function asyncIdle(){
   return {
     type: IDLE,
-    payload: type
+    payload: null
   }
 }

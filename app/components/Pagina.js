@@ -1,16 +1,16 @@
 // @flow
-import path from 'path';
 import React, { Component } from 'react';
 import styles from './Pagina.css';
 import { Link } from "react-router-dom";
 import routes from '../constants/routes';
-import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
+import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import {printRawHtml} from "../utils/printPDF";
 import {convertDate} from "../utils/iButtonManager";
 import {calculateAverage, calculateDailyAverage, filterParsedByDateRange} from "../utils/analyzeData";
 import {Spinner} from "./UI/Spinner";
 import DeviceList from "./DeviceList";
 import Header from "./UI/Header";
+import {TYPE_DEVICE_LIST, TYPE_READ_MISSION, TYPE_WRITE_MISSION} from "../reducers/async";
 const smalltalk = require('smalltalk');
 
 export default class Pagina extends Component {
@@ -19,14 +19,15 @@ export default class Pagina extends Component {
      super(props);
      this.state = {
        missionState: false,
-       loadingWriteData: false,
-       loadingReadData: false
      }
    }
 
    startMission(){
      //check for error in field name/tempo impiego to set error message
      const {mission} = this.props;
+     if(this.props.loading !== null)
+        return false;
+
      if(mission.nomePaziente.length === 0 || mission.tempoUtilizzo.length === 0){
        //const alert = new Alert();
        smalltalk
@@ -38,9 +39,7 @@ export default class Pagina extends Component {
      smalltalk
        .confirm('Cominciare Missione', 'Sei sicuro di voler cominciare la registrazione? Questo sovrascriverà tutti i dati presenti su iButton')
        .then(() => {
-         this.setState({
-           loadingWriteData: true
-         }, this.props.writeMissionData);
+         this.props.writeMissionData();
        }).catch(() => {
        return false;
      });
@@ -48,9 +47,9 @@ export default class Pagina extends Component {
    }
 
    stopMission(){
-     this.setState({
-       loadingReadData: true
-     }, this.props.readMissionData);
+     if(this.props.loading !== null)
+       return false;
+     this.props.readMissionData();
    }
 
    preparePrint(){
@@ -75,24 +74,6 @@ export default class Pagina extends Component {
        chartData,
        chartLabels
      ).then(data => console.log('printed'))
-   }
-
-
-   shouldComponentUpdate(nextProps, nextState, nextContext) {
-     if((typeof (this.props.thermocron.realTimeClockValue) === 'undefined' &&
-       typeof nextProps.thermocron.realTimeClockValue !== 'undefined') ||
-       (typeof (this.props.thermocron.realTimeClockValue) !== 'undefined' &&
-         typeof nextProps.thermocron.realTimeClockValue === 'undefined') ||
-       (this.props.thermocron.realTimeClockValue !== nextProps.thermocron.realTimeClockValue) ||
-       (this.props.errors.length  === 0 && nextProps.errors.length !==0) ||
-       (this.props.thermocron.deviceId === null &&
-         nextProps.thermocron.deviceId !== null) ||
-       (this.state.loadingReadData === true || this.state.loadingWriteData === true)
-     ){
-       nextState.loadingWriteData = false;
-       nextState.loadingReadData = false;
-     }
-     return true;
    }
 
    componentDidMount() {
@@ -131,6 +112,8 @@ export default class Pagina extends Component {
 
           <div className="row">
             <DeviceList
+              loading={this.props.loading === TYPE_DEVICE_LIST}
+              loaded={this.props.loaded === TYPE_DEVICE_LIST}
               selectedDevice={this.props.app.selectedDevice}
               selectDevice={this.props.selectDevice}
               deviceList={this.props.app.deviceList}
@@ -159,12 +142,12 @@ export default class Pagina extends Component {
           <div className="col-sm text-center">
             <button className={`${styles.startStop} btn-success`}
                     data-tclass="startStop" onClick={() => this.startMission()}>
-              {this.state.loadingWriteData ? <><Spinner/> Loading</>: 'Start'}</button>
+              {this.props.loading === TYPE_WRITE_MISSION ? <><Spinner/> Loading</>: 'Start'}</button>
           </div>
           <div className="col-sm text-center">
             <button className={`${styles.startStop} ${styles.stopButton} btn-danger`}
                                                 data-tclass="startStop" onClick={() => this.stopMission()}>
-              {this.state.loadingReadData ? <><Spinner/> Loading</>: 'Stop'} </button>
+              {this.props.loading === TYPE_READ_MISSION ? <><Spinner/> Loading</>: 'Stop'} </button>
           </div>
         </div>
 
@@ -198,7 +181,7 @@ export default class Pagina extends Component {
 
           <div className="row">
             <div className="col-sm text-center">
-              <Link to={routes.PAGINANEW}  className={`${styles.bottoniFondoPagina} btn btn-success`} style={{opacity: 1, lineHeight: '57px'}} data-tclass="mediaGiornaliera">
+              <Link to={routes.PAGINANEW}  className={`${styles.bottoniFondoPaginaLink} btn btn-success`} data-tclass="mediaGiornaliera">
                 Report</Link>
               <Button className={`${styles.bottoniFondoPagina} btn btn-success`} onClick={() => this.preparePrint()}
                     data-tclass="print">

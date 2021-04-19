@@ -1,7 +1,8 @@
 import {findIButton, findIButtonDemo} from "../utils/iButtonManager";
 import {ADD_ERROR, REMOVE_ERROR} from "../reducers/errors";
 import {addConfiguration, getConfiguration} from "../utils/StorageAPI";
-import {IDLE, LOADED, LOADING, TYPE_CONFIGURATION} from "../reducers/async";
+import {TYPE_CONFIGURATION, TYPE_DEVICE_LIST} from "../reducers/async";
+import {asyncIdle, asyncLoaded, asyncLoading} from "./async";
 
 export const DEVICE_ADDED = 'DEVICE_ADDED';
 export const DEVICE_REMOVED = 'DEVICE_REMOVED';
@@ -24,6 +25,7 @@ export function retrieveDeviceList(){
         })
         return;
       }
+      dispatch(asyncLoading(TYPE_DEVICE_LIST));
       let result = app.demo ? await findIButtonDemo() : await findIButton();
       if(typeof result.error !== 'undefined'){
         dispatch({
@@ -31,6 +33,7 @@ export function retrieveDeviceList(){
           payload: result.error ? result.error : "Impossibile leggere la lista dei device, verificare la connessione e riprovare "
         })
       } else {
+        dispatch(asyncLoaded(TYPE_DEVICE_LIST));
         dispatch({
           type: DEVICES_ADDED,
           payload: result
@@ -42,6 +45,7 @@ export function retrieveDeviceList(){
         payload: "Impossibile leggere la lista dei device, verificare la connessione e riprovare"
       })
     }
+    setTimeout(() => dispatch(asyncIdle()), 2000);
   }
 }
 
@@ -85,10 +89,7 @@ export function saveConfiguration(data) {
   return async (dispatch, getState) => {
     try {
       console.log(data);
-      dispatch({
-        type: LOADING,
-        payload: TYPE_CONFIGURATION
-      });
+      dispatch(asyncLoading(TYPE_CONFIGURATION));
       await addConfiguration({
         minTmp: data.minTmp,
         maxTmp: data.maxTmp,
@@ -101,21 +102,14 @@ export function saveConfiguration(data) {
         type: CONFIGURATION_FETCHED,
         payload: data
       })
-      dispatch({
-        type: LOADED,
-        payload: TYPE_CONFIGURATION
-      });
-      setTimeout(()=> {
-        dispatch({
-          type: IDLE
-        });
-      }, 2000);
+      dispatch(asyncLoaded(TYPE_CONFIGURATION));
     }catch (e) {
       dispatch({
         type: ADD_ERROR,
         payload: e | "Impossibile aggiornare la configurazione"
       })
     }
+    setTimeout(() => dispatch(asyncIdle()), 2000);
   }
 }
 
