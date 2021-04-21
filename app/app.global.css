@@ -218,4 +218,7 @@ svg.loading-spin {
     font-size: 2rem;
   }
 
+  .form-control {
+    height: calc(1.3em + 0.75rem + 2px);
+  }
 }
