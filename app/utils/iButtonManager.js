@@ -149,7 +149,8 @@ export async function readIButtonData(options = null) {
  */
 export async function writeIButtonData(options) {
   //java -classpath OneWireAPI.jar;%classpath% initMission %1 %2
-  return await readFromShellInvoke('run_initMission.bat < inputData.txt', options, (dataBuffer, options) => {
+  let scriptName = options !== null ? 'run_initMission.bat '+options+' < inputData.txt' : 'run_initMission.bat < inputData.txt'
+  return await readFromShellInvoke(scriptName, null, (dataBuffer, options) => {
     return readLogDeviceId(dataBuffer, options)
   });
 }

@@ -22,7 +22,7 @@ export function readMissionData() {
       const app = getState().app;
       const deviceAddress = app.selectedDevice ? app.selectedDevice : null;
       dispatch(asyncLoading(TYPE_READ_MISSION));
-      let result = app.demo ? await readDemoIButtonData() : await readIButtonData(deviceAddress);
+      let result = app.demo ? await readDemoIButtonData() : await readIButtonData(deviceAddress+' l');
       if(typeof result.deviceId === 'undefined'){
         dispatch({
           type: ADD_ERROR,
@@ -63,7 +63,7 @@ export function writeMissionData() {
       const app = getState().app;
       const deviceAddress = app.selectedDevice ? app.selectedDevice : null;
       dispatch(asyncLoading(TYPE_WRITE_MISSION));
-      let result =  app.demo ? await writeDemoIButtonData() : await writeIButtonData(deviceAddress+' l');
+      let result =  app.demo ? await writeDemoIButtonData() : await writeIButtonData(deviceAddress);
       if(typeof result.lastMissionStarted === "undefined")
         result.lastMissionStarted = new Date().toString();
 
