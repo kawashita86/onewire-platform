@@ -1,4 +1,5 @@
 import {SET_DATA, CLEAR_DATA, SET_NOME_PAZIENTE, SET_TEMPO_UTILIZZO} from '../actions/mission';
+import {DEVICE_SELECTED} from "../actions/app";
 
 const defaultState = {
   name: null,
@@ -16,6 +17,7 @@ export default function mission(state = defaultState, action) {
         ...state,
         ...action.payload
       };
+    case DEVICE_SELECTED:
     case CLEAR_DATA:
       return defaultState;
     case SET_TEMPO_UTILIZZO:

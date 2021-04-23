@@ -62,6 +62,7 @@ Form {
 
 .sd-container {
   position: relative;
+  width: 100%;
 }
 
 svg.loading-spin {

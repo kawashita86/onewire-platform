@@ -1,9 +1,9 @@
 // @flow
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import styles from './Pagina.css';
-import { Link } from "react-router-dom";
+import {Link} from "react-router-dom";
 import routes from '../constants/routes';
-import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
+import {Button, Form, FormGroup, Label, Input, Row, Col} from 'reactstrap';
 import {printRawHtml} from "../utils/printPDF";
 import {convertDate} from "../utils/iButtonManager";
 import {calculateAverage, calculateDailyAverage, filterParsedByDateRange} from "../utils/analyzeData";
@@ -11,186 +11,196 @@ import {Spinner} from "./UI/Spinner";
 import DeviceList from "./DeviceList";
 import Header from "./UI/Header";
 import {TYPE_DEVICE_LIST, TYPE_READ_MISSION, TYPE_WRITE_MISSION} from "../reducers/async";
+
 const smalltalk = require('smalltalk');
 
 export default class Pagina extends Component {
+    myFormRef  = null
 
-   constructor(props) {
-     super(props);
-     this.state = {
-       missionState: false,
-     }
-   }
-
-   startMission(){
-     //check for error in field name/tempo impiego to set error message
-     const {mission} = this.props;
-     if(this.props.loading !== null)
-        return false;
-
-     if(mission.nomePaziente.length === 0 || mission.tempoUtilizzo.length === 0){
-       //const alert = new Alert();
-       smalltalk
-         .alert('Errore', "E' necessario compilare i campi Nome Paziente e Tempo Utilizzo per cominciare una registrazione")
-         .then(() => {
-         });
-       return false;
-     }
-     smalltalk
-       .confirm('Cominciare Missione', 'Sei sicuro di voler cominciare la registrazione? Questo sovrascriverà tutti i dati presenti su iButton')
-       .then(() => {
-         this.props.writeMissionData();
-       }).catch(() => {
-       return false;
-     });
-
-   }
-
-   stopMission(){
-     if(this.props.loading !== null)
-       return false;
-     this.props.readMissionData();
-   }
-
-   preparePrint(){
-     const {mission, thermocron} = this.props;
-     if(typeof thermocron.lastMissionStarted === 'undefined' || !thermocron.lastMissionStarted || Object.keys(thermocron.parsedLog).length === 0){
-       smalltalk.alert("Print Certificate", "Impossibile procedere con la stampa è necessario terminare la mission prima");
-       return false;
-     }
-    // const svgChart = "";
-     const dailyAverage = calculateDailyAverage(this.props.thermocron.parsedLog, this.props.thermocron.minTmp, this.props.thermocron.maxTmp, this.props.mission.tempoUtilizzo);
-     const percentageUsage = Math.round(calculateAverage(dailyAverage)*100);
-     const startDate = convertDate(thermocron.lastMissionStarted, true)
-     const endDate = convertDate(thermocron.realTimeClockValue, true)
-     const logData = filterParsedByDateRange(this.props.thermocron.parsedLog, this.props.thermocron.minTmp, this.props.thermocron.maxTmp);
-     const months = {1: "Gen", 2 : "Feb",  3 : "Mar", 4: "Apr", 5: "May",6 : "Jun",7: "Jul",8: "Aug",9: "Set",10: "Ott",11: "Nov",0: "Dec"};
-     const chartData = Object.keys(logData).map((index) => logData[index]*24);
-     const chartLabels = Object.keys(logData).map((index) => months[index]);
-
-     printRawHtml(
-       '<h1 class="nomePaziente">'+mission.nomePaziente+'</h1><h3 class="dataFrom">'+startDate+'</h3><h3 class="dataTo">'+endDate+'</h3><p class="tempoUtilizzo">'+mission.tempoUtilizzo+'</p>' +
-       '<p><span class="imgUtilizzo">'+percentageUsage+'</span></p>',
-       chartData,
-       chartLabels
-     ).then(data => console.log('printed'))
-   }
-
-   componentDidMount() {
-     //at the start we check if adapter connected and request for device list
-     if(this.props.app.adapterConnected === true){
-       console.log('retrieveDeviceList');
-       this.props.retrieveDeviceList();
-     }
-   }
-
-   componentDidUpdate(prevProps, prevState, snapshot) {
-     if(this.props.app.adapterConnected === true && prevProps.app.adapterConnected === false){
-       console.log('retrieveDeviceList');
-       this.props.retrieveDeviceList();
-     }
-   }
-
-  render() {
-    const {thermocron, setNomePaziente, mission, setTempoUtilizzo} = this.props;
-    let startDate = '', endDate = '';
-
-    if(typeof thermocron.lastMissionStarted !== 'undefined' && thermocron.lastMissionStarted){
-      startDate = convertDate(thermocron.lastMissionStarted, true)
+    constructor(props) {
+      super(props);
     }
 
-    if(typeof thermocron.realTimeClockValue !== 'undefined' && thermocron.realTimeClockValue){
-      endDate = convertDate(thermocron.realTimeClockValue, true)
+    startMission() {
+        //check for error in field name/tempo impiego to set error message
+        const {mission} = this.props;
+        if (this.props.loading !== null)
+            return false;
+
+        if (mission.nomePaziente.length === 0 || mission.tempoUtilizzo.length === 0) {
+            //const alert = new Alert();
+            smalltalk
+                .alert('Errore', "E' necessario compilare i campi Nome Paziente e Tempo Utilizzo per cominciare una registrazione")
+                .then(() => {
+                });
+            return false;
+        }
+        smalltalk
+            .confirm('Cominciare Missione', 'Sei sicuro di voler cominciare la registrazione? Questo sovrascriverà tutti i dati presenti su iButton')
+            .then(() => {
+                this.props.writeMissionData();
+            }).catch(() => {
+            return false;
+        });
+
     }
 
-    return (
-      <>
-      <Header/>
-      <div className={'container'} data-tid="container">
+    stopMission() {
+        if (this.props.loading !== null)
+            return false;
+        this.props.readMissionData();
+    }
 
-        <div className="container" style={{width:'400px'}}>
+    preparePrint() {
+        const {mission, thermocron} = this.props;
+        if (typeof thermocron.lastMissionStarted === 'undefined' || !thermocron.lastMissionStarted || Object.keys(thermocron.parsedLog).length === 0) {
+            smalltalk.alert("Print Certificate", "Impossibile procedere con la stampa è necessario terminare la mission prima");
+            return false;
+        }
+        // const svgChart = "";
+        const dailyAverage = calculateDailyAverage(this.props.thermocron.parsedLog, this.props.thermocron.minTmp, this.props.thermocron.maxTmp, this.props.mission.tempoUtilizzo);
+        const percentageUsage = Math.round(calculateAverage(dailyAverage) * 100);
+        const startDate = convertDate(thermocron.lastMissionStarted, true)
+        const endDate = convertDate(thermocron.realTimeClockValue, true)
+        const logData = filterParsedByDateRange(this.props.thermocron.parsedLog, this.props.thermocron.minTmp, this.props.thermocron.maxTmp);
+        const months = {
+            1: "Gen",
+            2: "Feb",
+            3: "Mar",
+            4: "Apr",
+            5: "May",
+            6: "Jun",
+            7: "Jul",
+            8: "Aug",
+            9: "Set",
+            10: "Ott",
+            11: "Nov",
+            0: "Dec"
+        };
+        const chartData = Object.keys(logData).map((index) => logData[index] * 24);
+        const chartLabels = Object.keys(logData).map((index) => months[index]);
 
-          <div className="row">
-            <DeviceList
-              loading={this.props.loading === TYPE_DEVICE_LIST}
-              loaded={this.props.loaded === TYPE_DEVICE_LIST}
-              selectedDevice={this.props.app.selectedDevice}
-              selectDevice={this.props.selectDevice}
-              deviceList={this.props.app.deviceList}
-              retrieveDeviceList={this.props.retrieveDeviceList}/>
-          </div>
+        printRawHtml(
+            '<h1 class="nomePaziente">' + mission.nomePaziente + '</h1><h3 class="dataFrom">' + startDate + '</h3><h3 class="dataTo">' + endDate + '</h3><p class="tempoUtilizzo">' + mission.tempoUtilizzo + '</p>' +
+            '<p><span class="imgUtilizzo">' + percentageUsage + '</span></p>',
+            chartData,
+            chartLabels
+        ).then(data => console.log('printed'))
+    }
 
-          <div className="row">
-              <Form>
-                <FormGroup>
-                  <Label for="datiPresidio">Dati paziente</Label>
-                  <Input type="text" name="name" id="datiPaziente" placeholder="Nome e cognome" onChange={e => setNomePaziente(e.target.value)} value={mission.nomePaziente} />
-                </FormGroup>
-              </Form>
-            </div>
+    componentDidMount() {
+        //at the start we check if adapter connected and request for device list
+        if (this.props.app.adapterConnected === true) {
+            console.log('retrieveDeviceList');
+            this.props.retrieveDeviceList();
+        }
+    }
 
-          <div className="row">
-            <Form>
-              <FormGroup>
-                <Label for="tempoUtilizzo">Tempo impiego presidio </Label>
-                <Input type="text" name="time" id="tempoUtilizzo" placeholder="Tempo utilizzo" onChange={e => setTempoUtilizzo(e.target.value)} value={mission.tempoUtilizzo} />
-              </FormGroup>
-            </Form>
-          </div>
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (this.props.app.adapterConnected === true && prevProps.app.adapterConnected === false) {
+            console.log('retrieveDeviceList');
+            this.props.retrieveDeviceList();
+        }
+    }
 
-        <div className="row">
-          <div className="col-sm text-center">
-            <button className={`${styles.startStop} btn-success`}
-                    data-tclass="startStop" onClick={() => this.startMission()}>
-              {this.props.loading === TYPE_WRITE_MISSION ? <><Spinner/> Loading</>: 'Start'}</button>
-          </div>
-          <div className="col-sm text-center">
-            <button className={`${styles.startStop} ${styles.stopButton} btn-danger`}
-                                                data-tclass="startStop" onClick={() => this.stopMission()}>
-              {this.props.loading === TYPE_READ_MISSION ? <><Spinner/> Loading</>: 'Stop'} </button>
-          </div>
-        </div>
+    render() {
+        const {thermocron, setNomePaziente, mission, setTempoUtilizzo} = this.props;
+        let startDate = '', endDate = '';
 
-          <div className="row">
-            <Form>
-              <FormGroup>
-                <Label for="dataInizio">Data inizio</Label>
-                <div className="sd-container">
-                  <Input type="date" name="dataInizio" id="dataInizio" placeholder="Data inizio" defaultValue={startDate}/>
-                  <span className="open-button">
+        if (typeof thermocron.lastMissionStarted !== 'undefined' && thermocron.lastMissionStarted) {
+            startDate = convertDate(thermocron.lastMissionStarted, true)
+        }
+
+        if (typeof thermocron.realTimeClockValue !== 'undefined' && thermocron.realTimeClockValue) {
+            endDate = convertDate(thermocron.realTimeClockValue, true)
+        }
+
+        return (
+            <>
+                <Header/>
+                <div className={'container'} data-tid="container">
+
+                    <div className="container" style={{width: '400px'}}>
+
+                        <div className="row">
+                            <DeviceList
+                                loading={this.props.loading === TYPE_DEVICE_LIST}
+                                loaded={this.props.loaded === TYPE_DEVICE_LIST}
+                                selectedDevice={this.props.app.selectedDevice}
+                                selectDevice={(device) => {
+                                    this.myFormRef.reset();
+                                    this.props.selectDevice(device)
+                                }}
+                                deviceList={this.props.app.deviceList}
+                                retrieveDeviceList={this.props.retrieveDeviceList}/>
+                        </div>
+
+                        <Form innerRef={(el) => this.myFormRef = el}>
+                            <FormGroup row>
+                                <Label for="datiPresidio">Dati paziente</Label>
+                                <Input type="text" name="name" id="datiPaziente" placeholder="Nome e cognome"
+                                       onChange={e => setNomePaziente(e.target.value)} value={mission.nomePaziente}/>
+                            </FormGroup>
+
+                            <FormGroup row>
+                                <Label for="tempoUtilizzo">Tempo impiego presidio </Label>
+                                <Input type="text" name="time" id="tempoUtilizzo" placeholder="Tempo utilizzo"
+                                       onChange={e => setTempoUtilizzo(e.target.value)} value={mission.tempoUtilizzo}/>
+                            </FormGroup>
+
+                            <div className="row">
+                                <div className="col-sm text-center">
+                                    <button className={`${styles.startStop} btn-success`}
+                                            data-tclass="startStop" onClick={() => this.startMission()}>
+                                        {this.props.loading === TYPE_WRITE_MISSION ? <>
+                                            <Spinner/> Loading</> : 'Start'}</button>
+                                </div>
+                                <div className="col-sm text-center">
+                                    <button className={`${styles.startStop} ${styles.stopButton} btn-danger`}
+                                            data-tclass="startStop" onClick={() => this.stopMission()}>
+                                        {this.props.loading === TYPE_READ_MISSION ? <>
+                                            <Spinner/> Loading</> : 'Read'} </button>
+                                </div>
+                            </div>
+
+                            <FormGroup row>
+                                <Label for="dataInizio">Data inizio</Label>
+                                <div className="sd-container">
+                                    <Input type="date" name="dataInizio" id="dataInizio" placeholder="Data inizio"
+                                           defaultValue={startDate}/>
+                                    <span className="open-button">
                     <button type="button">📅</button>
                   </span>
-                </div>
-              </FormGroup>
-            </Form>
-          </div>
+                                </div>
+                            </FormGroup>
 
-          <div className="row">
-            <Form>
-              <FormGroup>
-                <Label for="dataFine">Data fine</Label>
-                <div className="sd-container">
-                  <Input type="date" name="dataFine" id="dataFine" placeholder="Data fine" defaultValue={endDate} />
-                  <span className="open-button">
+                            <FormGroup row>
+                                <Label for="dataFine">Data fine</Label>
+                                <div className="sd-container">
+                                    <Input type="date" name="dataFine" id="dataFine" placeholder="Data fine"
+                                           defaultValue={endDate}/>
+                                    <span className="open-button">
                     <button type="button">📅</button>
                   </span>
-                </div>
-              </FormGroup>
-            </Form>
-          </div>
+                                </div>
+                            </FormGroup>
+                        </Form>
 
-          <div className="row">
-            <div className="col-sm text-center">
-              <Link to={routes.PAGINANEW}  className={`${styles.bottoniFondoPaginaLink} btn btn-success`} data-tclass="mediaGiornaliera">
-                Report</Link>
-              <Button className={`${styles.bottoniFondoPagina} btn btn-success`} onClick={() => this.preparePrint()}
-                    data-tclass="print">
-                Stampa</Button>
-            </div>
-          </div>
-      </div>
-      </div>
-        </>
-    );
-  }
+                        <div className="row">
+                            <div className="col-sm text-center">
+                                <Link to={routes.PAGINANEW}
+                                      className={`${styles.bottoniFondoPaginaLink} btn btn-success`}
+                                      data-tclass="mediaGiornaliera">
+                                    Report</Link>
+                                <Button className={`${styles.bottoniFondoPagina} btn btn-success`}
+                                        onClick={() => this.preparePrint()}
+                                        data-tclass="print">
+                                    Stampa</Button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </>
+        );
+    }
 }
