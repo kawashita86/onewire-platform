@@ -17,7 +17,7 @@ export default function mission(state = defaultState, action) {
         ...state,
         ...action.payload
       };
-    case DEVICE_SELECTED:
+    //case DEVICE_SELECTED:
     case CLEAR_DATA:
       return defaultState;
     case SET_TEMPO_UTILIZZO:

@@ -9,7 +9,7 @@ import {
 } from "../actions/app";
 
 const defaultState = {
-  demo: false,
+  demo: true,
   adapterConnected: false ,
   deviceList: null,
   selectedDevice: null,
@@ -46,7 +46,7 @@ export default function app(state = defaultState, action) {
     case CONFIGURATION_FETCHED:
       return {
         ...state,
-        demo: action.payload.demo
+       // demo: action.payload.demo
       }
     default:
       return state;

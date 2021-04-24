@@ -21,7 +21,8 @@ export default class Pagina extends Component {
       super(props);
     }
 
-    startMission() {
+    startMission(e) {
+        e.preventDefault();
         //check for error in field name/tempo impiego to set error message
         const {mission} = this.props;
         if (this.props.loading !== null)
@@ -42,13 +43,16 @@ export default class Pagina extends Component {
             }).catch(() => {
             return false;
         });
-
+        return false;
     }
 
-    stopMission() {
-        if (this.props.loading !== null)
+    stopMission(e) {
+      e.preventDefault();
+      if (this.props.loading !== null)
             return false;
-        this.props.readMissionData();
+      this.myFormRef.reset();
+      this.props.readMissionData();
+      return false;
     }
 
     preparePrint() {
@@ -127,10 +131,7 @@ export default class Pagina extends Component {
                                 loading={this.props.loading === TYPE_DEVICE_LIST}
                                 loaded={this.props.loaded === TYPE_DEVICE_LIST}
                                 selectedDevice={this.props.app.selectedDevice}
-                                selectDevice={(device) => {
-                                    this.myFormRef.reset();
-                                    this.props.selectDevice(device)
-                                }}
+                                selectDevice={this.props.selectDevice}
                                 deviceList={this.props.app.deviceList}
                                 retrieveDeviceList={this.props.retrieveDeviceList}/>
                         </div>
@@ -151,13 +152,13 @@ export default class Pagina extends Component {
                             <div className="row">
                                 <div className="col-sm text-center">
                                     <button className={`${styles.startStop} btn-success`}
-                                            data-tclass="startStop" onClick={() => this.startMission()}>
+                                            data-tclass="startStop" onClick={(e) => this.startMission(e)}>
                                         {this.props.loading === TYPE_WRITE_MISSION ? <>
                                             <Spinner/> Loading</> : 'Start'}</button>
                                 </div>
                                 <div className="col-sm text-center">
                                     <button className={`${styles.startStop} ${styles.stopButton} btn-danger`}
-                                            data-tclass="startStop" onClick={() => this.stopMission()}>
+                                            data-tclass="startStop" onClick={(e) => this.stopMission(e)}>
                                         {this.props.loading === TYPE_READ_MISSION ? <>
                                             <Spinner/> Loading</> : 'Read'} </button>
                                 </div>

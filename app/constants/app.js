@@ -1,1 +1,1 @@
-export const DEVICE_NAME = '1-Wire Network';
+export const DEVICE_NAME = 'USB';//'1-Wire Network';
