@@ -40,7 +40,24 @@ export default function thermocron(state = defaultState, action) {
         parsedLog:  []
       };
     case CLEAR_MISSION_DATA:
-      return defaultState;
+      return {
+        ...state,
+        deviceId: null,
+        missionRunningState: false,
+        missionSample: 0,
+        totalSample: 0,
+        realTimeClock: 'DISABLED',
+        realTimeClockValue: null,
+        clockAlarm: 'DISABLED',
+        lastMissionStarted: null,
+        sampleRate: null,
+        highTemperatureAlarm: 0,
+        lowTemperatureAlarm: 0,
+        rolloverEnabled: 'NO',
+        readDelay: 0,
+        log: [],
+        parsedLog: []
+      };
     case CONFIGURATION_FETCHED:
       return {
         ...state,

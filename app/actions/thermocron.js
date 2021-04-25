@@ -19,6 +19,9 @@ export function readMissionData() {
   return async (dispatch, getState) => {
       //we must use an async read through java children to get info
     try {
+      dispatch({
+        type: CLEAR_MISSION_DATA
+      })
       const app = getState().app;
       const deviceAddress = app.selectedDevice ? app.selectedDevice : null;
       dispatch(asyncLoading(TYPE_READ_MISSION));

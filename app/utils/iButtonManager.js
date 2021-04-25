@@ -59,9 +59,10 @@ export async function readDemoIButtonData(options = null){
   return new Promise( function (resolve, reject) {
     try {
       log.info('readDemoIButtonData')
-
-      let dataBuffer = fs.readFileSync(path.join(currentPath, 'logData.txt'), 'utf8');
-      resolve(convertManager(dataBuffer, options));
+      setTimeout(() => {
+        let dataBuffer = fs.readFileSync(path.join(currentPath, 'logData.txt'), 'utf8');
+        resolve(convertManager(dataBuffer, options));
+      }, 1500);
     } catch(e) {
       log.error(e.stack)
       reject({

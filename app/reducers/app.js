@@ -9,7 +9,7 @@ import {
 } from "../actions/app";
 
 const defaultState = {
-  demo: true,
+  demo: false,
   adapterConnected: false ,
   deviceList: null,
   selectedDevice: null,
