@@ -18,9 +18,11 @@ const defaultState = {
 export default function app(state = defaultState, action) {
   switch (action.type) {
     case DEVICES_ADDED:
+      const selectedDevice  = state.selectedDevice!== null ? state.selectedDevice : (action.payload[0].adapterDetail+'_'+action.payload[0].address)
       return {
         ...state,
-        deviceList: action.payload
+        deviceList: action.payload,
+        selectedDevice: selectedDevice
       }
     case DEVICE_ADDED:
       return {

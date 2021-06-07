@@ -25,7 +25,7 @@ export function readMissionData() {
       const app = getState().app;
       const deviceAddress = app.selectedDevice ? app.selectedDevice : null;
       dispatch(asyncLoading(TYPE_READ_MISSION));
-      let result = app.demo ? await readDemoIButtonData() : await readIButtonData(deviceAddress+' l');
+      let result = app.demo ? await readDemoIButtonData() : await readIButtonData(deviceAddress);
       if(typeof result.deviceId === 'undefined'){
         dispatch({
           type: ADD_ERROR,
