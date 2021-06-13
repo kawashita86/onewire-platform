@@ -46,12 +46,13 @@
 
 .titolettiPagine {
   font-variant: small-caps;
+  clear:both;
   text-align: center;
   margin-bottom: 20px;
 }
 
 
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: 1340px) {
   .startStop {
     width: 75px;
     height: 75px;

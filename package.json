@@ -1,7 +1,7 @@
 {
   "name": "electron-react-boilerplate",
   "productName": "TIMon",
-  "version": "0.60.0",
+  "version": "0.61.0",
   "description": "An application to manage iButton read/write data for analysis",
   "scripts": {
     "build": "concurrently \"yarn build-main\" \"yarn build-renderer\"",
