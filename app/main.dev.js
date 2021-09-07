@@ -10,7 +10,7 @@
  *
  * @flow
  */
-import { app, BrowserWindow } from 'electron';
+import { app, screen, BrowserWindow } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import MenuBuilder from './menu';
@@ -66,15 +66,17 @@ app.on('ready', async () => {
   ) {
     await installExtensions();
   }
+  const { width, height } = screen.getPrimaryDisplay().workAreaSize
 
   mainWindow = new BrowserWindow({
     show: false,
-    width: 1024,
-    height: 980,
+    width,
+    height,
     webPreferences: {
       nodeIntegration: true
     }
   });
+  //view.setAutoResize({ width: true, height: true });
 
   mainWindow.loadURL(`file://${__dirname}/app.html`);
 

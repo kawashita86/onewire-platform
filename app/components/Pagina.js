@@ -145,7 +145,7 @@ export default class Pagina extends Component {
 
                             <FormGroup row>
                                 <Label for="tempoUtilizzo">Tempo impiego presidio </Label>
-                                <Input type="text" name="time" id="tempoUtilizzo" placeholder="Tempo utilizzo"
+                                <Input type="number" name="time" id="tempoUtilizzo" placeholder="Tempo utilizzo"
                                        onChange={e => setTempoUtilizzo(e.target.value)} value={mission.tempoUtilizzo}/>
                             </FormGroup>
 
@@ -164,7 +164,7 @@ export default class Pagina extends Component {
                                 </div>
                             </div>
 
-                            <FormGroup row>
+                            <FormGroup style={{display:'inline-block', width: '50%'}}>
                                 <Label for="dataInizio">Data inizio</Label>
                                 <div className="sd-container">
                                     <Input type="date" name="dataInizio" id="dataInizio" placeholder="Data inizio"
@@ -175,7 +175,7 @@ export default class Pagina extends Component {
                                 </div>
                             </FormGroup>
 
-                            <FormGroup row>
+                          <FormGroup style={{display:'inline-block', width: '50%'}}>
                                 <Label for="dataFine">Data fine</Label>
                                 <div className="sd-container">
                                     <Input type="date" name="dataFine" id="dataFine" placeholder="Data fine"

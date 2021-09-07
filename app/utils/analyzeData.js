@@ -18,8 +18,8 @@ export function calculateDailyAverage(data, minTmp, maxTmp, relativeHours){
   {
     let validMetric = Object.values(data[i]).filter(value => value > minTmp && value < maxTmp);
     relativeHours = typeof relativeHours !== 'undefined' ? relativeHours : Object.keys(data[i]).length;
-    let avg = validMetric.length/relativeHours > 1 ? 1 : validMetric.length/relativeHours;
-    dailyAverage[i] = avg;
+    //let avg = validMetric.length/relativeHours > 1 ? 1 : validMetric.length/relativeHours;
+    dailyAverage[i] = validMetric.length/relativeHours > 1 ? 1 : validMetric.length/relativeHours;
   });
 
   return dailyAverage;
