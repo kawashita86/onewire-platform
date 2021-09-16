@@ -1,8 +1,8 @@
 {
   "name": "timon",
   "productName": "TIMon",
-  "version": "0.61.0",
-  "description": "Electron application boilerplate based on React, React Router, Webpack, React Hot Loader for rapid application development",
+  "version": "0.62.0",
+  "description": "An application to manage iButton read/write data for analysis",
   "main": "./main.prod.js",
   "author": {
     "name": "Electron React Boilerplate Maintainers",
