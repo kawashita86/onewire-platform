@@ -87,7 +87,7 @@ export const printRawHtml = async(html, chartData, chartLabels) => {
       nodeIntegration: true,
       webSecurity: false,
       allowRunningInsecureContent: true
-    },  width: 695, height: 900 });
+    },  width: 842, height: 595 });
 
   win.loadURL(`file://${path}/print.html?getData=${encodeURIComponent(html)}&getChartData=${encodeURIComponent(JSON.stringify(chartData))}&getChartLabels=${encodeURIComponent(JSON.stringify(chartLabels))}`);
   win.webContents.on('did-finish-load', () => {

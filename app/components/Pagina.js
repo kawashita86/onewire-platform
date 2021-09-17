@@ -83,10 +83,14 @@ export default class Pagina extends Component {
         };
         const chartData = Object.keys(logData).map((index) => logData[index] * 24);
         const chartLabels = Object.keys(logData).map((index) => months[index]);
+        const [name, lastname] = mission.nomePaziente.split(' ');
+
 
         printRawHtml(
-            '<h1 class="nomePaziente">' + mission.nomePaziente + '</h1><h3 class="dataFrom">' + startDate + '</h3><h3 class="dataTo">' + endDate + '</h3><p class="tempoUtilizzo">' + mission.tempoUtilizzo + '</p>' +
-            '<p><span class="imgUtilizzo">' + percentageUsage + '</span></p>',
+            '<h3 class="datePrint">'+(new Date()).toLocaleDateString()+'</h3><h1 class="nomePaziente">' + name + '</h1><h1 class="cognomePaziente">' + lastname + '</h1>' +
+            '<h3 class="dataFrom">' + startDate + '</h3><h3 class="dataTo">' + endDate + '</h3><p class="tempoUtilizzo">' + mission.tempoUtilizzo + '</p>' +
+            '<p><span class="imgUtilizzo">' + percentageUsage + '%</span></p>' +
+            '<p><span class="imgMediaOraria">' + dailyAverage + ' Ore</span></p>',
             chartData,
             chartLabels
         ).then(data => console.log('printed'))
