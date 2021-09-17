@@ -9,8 +9,8 @@ import Calendar from "react-calendar";
 import {Chart} from "react-charts";
 import {
   calculateAverage,
-  calculateDailyAverage, dailyMedianByDateRange,
-  filterParsedByDateRange
+  calculateDailyAverage, dailyMedian, dailyMedianByDateRange, filterByTmpRange,
+  filterParsedByDateRange, monthlyMedian
 } from "../utils/analyzeData";
 import ReactTable from "react-table";
 import moment from "moment";
@@ -39,15 +39,20 @@ export default class PaginaNew extends Component {
 
   componentWillMount() {
     if(this.props.thermocron){
-      console.log(this.props.thermocron.parsedLog);
+      const filteredData = filterByTmpRange(this.props.thermocron.parsedLog, this.props.thermocron.minTmp, this.props.thermocron.maxTmp);
+      console.log('DATA AFTER TEMPERATURE FILTER', filteredData);
+      const filteredDailyAverage = Object.keys(filteredData).map(x => {return { [x]: filteredData[x].length}});
+      console.log('DATA DAILY AVERAGE', filteredDailyAverage);
       const dailyAverage = calculateDailyAverage(this.props.thermocron.parsedLog, this.props.thermocron.minTmp, this.props.thermocron.maxTmp, this.props.mission.tempoUtilizzo);
-      //console.log(dailyAverage);
-      const logData = filterParsedByDateRange(this.props.thermocron.parsedLog, this.props.thermocron.minTmp, this.props.thermocron.maxTmp);
-      console.log(logData);
-      const logDataDaily = dailyMedianByDateRange(this.props.thermocron.parsedLog, this.props.thermocron.minTmp, this.props.thermocron.maxTmp);
-      console.log(logDataDaily);
+      console.log(calculateAverage(Object.keys(filteredData).map(x => filteredData[x].length)));
+      //const logData = filterParsedByDateRange(this.props.thermocron.parsedLog, this.props.thermocron.minTmp, this.props.thermocron.maxTmp);
+      const logData = monthlyMedian(filteredDailyAverage);
+      console.log('MONTHLY MEDIAN:', logData);
+      const logDataDaily = dailyMedian(filteredDailyAverage);
+
+      console.log('DAILY MEDIAN PER MONTH', logDataDaily);
       const months = {1: "Gen", 2 : "Feb",  3 : "Mar", 4: "Apr", 5: "May",6 : "Jun",7: "Jul",8: "Aug",9: "Set",10: "Ott",11: "Nov",0: "Dec"};
-      const chartData = Object.keys(logData).map((index) => [months[index], logData[index]*24]);
+      const chartData = Object.keys(logData).map((index) => [months[index], logData[index]]);
 
       this.setState({
         percentageUsage: Math.round(calculateAverage(dailyAverage)*100),
@@ -159,7 +164,7 @@ export default class PaginaNew extends Component {
                       ]}
                       axes={[
                         { primary: true, type: 'ordinal', position: 'bottom', tickPadding : 0 },
-                        { position: 'left', type: 'linear', stacked: false, hardMax: 24, hardMin: 0 }
+                        { position: 'left', type: 'linear', stacked: false, hardMin: 0, ticks: {stepSize: 0.1} }
                       ]}
                       tooltip />
                   </div>

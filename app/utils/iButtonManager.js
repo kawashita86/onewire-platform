@@ -2,6 +2,7 @@ const path = require('path');
 const fs = require('fs')
 const electron = window.require('electron')
 const currentPath = path.join(electron.remote.app.getPath('userData'), '\\data')
+const currentPathLinux = path.join(__dirname, '..', 'app')
 const log = require('electron-log')
 
 function checkExternalPath(){
@@ -59,8 +60,9 @@ export async function readDemoIButtonData(options = null){
   return new Promise( function (resolve, reject) {
     try {
       log.info('readDemoIButtonData')
+      const filePath = process.platform === "linux" ? currentPathLinux : currentPath;
       setTimeout(() => {
-        let dataBuffer = fs.readFileSync(path.join(currentPath, 'logData.txt'), 'utf8');
+        let dataBuffer = fs.readFileSync(path.join(filePath, 'logData.txt'), 'utf8');
         resolve(convertManager(dataBuffer, options));
       }, 1500);
     } catch(e) {

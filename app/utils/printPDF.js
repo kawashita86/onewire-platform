@@ -91,9 +91,9 @@ export const printRawHtml = async(html, chartData, chartLabels) => {
 
   win.loadURL(`file://${path}/print.html?getData=${encodeURIComponent(html)}&getChartData=${encodeURIComponent(JSON.stringify(chartData))}&getChartLabels=${encodeURIComponent(JSON.stringify(chartLabels))}`);
   win.webContents.on('did-finish-load', () => {
-    //    win.webContents.executeJavaScript(
-    //  'setTimeout(() =>window.print(), 1000); setTimeout(() => window.close(), 2000);',
-    //);
+        win.webContents.executeJavaScript(
+      'setTimeout(() =>window.print(), 1000); setTimeout(() => window.close(), 2000);',
+    );
   });
 }
 

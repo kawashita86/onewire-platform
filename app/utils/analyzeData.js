@@ -2,6 +2,7 @@ import moment from "moment";
 
 export function filterByTmpRange(data, minTmp, maxTmp){
   let renderedSamples = [];
+  console.log('RAWDATA', data);
   if(typeof data === 'undefined') return 0;
   Object.keys(data).forEach(i =>
   {
@@ -10,6 +11,46 @@ export function filterByTmpRange(data, minTmp, maxTmp){
   });
 
   return renderedSamples;
+}
+
+export function dailyMedian(filteredDailyAverage){
+  const logDataDaily = {};
+  for(let i in filteredDailyAverage){
+    const dailyMedian = Object.entries(filteredDailyAverage[i])[0];
+    let m = moment(dailyMedian[0], "YYYY-MM-DD").get('month');
+    let d = moment(dailyMedian[0], "YYYY-MM-DD").get('date');
+    m = (m+1).toString();
+    if(typeof logDataDaily[m] === 'undefined') {
+      logDataDaily[m] = {};
+    }
+    logDataDaily[m][d] = dailyMedian[1];
+  }
+
+  return logDataDaily
+}
+
+export function monthlyMedian(filteredDailyAverage){
+
+  let monthlyMedian = {};
+  let monthlyCount = {};
+
+  for(let i in filteredDailyAverage){
+    const dailyMedian = Object.entries(filteredDailyAverage[i])[0];
+    //console.log(i);
+    let m = moment(dailyMedian[0], "YYYY-MM-DD").get('month');
+    m = (m+1).toString();
+    if(typeof monthlyMedian[m] === 'undefined') {
+      monthlyMedian[m] = 0;
+      monthlyCount[m] = 0;
+    }
+    monthlyMedian[m] += dailyMedian[1];
+    monthlyCount[m] += 1;
+  }
+
+  Object.keys(monthlyMedian).forEach( d => {
+    monthlyMedian[d] = monthlyMedian[d]/ monthlyCount[d]
+  })
+  return monthlyMedian;
 }
 
 export function calculateDailyAverage(data, minTmp, maxTmp, relativeHours){
