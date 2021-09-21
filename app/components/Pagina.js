@@ -165,9 +165,13 @@ export default class Pagina extends Component {
             <Form innerRef={(el) => this.myFormRef = el}>
               <FormGroup row>
                 <Label for="datiPresidio">Dati paziente</Label>
+                <div className="sd-container">
                 <Input type="text" name="name" id="datiPaziente" placeholder="Nome e cognome"
                        onChange={e => setNomePaziente(e.target.value)} value={mission.nomePaziente}/>
-                <button type="button" onClick={e => this.updateAnagrafica(e)}>Salva dati</button>
+                <span className="open-button-large">
+                  <button type="button" onClick={e => this.updateAnagrafica(e)}>Salva dati</button>
+                </span>
+                </div>
               </FormGroup>
 
               <FormGroup row>

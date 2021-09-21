@@ -55,7 +55,15 @@ Form {
   pointer-events: none;
 }
 
-.open-button button {
+.open-button-large {
+  position: absolute;
+  top: 4px;
+  border-radius:5px;
+  right: 7px;
+  background: #ccc;
+}
+
+.open-button button, .open-button-large button {
   border: none;
   background: transparent;
 }

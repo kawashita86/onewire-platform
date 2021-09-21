@@ -1,5 +1,6 @@
 import {addUser} from "../utils/StorageAPI";
 import {ADD_ERROR, REMOVE_ERROR} from "../reducers/errors";
+import {addNotify} from "./notify";
 
 export const SET_DATA = 'SET_DATA';
 export const CLEAR_DATA = 'CLEAR_DATA';
@@ -37,12 +38,7 @@ export function updateAnagrafica() {
       dispatch({
         type: REMOVE_ERROR
       });
-     // dispatch(asyncLoaded(TYPE_WRITE_MISSION));
-      dispatch({
-        type: ANAGRAFICA_UPDATED,
-        payload: {}
-      })
-
+      dispatch(addNotify("Anagrafica aggiornata"));
     } catch (e) {
       dispatch({
         type: ADD_ERROR,

@@ -61,12 +61,16 @@ export class Root extends Component {
   }
 
   render() {
-    const { store, history, error, clearError } = this.props;
+    const { store, history, error, notify, clearError } = this.props;
     return (
       <Provider store={store}>
         <ConnectedRouter history={history}>
           <Routes />
         </ConnectedRouter>
+        {notify &&
+        <div className="alert alert-success" role="alert">
+          <span>{notify}</span>
+        </div>}
         {error &&
         <div className="alert alert-danger" role="alert">
           <span>{error}</span>
@@ -83,6 +87,7 @@ export class Root extends Component {
 export default connect(
   state => ({
     error: state.errors,
+    notify: state.notify,
     app: state.app
   }),
   dispatch => {
