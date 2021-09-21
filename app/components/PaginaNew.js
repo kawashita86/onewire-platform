@@ -9,8 +9,9 @@ import Calendar from "react-calendar";
 import {Chart} from "react-charts";
 import {
   calculateAverage,
-  calculateDailyAverage, dailyMedian, dailyMedianByDateRange, filterByTmpRange,
-  filterParsedByDateRange, monthlyMedian
+  dailyMedian,
+  filterByTmpRange,
+  monthlyMedian
 } from "../utils/analyzeData";
 import ReactTable from "react-table";
 import moment from "moment";
@@ -42,20 +43,21 @@ export default class PaginaNew extends Component {
       const filteredData = filterByTmpRange(this.props.thermocron.parsedLog, this.props.thermocron.minTmp, this.props.thermocron.maxTmp);
       console.log('DATA AFTER TEMPERATURE FILTER', filteredData);
       const filteredDailyAverage = Object.keys(filteredData).map(x => {return { [x]: filteredData[x].length}});
+      const dailyCount = Object.keys(filteredData).map(x =>  filteredData[x].length);
       console.log('DATA DAILY AVERAGE', filteredDailyAverage);
-      const dailyAverage = calculateDailyAverage(this.props.thermocron.parsedLog, this.props.thermocron.minTmp, this.props.thermocron.maxTmp, this.props.mission.tempoUtilizzo);
-      console.log(calculateAverage(Object.keys(filteredData).map(x => filteredData[x].length)));
-      //const logData = filterParsedByDateRange(this.props.thermocron.parsedLog, this.props.thermocron.minTmp, this.props.thermocron.maxTmp);
+      console.log('DATA DAILY COUNT', dailyCount);
+      const dailyPercentage = (calculateAverage(Object.values(dailyCount))/this.props.mission.tempoUtilizzo)*100;
+      console.log('NEW DAILY PERCENTAGE' , dailyPercentage);
       const logData = monthlyMedian(filteredDailyAverage);
       console.log('MONTHLY MEDIAN:', logData);
       const logDataDaily = dailyMedian(filteredDailyAverage);
-
       console.log('DAILY MEDIAN PER MONTH', logDataDaily);
+
       const months = {1: "Gen", 2 : "Feb",  3 : "Mar", 4: "Apr", 5: "May",6 : "Jun",7: "Jul",8: "Aug",9: "Set",10: "Ott",11: "Nov",0: "Dec"};
       const chartData = Object.keys(logData).map((index) => [months[index], logData[index]]);
 
       this.setState({
-        percentageUsage: Math.round(calculateAverage(dailyAverage)*100),
+        percentageUsage: Math.round(dailyPercentage),
         logData: logData,
         logDataDaily: logDataDaily,
         charData:  [['',0], ...chartData]

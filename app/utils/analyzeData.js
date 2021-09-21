@@ -2,7 +2,6 @@ import moment from "moment";
 
 export function filterByTmpRange(data, minTmp, maxTmp){
   let renderedSamples = [];
-  console.log('RAWDATA', data);
   if(typeof data === 'undefined') return 0;
   Object.keys(data).forEach(i =>
   {
@@ -148,13 +147,4 @@ export function filterParsedByDateRange(data, minTmp, maxTmp){
     monthlyMedian[d] = monthlyMedian[d]/ monthlyCount[d]
   })
   return monthlyMedian;
-}
-
-
-export function calculateDailyMedian(){
-  if(typeof data === 'undefined') return logData;
-  Object.keys(data).forEach((index) => {
-    //calculate for each day how many time it has passed the min/max
-
-  });
 }

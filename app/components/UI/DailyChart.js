@@ -22,7 +22,8 @@ export default (props) => {
         position: 'bottom',
         type: 'linear',
         show: primaryAxisShow,
-        hardMax: 31
+        hardMax: 31,
+        min: 1
       },
       { position: 'left', type: 'linear', show: secondaryAxisShow, hardMax: 24, min: 0 }
     ],

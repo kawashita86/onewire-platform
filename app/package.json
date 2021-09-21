@@ -1,7 +1,7 @@
 {
   "name": "timon",
   "productName": "TIMon",
-  "version": "0.62.0",
+  "version": "0.63.0",
   "description": "An application to manage iButton read/write data for analysis",
   "main": "./main.prod.js",
   "author": {
