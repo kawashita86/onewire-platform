@@ -1,5 +1,5 @@
 // @flow
-import React, { Component, useState } from 'react';
+import React, { Component } from 'react';
 import styles from './PaginaNew.css';
 import { Link } from "react-router-dom";
 import routes from '../constants/routes';
@@ -150,7 +150,9 @@ export default class PaginaNew extends Component {
                     <>
                   <div
                     style={{
-                      width: '400px',
+                      marginLeft: 'auto',
+                      marginRight: 'auto',
+                      width: '500px',
                       height: '200px'
                     }}
                   >

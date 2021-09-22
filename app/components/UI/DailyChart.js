@@ -30,7 +30,10 @@ export default (props) => {
     [primaryAxisShow, secondaryAxisShow]
   )
   return (
-      <ResizableBox>
+      <ResizableBox height={250} resizable={false} style={{
+        marginLeft: 'auto',
+        marginRight: 'auto'
+      }}>
         <Chart data={data} axes={axes} tooltip />
       </ResizableBox>
   )

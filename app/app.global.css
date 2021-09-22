@@ -93,6 +93,7 @@ svg.loading-spin {
 
 
 .react-calendar {
+  margin: auto;
   width: 750px;
   max-width: 100%;
   background: lightcyan;

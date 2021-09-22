@@ -3,15 +3,13 @@ import React, {Component} from 'react';
 import styles from './Pagina.css';
 import {Link} from "react-router-dom";
 import routes from '../constants/routes';
-import {Button, Form, FormGroup, Label, Input, Row, Col} from 'reactstrap';
+import {Button, Form, FormGroup, Label, Input, } from 'reactstrap';
 import {printRawHtml} from "../utils/printPDF";
 import {convertDate} from "../utils/iButtonManager";
 import {
   calculateAverage,
-  calculateDailyAverage,
-  dailyMedian,
   filterByTmpRange,
-  filterParsedByDateRange
+  monthlyMedian
 } from "../utils/analyzeData";
 import {Spinner} from "./UI/Spinner";
 import DeviceList from "./DeviceList";
@@ -80,13 +78,14 @@ export default class Pagina extends Component {
     }
 
     const filteredData = filterByTmpRange(this.props.thermocron.parsedLog, this.props.thermocron.minTmp, this.props.thermocron.maxTmp);
+    const filteredDailyAverage = Object.keys(filteredData).map(x => {return { [x]: filteredData[x].length}});
     const dailyCount = Object.keys(filteredData).map(x => filteredData[x].length);
     const percentageUsage = Math.round((calculateAverage(Object.values(dailyCount)) / this.props.mission.tempoUtilizzo) * 100);
-
     const hourUsage = parseFloat(calculateAverage(Object.keys(filteredData).map(x => filteredData[x].length))).toFixed(1);
     const startDate = convertDate(thermocron.lastMissionStarted, true)
-    const endDate = convertDate(thermocron.realTimeClockValue, true)
-    const logData = filterParsedByDateRange(this.props.thermocron.parsedLog, this.props.thermocron.minTmp, this.props.thermocron.maxTmp);
+    const endDate = convertDate(thermocron.realTimeClockValue, true);
+    const logData = monthlyMedian(filteredDailyAverage);
+
     const months = {
       1: "Gen",
       2: "Feb",
@@ -101,18 +100,22 @@ export default class Pagina extends Component {
       11: "Nov",
       0: "Dec"
     };
-    const chartData = Object.keys(logData).map((index) => logData[index] * 24);
+    const chartData = Object.keys(logData).map((index) => logData[index]);
+
     const chartLabels = Object.keys(logData).map((index) => months[index]);
     const [name, lastname] = mission.nomePaziente.split(' ');
+    console.log(chartData, chartLabels);
 
 
     printRawHtml(
       '<h3 class="datePrint">' + (new Date()).toLocaleDateString() + '</h3><h1 class="nomePaziente">' + name + '</h1><h1 class="cognomePaziente">' + lastname + '</h1>' +
       '<h3 class="dataFrom">' + startDate + '</h3><h3 class="dataTo">' + endDate + '</h3><p class="tempoUtilizzo">' + mission.tempoUtilizzo + '</p>' +
-      '<p><span class="imgUtilizzo">' + percentageUsage + ' <span style="font-size:9px">%</span>' +
-      '<span style="font-size:10px;clear: both;display: block;position: absolute;top: 22px;left: 16px;">media totale</span></span></p>' +
-      '<p><span class="imgMediaOraria">' + hourUsage + '' +
-      '<span style="font-size:10px;clear: both;display: block;position: absolute;top: 22px;left: 22px;">ore al giorno</span></span></p>',
+      '<p><span class="imgUtilizzo">' + percentageUsage + '<span style="font-size:15pt">%</span>' +
+      //'<span style="font-size:10px;clear: both;display: block;position: absolute;top: 22px;left: 16px;">media totale</span>' +
+      '</span></p>' +
+      '<p><span class="imgMediaOraria">' + hourUsage+ '<span style="font-size:15pt">ore</span>' +
+      //'<span style="font-size:10px;clear: both;display: block;position: absolute;top: 22px;left: 22px;">ore al giorno</span>' +
+      '</span></p>',
       chartData,
       chartLabels
     ).then(data => console.log('printed'))

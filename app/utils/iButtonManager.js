@@ -61,6 +61,7 @@ export async function readDemoIButtonData(options = null){
     try {
       log.info('readDemoIButtonData')
       const filePath = process.platform === "linux" ? currentPathLinux : currentPath;
+      console.log(filePath);
       setTimeout(() => {
         let dataBuffer = fs.readFileSync(path.join(filePath, 'logData.txt'), 'utf8');
         resolve(convertManager(dataBuffer, options));
@@ -94,20 +95,6 @@ export async function writeDemoIButtonData(options = null){
 export async function findIButtonDemo(options = null) {
   return new Promise( function (resolve, reject) {
     try {
-      // let dataBuffer = fs.readFileSync(path.join(currentPath, 'logWrite.txt'), 'utf8');
-      let adapter = 'DS12110/USB';
-      let devices = [
-        {
-          name: 'Thermocron1',
-          address: '8E0000004B393621',
-          description: 'Button for analysis of temperature'
-        },
-        {
-          name: 'Thermocron2',
-          address: '8E0000004B393622',
-          description: 'Button for analysis of temperature'
-        }
-      ];
       let dataBuffer = "FindiButtonsConsole Java console application: Version 2.00\n" +
         "\n" +
         "Adapter/Port\tiButton Type and ID\t\tDescription\n" +

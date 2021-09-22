@@ -1,5 +1,12 @@
 import moment from "moment";
 
+/**
+ * Return an array of log entry that have a temperature between min and max
+ * @param data
+ * @param minTmp
+ * @param maxTmp
+ * @returns {*[]|number}
+ */
 export function filterByTmpRange(data, minTmp, maxTmp){
   let renderedSamples = [];
   if(typeof data === 'undefined') return 0;
@@ -12,6 +19,11 @@ export function filterByTmpRange(data, minTmp, maxTmp){
   return renderedSamples;
 }
 
+/**
+ * calculate daily median usage
+ * @param filteredDailyAverage
+ * @returns {{}}
+ */
 export function dailyMedian(filteredDailyAverage){
   const logDataDaily = {};
   for(let i in filteredDailyAverage){
@@ -28,6 +40,12 @@ export function dailyMedian(filteredDailyAverage){
   return logDataDaily
 }
 
+
+/**
+ * calculate the monthly median usage
+ * @param filteredDailyAverage
+ * @returns {{}}
+ */
 export function monthlyMedian(filteredDailyAverage){
 
   let monthlyMedian = {};
@@ -52,99 +70,11 @@ export function monthlyMedian(filteredDailyAverage){
   return monthlyMedian;
 }
 
-export function calculateDailyAverage(data, minTmp, maxTmp, relativeHours){
-  let dailyAverage = [];
-  Object.keys(data).forEach(i =>
-  {
-    let validMetric = Object.values(data[i]).filter(value => value > minTmp && value < maxTmp);
-    relativeHours = typeof relativeHours !== 'undefined' ? relativeHours : Object.keys(data[i]).length;
-    //let avg = validMetric.length/relativeHours > 1 ? 1 : validMetric.length/relativeHours;
-    dailyAverage[i] = validMetric.length/relativeHours > 1 ? 1 : validMetric.length/relativeHours;
-  });
-
-  return dailyAverage;
-}
-
+/**
+ * generic function to calculate average from an array of number
+ * @param data
+ * @returns {number}
+ */
 export function calculateAverage(data){
   return Object.values(data).reduce((a,b) => a + b, 0) / Object.keys(data).length
-}
-
-export function filterByDateRange(data, minDate, maxDate){
-  let logData = [];
-  if(typeof data === 'undefined') return logData;
-  Object.keys(data).forEach((index) => {
-    if(minDate === null && maxDate === null)
-      logData.push({id: index,...data[index]})
-
-    if(minDate !== null &&  minDate > data[index]['date'])
-      return;
-
-    if(maxDate !== null &&  maxDate < data[index]['date'])
-      return;
-
-    logData.push({id: index,...data[index]})
-
-  })
-  return logData;
-}
-
-export function dailyMedianByDateRange(data, minTmp, maxTmp){
-  let logData = [];
-  if(typeof data === 'undefined') return logData;
-  Object.keys(data).forEach((i) => {
-    //console.log(data[i]);
-    let validMetric = Object.values(data[i]).filter(value => value > minTmp && value < maxTmp);
-    //console.log(validMetric);
-    if(validMetric.length !== 0)
-      logData[i] = validMetric.length;
-    else
-      logData[i] = 0;
-  });
-
-  let dailyMedian = {};
-
-  for(let i in logData){
-    //console.log(i);
-    let m = moment(i, "YYYY-MM-DD").get('month');
-    let d = moment(i, "YYYY-MM-DD").get('date');
-    m = (m+1).toString();
-    if(typeof dailyMedian[m] === 'undefined') {
-      dailyMedian[m] = {};
-    }
-    dailyMedian[m][d] = logData[i];
-  }
-
-  return dailyMedian;
-}
-
-export function filterParsedByDateRange(data, minTmp, maxTmp){
-  let logData = [];
-  if(typeof data === 'undefined') return logData;
-  Object.keys(data).forEach((i) => {
-    //console.log(data[i]);
-    let validMetric = Object.values(data[i]).filter(value => value > minTmp && value < maxTmp);
-    //console.log(validMetric);
-    if(validMetric.length !== 0)
-      logData[i] = validMetric.length/Object.keys(data[i]).length;
-  });
-
-  let monthlyMedian = {};
-  let monthlyCount = {};
-
-  for(let i in logData){
-    //console.log(i);
-    let m = moment(i, "YYYY-MM-DD").get('month');
-    m = (m+1).toString();
-    if(typeof monthlyMedian[m] === 'undefined') {
-      monthlyMedian[m] = 0;
-      monthlyCount[m] = 0;
-    }
-    monthlyMedian[m] += logData[i];
-    monthlyCount[m] += 1;
-  }
-
-  Object.keys(monthlyMedian).forEach( d => {
-    monthlyMedian[d] = monthlyMedian[d]/ monthlyCount[d]
-  })
-  return monthlyMedian;
 }

@@ -14,7 +14,7 @@ export default function ResizableBox({
   return (
     <div>
       {resizable ? (
-        <ReactResizableBox width={width} height={height}>
+        <ReactResizableBox width={width} height={height} >
           <div
             style={{
               ...style,

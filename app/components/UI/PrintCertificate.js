@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import {convertDate} from "../../utils/iButtonManager";
-import {calculateAverage, calculateDailyAverage} from "../../utils/analyzeData";
 
 export default class PrintCertificate extends Component {
 
@@ -12,8 +11,6 @@ export default class PrintCertificate extends Component {
     const startDate = convertDate(thermocron.lastMissionStarted, true)
     const endDate = convertDate(thermocron.realTimeClockValue, true)
 
-  //  const dailyAverage = calculateDailyAverage(thermocron.parsedLog, thermocron.minTmp, thermocron.maxTmp, mission.tempoUtilizzo);
-  //  const percentageUsage = Math.round(calculateAverage(dailyAverage)*100);
     const percentageUsage = 0;
 
     return (
