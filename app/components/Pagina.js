@@ -82,8 +82,8 @@ export default class Pagina extends Component {
     const dailyCount = Object.keys(filteredData).map(x => filteredData[x].length);
     const percentageUsage = Math.round((calculateAverage(Object.values(dailyCount)) / this.props.mission.tempoUtilizzo) * 100);
     const hourUsage = parseFloat(calculateAverage(Object.keys(filteredData).map(x => filteredData[x].length))).toFixed(1);
-    const startDate = convertDate(thermocron.lastMissionStarted, true)
-    const endDate = convertDate(thermocron.realTimeClockValue, true);
+    let startDate = convertDate(thermocron.lastMissionStarted, true)
+    let endDate = convertDate(thermocron.realTimeClockValue, true);
     const logData = monthlyMedian(filteredDailyAverage);
 
     const months = {
@@ -103,9 +103,14 @@ export default class Pagina extends Component {
     const chartData = Object.keys(logData).map((index) => logData[index]);
 
     const chartLabels = Object.keys(logData).map((index) => months[index]);
-    const [name, lastname] = mission.nomePaziente.split(' ');
+    let [name, lastname] = mission.nomePaziente.split(' ');
+    if(typeof lastname === 'undefined'){
+      lastname = '';
+    }
     console.log(chartData, chartLabels);
-
+    //human readable format
+    startDate = new Date(Date.parse(startDate.replace(/[-]/g,'/'))).toLocaleDateString()
+    endDate = new Date(Date.parse(endDate.replace(/[-]/g,'/'))).toLocaleDateString()
 
     printRawHtml(
       '<h3 class="datePrint">' + (new Date()).toLocaleDateString() + '</h3><h1 class="nomePaziente">' + name + '</h1><h1 class="cognomePaziente">' + lastname + '</h1>' +
