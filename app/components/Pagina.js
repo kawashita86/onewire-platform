@@ -4,7 +4,7 @@ import styles from './Pagina.css';
 import {Link} from "react-router-dom";
 import routes from '../constants/routes';
 import {Button, Form, FormGroup, Label, Input, } from 'reactstrap';
-import {printRawHtml} from "../utils/printPDF";
+import {printRawHtml, savePDF} from "../utils/printPDF";
 import {convertDate} from "../utils/iButtonManager";
 import {
   calculateAverage,
@@ -70,7 +70,7 @@ export default class Pagina extends Component {
     return false;
   }
 
-  preparePrint() {
+  preparePrint(isDownload = false) {
     const {mission, thermocron} = this.props;
     if (typeof thermocron.lastMissionStarted === 'undefined' || !thermocron.lastMissionStarted || Object.keys(thermocron.parsedLog).length === 0) {
       smalltalk.alert("Print Certificate", "Impossibile procedere con la stampa è necessario terminare la mission prima");
@@ -86,23 +86,9 @@ export default class Pagina extends Component {
     let endDate = convertDate(thermocron.realTimeClockValue, true);
     const logData = monthlyMedian(filteredDailyAverage);
 
-    const months = {
-      1: "Gen",
-      2: "Feb",
-      3: "Mar",
-      4: "Apr",
-      5: "May",
-      6: "Jun",
-      7: "Jul",
-      8: "Aug",
-      9: "Set",
-      10: "Ott",
-      11: "Nov",
-      0: "Dec"
-    };
     const chartData = Object.keys(logData).map((index) => logData[index]);
 
-    const chartLabels = Object.keys(logData).map((index) => months[index]);
+    const chartLabels = Object.keys(logData).map((index) => index);
     let [name, lastname] = mission.nomePaziente.split(' ');
     if(typeof lastname === 'undefined'){
       lastname = '';
@@ -112,18 +98,35 @@ export default class Pagina extends Component {
     startDate = new Date(Date.parse(startDate.replace(/[-]/g,'/'))).toLocaleDateString()
     endDate = new Date(Date.parse(endDate.replace(/[-]/g,'/'))).toLocaleDateString()
 
-    printRawHtml(
-      '<h3 class="datePrint">' + (new Date()).toLocaleDateString() + '</h3><h1 class="nomePaziente">' + name + '</h1><h1 class="cognomePaziente">' + lastname + '</h1>' +
-      '<h3 class="dataFrom">' + startDate + '</h3><h3 class="dataTo">' + endDate + '</h3><p class="tempoUtilizzo">' + mission.tempoUtilizzo + '</p>' +
-      '<p><span class="imgUtilizzo">' + percentageUsage + '<span style="font-size:15pt">%</span>' +
-      //'<span style="font-size:10px;clear: both;display: block;position: absolute;top: 22px;left: 16px;">media totale</span>' +
-      '</span></p>' +
-      '<p><span class="imgMediaOraria">' + hourUsage+ '<span style="font-size:15pt">ore</span>' +
-      //'<span style="font-size:10px;clear: both;display: block;position: absolute;top: 22px;left: 22px;">ore al giorno</span>' +
-      '</span></p>',
-      chartData,
-      chartLabels
-    ).then(data => console.log('printed'))
+    if(isDownload){
+      savePDF(
+        mission.nomePaziente,
+        '<h3 class="datePrint">' + (new Date()).toLocaleDateString() + '</h3><h1 class="nomePaziente">' + name + '</h1><h1 class="cognomePaziente">' + lastname + '</h1>' +
+        '<h3 class="dataFrom">' + startDate + '</h3><h3 class="dataTo">' + endDate + '</h3><p class="tempoUtilizzo">' + mission.tempoUtilizzo + '</p>' +
+        '<p><span class="imgUtilizzo">' + percentageUsage + '<span style="font-size:15pt">%</span>' +
+        //'<span style="font-size:10px;clear: both;display: block;position: absolute;top: 22px;left: 16px;">media totale</span>' +
+        '</span></p>' +
+        '<p><span class="imgMediaOraria">' + hourUsage+ '<span style="font-size:15pt">ore</span>' +
+        //'<span style="font-size:10px;clear: both;display: block;position: absolute;top: 22px;left: 22px;">ore al giorno</span>' +
+        '</span></p>',
+        chartData,
+        chartLabels
+      ).then(data => console.log('downloaded', data))
+    } else {
+
+      printRawHtml(
+        '<h3 class="datePrint">' + (new Date()).toLocaleDateString() + '</h3><h1 class="nomePaziente">' + name + '</h1><h1 class="cognomePaziente">' + lastname + '</h1>' +
+        '<h3 class="dataFrom">' + startDate + '</h3><h3 class="dataTo">' + endDate + '</h3><p class="tempoUtilizzo">' + mission.tempoUtilizzo + '</p>' +
+        '<p><span class="imgUtilizzo">' + percentageUsage + '<span style="font-size:15pt">%</span>' +
+        //'<span style="font-size:10px;clear: both;display: block;position: absolute;top: 22px;left: 16px;">media totale</span>' +
+        '</span></p>' +
+        '<p><span class="imgMediaOraria">' + hourUsage + '<span style="font-size:15pt">ore</span>' +
+        //'<span style="font-size:10px;clear: both;display: block;position: absolute;top: 22px;left: 22px;">ore al giorno</span>' +
+        '</span></p>',
+        chartData,
+        chartLabels
+      ).then(data => console.log('printed'))
+    }
   }
 
   componentDidMount() {
@@ -158,7 +161,7 @@ export default class Pagina extends Component {
         <Header/>
         <div className={'container'} data-tid="container">
 
-          <div className="container" style={{width: '400px'}}>
+          <div className="container" style={{width: '450px'}}>
 
             <div className="row">
               <DeviceList
@@ -236,6 +239,10 @@ export default class Pagina extends Component {
                         onClick={() => this.preparePrint()}
                         data-tclass="print">
                   Stampa</Button>
+                <Button className={`${styles.bottoniFondoPagina} btn btn-success`}
+                        onClick={() => this.preparePrint(true)}
+                        data-tclass="print">
+                  Download</Button>
               </div>
             </div>
           </div>

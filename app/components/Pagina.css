@@ -21,9 +21,10 @@
 
 .bottoniFondoPagina, .bottoniFondoPaginaLink {
   background-color: #4CAF50;
-  width: 100px;
+  min-width: 100px;
   height: 75px;
   margin: 20px;
+  text-align: center;
 }
 
 .bottoniFondoPaginaLink {

@@ -31,6 +31,10 @@ export function dailyMedian(filteredDailyAverage){
     let m = moment(dailyMedian[0], "YYYY-MM-DD").get('month');
     let d = moment(dailyMedian[0], "YYYY-MM-DD").get('date');
     m = (m+1).toString();
+    if(m == "12")
+      m = "0";
+
+    console.log(d, m)
     if(typeof logDataDaily[m] === 'undefined') {
       logDataDaily[m] = {};
     }
@@ -55,13 +59,15 @@ export function monthlyMedian(filteredDailyAverage){
     const dailyMedian = Object.entries(filteredDailyAverage[i])[0];
     //console.log(i);
     let m = moment(dailyMedian[0], "YYYY-MM-DD").get('month');
+    let y = moment(dailyMedian[0], "YYYY-MM-DD").get('year');
     m = (m+1).toString();
-    if(typeof monthlyMedian[m] === 'undefined') {
-      monthlyMedian[m] = 0;
-      monthlyCount[m] = 0;
+
+    if(typeof monthlyMedian[y+'-'+m] === 'undefined') {
+      monthlyMedian[y+'-'+m] = 0;
+      monthlyCount[y+'-'+m] = 0;
     }
-    monthlyMedian[m] += dailyMedian[1];
-    monthlyCount[m] += 1;
+    monthlyMedian[y+'-'+m] += dailyMedian[1];
+    monthlyCount[y+'-'+m] += 1;
   }
 
   Object.keys(monthlyMedian).forEach( d => {

@@ -53,8 +53,8 @@ export default class PaginaNew extends Component {
       const logDataDaily = dailyMedian(filteredDailyAverage);
       console.log('DAILY MEDIAN PER MONTH', logDataDaily);
 
-      const months = {1: "Gen", 2 : "Feb",  3 : "Mar", 4: "Apr", 5: "May",6 : "Jun",7: "Jul",8: "Aug",9: "Set",10: "Ott",11: "Nov",0: "Dec"};
-      const chartData = Object.keys(logData).map((index) => [months[index], logData[index]]);
+     // const months = {1: "Gen", 2 : "Feb",  3 : "Mar", 4: "Apr", 5: "May",6 : "Jun",7: "Jul",8: "Aug",9: "Set",10: "Ott",11: "Nov",0: "Dec"};
+      const chartData = Object.keys(logData).map((index) => [index, logData[index]]);
 
       this.setState({
         percentageUsage: Math.round(dailyPercentage),

@@ -8,7 +8,7 @@ export const DeviceList = (props) => {
     }
     return (
       props.deviceList && props.deviceList.length !== 0 ?
-        <FormGroup>
+        <FormGroup style={{width: "100%"}}>
             <Label>Scegli un iButton fra quelli elencati:</Label>
            <InputGroup>
             <select defaultValue={props.selectedDevice} className="form-control" name="deviceList" onChange={(e) => props.selectDevice(e.target.value)}>

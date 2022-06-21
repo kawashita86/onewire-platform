@@ -5,9 +5,18 @@ const fs = require('fs');
 let print_win;
 let save_pdf_path;
 
-async function initPrintWin(){
-  let print_win = new BrowserWindow({'auto-hide-menu-bar':true});
-  await print_win.loadURL('file://' + __dirname + '/print.html');
+async function initPrintWin(html, chartData, chartLabels){
+  const path = app.getAppPath();
+  print_win = new BrowserWindow( {
+    show: false,
+    'auto-hide-menu-bar':true,
+    webPreferences: {
+      nodeIntegration: true,
+      webSecurity: false,
+      allowRunningInsecureContent: true
+    }
+  });
+  print_win.loadURL(`file://${path}/print.html?getData=${encodeURIComponent(html)}&getChartData=${encodeURIComponent(JSON.stringify(chartData))}&getChartLabels=${encodeURIComponent(JSON.stringify(chartLabels))}`);
 
   print_win.on('closed', () => {
     print_win = null;
@@ -17,26 +26,13 @@ async function initPrintWin(){
 
 function getPDFPrintSettings() {
   var option = {
-    landscape: false,
+    landscape: true,
     marginsType: 0,
-    printBackground: false,
+    printBackground: true,
     printSelectionOnly: false,
     pageSize: 'A4',
   };
 
-  var layoutSetting = document.getElementById("layout-settings");
-  option.landscape =
-    layoutSetting.options[layoutSetting.selectedIndex].value == 'Landscape';
-  var pageSizeSetting = document.getElementById("page-size-settings");
-  option.pageSize =
-    pageSizeSetting.options[pageSizeSetting.selectedIndex].text;
-  var marginsSetting = document.getElementById("margin-settings");
-  option.marginsType =
-    parseInt(marginsSetting.options[marginsSetting.selectedIndex].value);
-
-  option.printBackground = document.getElementById("print-background").checked;
-  option.printSelectionOnly = document.getElementById(
-    "print-selection").checked;
   return option;
 }
 
@@ -51,27 +47,35 @@ export async function print() {
   });
 }
 
-export async function savePDF() {
+export async function savePDF(fileName, html, chartData, chartLabels) {
   if (!print_win) {
-    await initPrintWin();
+    await initPrintWin(html, chartData, chartLabels);
   }
   print_win.webContents.on('did-finish-load', () => {
-    dialog.showSaveDialog(print_win, {}, function (file_path) {
-      if (file_path) {
-        print_win.webContents.printToPDF(getPDFPrintSettings(), function (err, data) {
-          if (err) {
-            dialog.showErrorBox('Error', err);
-            return;
-          }
-          fs.writeFile(file_path, data, function (err) {
+    dialog.showSaveDialog(print_win, {
+      defaultPath: "report_"+fileName+".pdf"
+    }).then(function (dialogReturn) {
+      if (dialogReturn.filePath) {
+        print_win.webContents.printToPDF(getPDFPrintSettings()).then((data) => {
+          fs.writeFile(dialogReturn.filePath, data, function (err) {
             if (err) {
               dialog.showErrorBox('Error', err);
               return;
             }
-            save_pdf_path = file_path;
+            save_pdf_path = dialogReturn.filePath;
+            print_win.close();
           });
+        }).catch( (err) => {
+          if (err) {
+            dialog.showErrorBox('Error', err);
+            return;
+          }
         });
+      } else {
+        print_win.close();
       }
+    }).catch(err => {
+      print_win.close();
     });
   });
 
@@ -81,7 +85,7 @@ export const printRawHtml = async(html, chartData, chartLabels) => {
   const path = app.getAppPath();
 
   const win = new BrowserWindow({
-    show: true,
+    show: false,
    'auto-hide-menu-bar':true,
     webPreferences: {
       nodeIntegration: true,
